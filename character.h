@@ -2,8 +2,8 @@
 #define CHARACTER_H
 
 class Character {
-protected:
-	// invariant: all three artributes cannot drop below zero.
+	// invariants: HP cannot drop below zero.
+	//             Atk and Def should be non-negative integers and should not be modified.
 
 	// current health point.
 	int HP;
@@ -11,10 +11,15 @@ protected:
 	int Atk;
 	// base defense.
 	int Def;
+protected:
+	void setHP(int new_HP);
 public:
 	virtual int getHP() const;
 	virtual int getAtk() const;
 	virtual int getDef() const;
+	// calculates the damage caused by this to other.
+	int calcDamageTo(const Character& other);
 };
+
 
 #endif // !CHARACTER_H
