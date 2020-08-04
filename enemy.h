@@ -16,6 +16,7 @@ public:
 	virtual void attack(Troll& troll);
 	virtual void attack(Goblin& goblin);
 	virtual void beAttackedBy(Player& p);
+	void beSlain(Player& p);
 };
 
 class Human :public Enemy {

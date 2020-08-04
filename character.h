@@ -1,5 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
+#include "floor.h"
+#include <memory>
 
 class Character {
 	// invariants: HP cannot drop below zero.
@@ -11,15 +13,18 @@ class Character {
 	int Atk;
 	// base defense.
 	int Def;
-protected:
-	void setHP(int new_HP);
+	// the amount of gold holding.
+	int gold;
+	// the floor. when an enemy is slain by the player, the enemy notifies floor.
+	std::shared_ptr<Floor> floor;
 public:
-	virtual int getHP() const;
-	virtual int getAtk() const;
-	virtual int getDef() const;
+	virtual int getHP() const;// needs to be overrided by Potion objects.
+	virtual int getAtk() const;// needs to be overrided by Potion objects.
+	virtual int getDef() const;// needs to be overrided by Potion objects.
+	int getGold() const;
+	void setHP(int new_HP);
 	// calculates the damage caused by this to other.
-	int calcDamageTo(const Character& other);
+	int calcDamageTo(const Character& other) const;
 };
-
 
 #endif // !CHARACTER_H

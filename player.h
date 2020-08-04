@@ -12,6 +12,7 @@ class Halfling;
 
 class Player :public Character {
 public:
+	void 
 	virtual void attack(Human& human);
 	virtual void attack(Dwarf& dwarf);
 	virtual void attack(Elf& elf);
