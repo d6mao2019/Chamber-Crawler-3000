@@ -1,20 +1,11 @@
 #include "enemy.h"
 #include "player.h"
 
-void Enemy::attack(Shade& shade) {
-	int damage = calcDamageTo(shade);
-	int new_HP = shade.getHP() - damage;
-	if (new_HP > 0) shade.setHP(new_HP);
-	else {
-		beSlain(shade);
-	}
-}
-
-void Enemy::beAttackedBy(Player& p) { p.attack(*this); }
-
 void Enemy::beSlain(Player& p) {
-	p.
+	// something.
 }
+
+void Enemy::notify() { floor->beNotifiedBy(*this); }
 
 Human::Human()
 	: HP{ 140 }, Atk{ 20 }, Def{ 20 } {}

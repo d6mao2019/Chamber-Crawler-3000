@@ -15,8 +15,10 @@ class Character {
 	int Def;
 	// the amount of gold holding.
 	int gold;
+	// position on the floor.
+	int row, col;
 	// the floor. when an enemy is slain by the player, the enemy notifies floor.
-	std::shared_ptr<Floor> floor;
+	Floor* floor;
 public:
 	virtual int getHP() const;// needs to be overrided by Potion objects.
 	virtual int getAtk() const;// needs to be overrided by Potion objects.
