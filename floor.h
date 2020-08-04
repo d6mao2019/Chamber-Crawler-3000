@@ -5,17 +5,18 @@ class Enemy;
 class Potion;
 class Gold;
 
-class Floor {
+class Floor
+{
 	std::vector<std::vector<char>> textDisplay;
 	std::vector<std::shared_ptr<Enemy>> enemy_list;
 	std::vector<std::shared_ptr<Potion>> potion_list;
 	std::vector<std::shared_ptr<Gold>> gold_list;
 
 public:
-	Floor();// responsible for generating chambers and enemies.
-	void beNotifiedBy(Enemy& e);
+	Floor(); // responsible for generating chambers and enemies.
+	void beNotifiedBy(Enemy &e);
 	void tick();
-	void consume()
+	void consume();
 };
 
 #endif // !FLOOR_H
