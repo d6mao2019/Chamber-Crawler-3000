@@ -25,6 +25,7 @@ public:
 	virtual int getDef() const;// needs to be overrided by Potion objects.
 	int getGold() const;
 	void setHP(int new_HP);
+	void move(int row_change, int col_change);
 	// calculates the damage caused by this to other.
 	int calcDamageTo(const Character& other) const;
 };
