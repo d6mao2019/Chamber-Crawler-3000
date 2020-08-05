@@ -15,7 +15,7 @@ public:
 	Floor();// responsible for generating chambers and enemies.
 	void beNotifiedBy(Enemy& e);
 	void tick();
-	void consume()
+	void consume();
 };
 
 #endif // !FLOOR_H

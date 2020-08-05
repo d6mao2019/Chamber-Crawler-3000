@@ -53,6 +53,7 @@ public:
 };
 
 class Dragon :public Enemy {
+	std::shared_ptr<Gold> drgold;
 public:
 	Dragon();
 };
