@@ -1,20 +1,34 @@
 #ifndef GOLD_H
 #define GOLD_H
+#include <memory>
+class Dragon;
 
-class Gold
+struct loc
 {
+    int x;
+    int y;
 };
 
-class DragonHoard : public Gold
-{
+
+class Gold {
+    loc cord;
+virtual int getVal() = 0;
+    loc getLoc();
 };
 
-class SmallHoard : public Gold
-{
+class DragonHoard :public Gold {
+  //  std::shared_ptr<Dragon> drg;
+virtual int getVal() override;
 };
 
-class Normal : public Gold
-{
+class SmallHoard :public Gold {
+virtual int getVal() override;
+
+};
+
+class Normal :public Gold {
+virtual int getVal() override;
+
 };
 
 #endif // !GOLD_H
