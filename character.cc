@@ -1,10 +1,17 @@
 #include "character.h"
 #include <cmath>
 
+Character::Character(int HP, int Atk, int Def)
+	: HP{HP}, Atk{Atk}, Def{Def}
+{
+}
+
 int Character::getHP() const { return HP; }
 int Character::getAtk() const { return Atk; }
 int Character::getDef() const { return Def; }
 int Character::getGold() const { return gold; }
+int Character::getRow() const { return row; }
+int Character::getCol() const { return col; }
 
 void Character::setHP(int new_HP) { HP = new_HP; }
 

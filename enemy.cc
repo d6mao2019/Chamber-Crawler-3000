@@ -4,7 +4,9 @@
 void Enemy::notify() { floor->beNotifiedBy(*this); }
 
 Human::Human()
-	: Character{Enemy{140, 20, 20}} {}
+	: Character{140, 20, 20}
+{
+}
 
 Dwarf::Dwarf()
 	: HP{100}, Atk{20}, Def{30} {}

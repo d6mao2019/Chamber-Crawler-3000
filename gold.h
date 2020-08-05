@@ -3,32 +3,28 @@
 #include <memory>
 class Dragon;
 
-struct loc
+class Gold
 {
-    int x;
-    int y;
+    int value;
+    int row, col;
+
+public:
+    int getVal() const;
+    int getRow() const;
+    int getCol() const;
 };
 
-
-class Gold {
-    loc cord;
-virtual int getVal() = 0;
-    loc getLoc();
+class DragonHoard : public Gold
+{
+    //  std::shared_ptr<Dragon> drg;
 };
 
-class DragonHoard :public Gold {
-  //  std::shared_ptr<Dragon> drg;
-virtual int getVal() override;
+class SmallHoard : public Gold
+{
 };
 
-class SmallHoard :public Gold {
-virtual int getVal() override;
-
-};
-
-class Normal :public Gold {
-virtual int getVal() override;
-
+class Normal : public Gold
+{
 };
 
 #endif // !GOLD_H
