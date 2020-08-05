@@ -5,6 +5,9 @@
 
 class Potion : public Player
 {
+	int effect;
+	int row, col;
+
 protected:
 	std::unique_ptr<Player> player;
 
@@ -13,13 +16,10 @@ public:
 
 class HPBoost : public Potion
 {
-	const int HP_boost = 5;
 };
 
 class AtkBoost : public Potion
 {
-	const int atk_boost = 5;
-
 public:
 	virtual int getHP() const override;
 	virtual int getAtk() const override;
@@ -28,8 +28,6 @@ public:
 
 class DefBoost : public Potion
 {
-	const int def_boost = 5;
-
 public:
 	virtual int getHP() const override;
 	virtual int getAtk() const override;
@@ -38,13 +36,10 @@ public:
 
 class HPWound : public Potion
 {
-	const int HP_wound = 5;
 };
 
 class AtkWound : public Potion
 {
-	const int atd_wound = 5;
-
 public:
 	virtual int getHP() const override;
 	virtual int getAtk() const override;
@@ -53,8 +48,6 @@ public:
 
 class DefWound : public Potion
 {
-	const int def_wound = 5;
-
 public:
 	virtual int getHP() const override;
 	virtual int getAtk() const override;
