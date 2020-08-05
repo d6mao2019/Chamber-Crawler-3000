@@ -11,10 +11,11 @@ class Floor
 	std::vector<std::shared_ptr<Enemy>> enemy_list;
 	std::vector<std::shared_ptr<Potion>> potion_list;
 	std::vector<std::shared_ptr<Gold>> gold_list;
+	std::shared_ptr<Player> player;
 
 public:
-	Floor(); // responsible for generating chambers and enemies.
-	void beNotifiedBy(Enemy &e);
+	Floor();					 // responsible for generating chambers and enemies.
+	void beNotifiedBy(Enemy &e); // enemies notify floor when they are slain.
 	void tick();
 	void consume();
 };
