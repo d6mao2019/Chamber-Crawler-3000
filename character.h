@@ -18,6 +18,8 @@ class Character
 	int gold;
 	// position on the floor.
 	int row, col;
+
+protected:
 	// the floor. when an enemy is slain by the player, the enemy notifies floor.
 	Floor *floor;
 
