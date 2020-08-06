@@ -11,11 +11,12 @@ class Goblin;
 class Enemy : public Character
 {
 public:
-	virtual void attack(Shade &shade) = 0;
-	virtual void attack(Drow &drow) = 0;
-	virtual void attack(Vampire &vampire) = 0;
-	virtual void attack(Troll &troll) = 0;
-	virtual void attack(Goblin &goblin) = 0;
+	Enemy(int HP, int Atk, int Def, int gold, int row, int col);
+	virtual void attack(Shade &shade);
+	virtual void attack(Drow &drow);
+	virtual void attack(Vampire &vampire);
+	virtual void attack(Troll &troll);
+	virtual void attack(Goblin &goblin);
 	virtual void beAttackedBy(Player &p) = 0;
 	void notify(); // notify the floor when slain.
 };
@@ -23,31 +24,36 @@ public:
 class Human : public Enemy
 {
 public:
-	Human();
-	virtual void attack(Shade &shade) override;
-	virtual void attack(Drow &drow) override;
-	virtual void attack(Vampire &vampire) override;
-	virtual void attack(Troll &troll) override;
-	virtual void attack(Goblin &goblin) override;
+	Human(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
 };
 
 class Dwarf : public Enemy
 {
 public:
-	Dwarf();
+	Dwarf(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 };
 
 class Elf : public Enemy
+// gets two attacks against every race except drow
 {
 public:
-	Elf();
+	Elf(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
+
+	virtual void attack(Shade &shade) override;
+	// only drow do not need to override.
+	virtual void attack(Vampire &vampire) override;
+	virtual void attack(Troll &troll) override;
+	virtual void attack(Goblin &goblin) override;
 };
 
 class Orcs : public Enemy
 {
 public:
-	Orcs();
+	Orcs(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 };
 
 class Merchant : public Enemy
@@ -55,7 +61,8 @@ class Merchant : public Enemy
 	static bool neutral;
 
 public:
-	Merchant();
+	Merchant(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 };
 
 class Dragon : public Enemy
@@ -63,13 +70,15 @@ class Dragon : public Enemy
 	std::shared_ptr<Gold> drgold;
 
 public:
-	Dragon();
+	Dragon(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 };
 
 class Halfling : public Enemy
 {
 public:
-	Halfling();
+	Halfling(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 };
 
 #endif // !ENEMY_H

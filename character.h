@@ -4,16 +4,14 @@
 #include <memory>
 
 class Character
+// invariants: all integer data fields are all non-negative.
 {
-	// invariants: HP cannot drop below zero.
-	//             Atk and Def should be non-negative integers and should not be modified.
-
 	// current health point.
 	int HP;
 	// base attack.
-	int Atk;
+	const int Atk;
 	// base defense.
-	int Def;
+	const int Def;
 	// the amount of gold holding.
 	int gold;
 	// position on the floor.
@@ -24,7 +22,8 @@ protected:
 	Floor *floor;
 
 public:
-	Character(int HP, int Atk, int Def);
+	// constructor.
+	Character(int HP, int Atk, int Def, int gold, int row, int col);
 
 	virtual int getHP() const;	// needs to be overrided by Potion objects.
 	virtual int getAtk() const; // needs to be overrided by Potion objects.
