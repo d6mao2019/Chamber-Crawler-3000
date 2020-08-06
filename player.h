@@ -13,6 +13,7 @@ class Halfling;
 class Player : public Character
 {
 public:
+	Player(int HP, int Atk, int Def, int gold, int row, int col);
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
@@ -20,37 +21,51 @@ public:
 	virtual void attack(Merchant &merchant);
 	virtual void attack(Dragon &dragon);
 	virtual void attack(Halfling &halfling);
-	virtual void beAttackedBy(Enemy &e);
+	virtual void beAttackedBy(Enemy &e) = 0;
 };
 
 class Shade : public Player
 {
 public:
-	Shade();
+	Shade(int row, int col);
+	virtual void beAttackedBy(Enemy &e) override;
+	// 0 attack override(s).
 };
 
 class Drow : public Player
 {
 public:
-	Drow();
+	Drow(int row, int col);
+	virtual void beAttackedBy(Enemy &e) override;
 };
 
 class Vampire : public Player
 {
 public:
-	Vampire();
+	Vampire(int row, int col);
+	virtual void beAttackedBy(Enemy &e) override;
+	// 7 attack override(s).
+	virtual void attack(Human &human) override;
+	virtual void attack(Dwarf &dwarf) override;
+	virtual void attack(Elf &elf) override;
+	virtual void attack(Orcs &orcs) override;
+	virtual void attack(Merchant &merchant) override;
+	virtual void attack(Dragon &dragon) override;
+	virtual void attack(Halfling &halfling) override;
 };
 
 class Troll : public Player
 {
 public:
-	Troll();
+	Troll(int row, int col);
+	virtual void beAttackedBy(Enemy &e) override;
 };
 
 class Goblin : public Player
 {
 public:
-	Goblin();
+	Goblin(int row, int col);
+	virtual void beAttackedBy(Enemy &e) override;
 };
 
 #endif // !PLAYER_H

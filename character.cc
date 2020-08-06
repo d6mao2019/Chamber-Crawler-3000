@@ -1,5 +1,4 @@
 #include "character.h"
-#include <cmath>
 
 Character::Character(int HP, int Atk, int Def, int gold, int row, int col)
 	: HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
@@ -19,6 +18,7 @@ void Character::move(int row_change, int col_change)
 	col += col_change;
 }
 
+/* Useless function...
 int Character::calcDamageTo(const Character &other) const
 {
 	double atk = getAtk();
@@ -26,3 +26,4 @@ int Character::calcDamageTo(const Character &other) const
 	int damage = ceil(100 / (100 + def) * atk);
 	return damage;
 }
+*/

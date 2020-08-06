@@ -26,6 +26,7 @@ class Human : public Enemy
 public:
 	Human(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 0 attack override(s).
 };
 
 class Dwarf : public Enemy
@@ -33,27 +34,30 @@ class Dwarf : public Enemy
 public:
 	Dwarf(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 0 attack override(s).
 };
 
 class Elf : public Enemy
-// gets two attacks against every race except drow
+// gets two attacks against every race except drow.
 {
 public:
 	Elf(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
-
+	// 4 attack override(s).
 	virtual void attack(Shade &shade) override;
-	// only drow do not need to override.
 	virtual void attack(Vampire &vampire) override;
 	virtual void attack(Troll &troll) override;
 	virtual void attack(Goblin &goblin) override;
 };
 
 class Orcs : public Enemy
+// does 50% more damage to goblins.
 {
 public:
 	Orcs(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 1 attack override(s).
+	virtual void attack(Goblin &goblin) override;
 };
 
 class Merchant : public Enemy
@@ -63,6 +67,7 @@ class Merchant : public Enemy
 public:
 	Merchant(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 0 attack override(s).
 };
 
 class Dragon : public Enemy
@@ -72,6 +77,7 @@ class Dragon : public Enemy
 public:
 	Dragon(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 0 attack override(s).
 };
 
 class Halfling : public Enemy
@@ -79,6 +85,7 @@ class Halfling : public Enemy
 public:
 	Halfling(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
+	// 0 attack override(s).
 };
 
 #endif // !ENEMY_H

@@ -34,9 +34,10 @@ public:
 
 	void setHP(int new_HP);
 	void move(int row_change, int col_change);
-
+	/*
 	// calculates the damage caused by this to other.
 	int calcDamageTo(const Character &other) const;
+	*/
 };
 
 #endif // !CHARACTER_H
