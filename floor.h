@@ -18,7 +18,7 @@ class Floor
 public:
 	Floor();					 // responsible for generating chambers and enemies.
 	void beNotifiedBy(Enemy &e); // enemies notify floor when they are slain.
-	void tick();
+	void tick();				 // random move of enemies.
 	void consume();
 };
 

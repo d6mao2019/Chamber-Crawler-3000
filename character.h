@@ -3,6 +3,18 @@
 #include "floor.h"
 #include <memory>
 
+enum class Direction
+{
+	no,
+	so,
+	we,
+	ea,
+	nw,
+	ne,
+	sw,
+	se
+};
+
 class Character
 // invariants: all integer data fields are all non-negative.
 {
@@ -33,7 +45,7 @@ public:
 	int getCol() const;
 
 	void setHP(int new_HP);
-	void move(int row_change, int col_change);
+	void move(Direction direction);
 	/*
 	// calculates the damage caused by this to other.
 	int calcDamageTo(const Character &other) const;

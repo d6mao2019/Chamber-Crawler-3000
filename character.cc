@@ -12,10 +12,31 @@ int Character::getCol() const { return col; }
 
 void Character::setHP(int new_HP) { HP = new_HP; }
 
-void Character::move(int row_change, int col_change)
+void Character::move(Direction direction)
 {
-	row += row_change;
-	col += col_change;
+	switch (direction)
+	{
+	case Direction::no:
+		--row;
+	case Direction::so:
+		++row;
+	case Direction::we:
+		--col;
+	case Direction::ea:
+		++col;
+	case Direction::nw:
+		--row;
+		--col;
+	case Direction::ne:
+		--row;
+		++col;
+	case Direction::sw:
+		++row;
+		--col;
+	case Direction::se:
+		++row;
+		++col;
+	}
 }
 
 /* Useless function...
