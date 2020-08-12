@@ -1,9 +1,11 @@
 #ifndef FLOOR_H
 #define FLOOR_H
+#include <memory>
 #include <vector>
 class Enemy;
 class Potion;
 class Gold;
+class Player;
 
 class Floor
 {

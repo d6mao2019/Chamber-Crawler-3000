@@ -1,15 +1,20 @@
-#ifndef eneGener
-#define eneGener
+#ifndef ENEMYGENERATOR_H
+#define ENEMYGENERATOR_H
 #include "enemy.h"
 
-class enemeGenerator
+class EnemyGenerator
 {
 private:
-    int probHuman, probDwarf, probElf, probOrcs, probMerchant;
+    const int human_prob = 4;
+    const int dwarf_prob = 3;
+    const int halfling_prob = 5;
+    const int elf_prob = 2;
+    const int orc_prob = 2;
+    const int merchant_prob = 2;
 
 public:
-    enemeGenerator(/* args */);
-    ~enemeGenerator();
+    EnemyGenerator(/* args */);
+    ~EnemyGenerator();
     Enemy *generate();
 };
 

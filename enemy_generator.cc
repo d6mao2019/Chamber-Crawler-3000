@@ -1,9 +1,9 @@
 #include "enemy_generator.h"
 
-enemeGenerator::enemeGenerator(/* args */)
+EnemyGenerator::EnemyGenerator(/* args */)
 {
 }
 
-enemeGenerator::~enemeGenerator()
+EnemyGenerator::~EnemyGenerator()
 {
 }
