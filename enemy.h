@@ -73,7 +73,7 @@ public:
 };
 
 class Dragon : public Enemy
-// always guards a treasure hoard
+// always guards a treasure hoard.
 {
 	std::shared_ptr<Gold> drgold;
 
