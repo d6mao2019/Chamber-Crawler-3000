@@ -11,7 +11,7 @@ class Goblin;
 class Enemy : public Character
 {
 public:
-	Enemy(int HP, int Atk, int Def, int gold, int row, int col);
+	Enemy(const int maxHP, int HP, int Atk, int Def, int gold, int row, int col);
 	virtual void attack(Shade &shade);
 	virtual void attack(Drow &drow);
 	virtual void attack(Vampire &vampire);
