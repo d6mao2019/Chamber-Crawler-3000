@@ -8,36 +8,43 @@ std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vecto
     std::vector<Direction> result;
     int row = e->getRow();
     int col = e->getCol();
-    bool north = (textDisplay[row - 1][col] == '.');
-    bool south = (textDisplay[row + 1][col] == '.');
-    bool west = (textDisplay[row][col - 1] == '.');
-    bool east = (textDisplay[row][col + 1] == '.');
-    if (north)
+    if (textDisplay[row - 1][col] == '.') // north.
         result.push_back(Direction::no);
-    if (south)
+    if (textDisplay[row + 1][col] == '.') // south.
         result.push_back(Direction::so);
-    if (west)
+    if (textDisplay[row][col - 1] == '.') // west.
         result.push_back(Direction::we);
-    if (east)
+    if (textDisplay[row][col + 1] == '.') // east.
         result.push_back(Direction::ea);
-    if (north && west)
+    if (textDisplay[row - 1][col - 1] == '.') // north west.
         result.push_back(Direction::nw);
-    if (north && east)
+    if (textDisplay[row - 1][col + 1] == '.') // north east.
         result.push_back(Direction::ne);
-    if (south && west)
+    if (textDisplay[row + 1][col - 1] == '.') // south west.
         result.push_back(Direction::sw);
-    if (south && east)
+    if (textDisplay[row + 1][col + 1] == '.') // south east.
         result.push_back(Direction::se);
     return result;
+}
+
+void Floor::ERMSwitch()
+{
+    if (ERM)
+        ERM = false;
+    else
+        ERM = true;
 }
 
 void Floor::tick()
 {
     // enemy randome moves.
-    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+    if (ERM)
     {
-        std::vector<Direction> availables = available_directions(*i, textDisplay);
-        Direction direction = availables[rand() % availables.size()];
-        (*i)->move(direction);
+        for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+        {
+            std::vector<Direction> availables = available_directions(*i, textDisplay);
+            Direction direction = availables[rand() % availables.size()];
+            (*i)->move(direction);
+        }
     }
 }
