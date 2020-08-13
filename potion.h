@@ -21,17 +21,11 @@ class HPBoost : public Potion
 class AtkBoost : public Potion
 {
 public:
-	virtual int getHP() const override;
-	virtual int getAtk() const override;
-	virtual int getDef() const override;
 };
 
 class DefBoost : public Potion
 {
 public:
-	virtual int getHP() const override;
-	virtual int getAtk() const override;
-	virtual int getDef() const override;
 };
 
 class HPWound : public Potion
@@ -41,17 +35,11 @@ class HPWound : public Potion
 class AtkWound : public Potion
 {
 public:
-	virtual int getHP() const override;
-	virtual int getAtk() const override;
-	virtual int getDef() const override;
 };
 
 class DefWound : public Potion
 {
 public:
-	virtual int getHP() const override;
-	virtual int getAtk() const override;
-	virtual int getDef() const override;
 };
 
 #endif // !POTION_H
