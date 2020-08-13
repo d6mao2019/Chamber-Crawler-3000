@@ -46,6 +46,7 @@ int main()
         case 'g':
         case 't':
         case 'f': // stops enemies from moving until this key is pressed again.
+            floor.ERMSwitch();
         case 'r': // restart game.
         case 'q': // exit game.
         default:
