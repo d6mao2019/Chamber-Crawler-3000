@@ -6,7 +6,7 @@ Player::Player(int HP, int Atk, int Def, int gold, int row, int col)
 	: Character{HP, Atk, Def, gold, row, col} {}
 
 template <typename EnemyType>
-void common_attack(Player *p, EnemyType &e)
+void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
 	double atk = p->getAtk();
 	double def = e.getDef();
@@ -16,13 +16,13 @@ void common_attack(Player *p, EnemyType &e)
 	else
 		e.notify();
 }
-void Player::attack(Human &human) { common_attack<Human>(this, human); }
-void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf); }
-void Player::attack(Elf &elf) { common_attack<Elf>(this, elf); }
-void Player::attack(Orcs &orcs) { common_attack<Orcs>(this, orcs); }
-void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant); }
-void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon); }
-void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling); }
+void Player::attack(Human &human) { common_attack<Human>(this, human, 0); }
+void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf, 0); }
+void Player::attack(Elf &elf) { common_attack<Elf>(this, elf, 0); }
+void Player::attack(Orcs &orcs) { common_attack<Orcs>(this, orcs, 0); }
+void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
+void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
+void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
