@@ -8,6 +8,9 @@ Player::Player(int HP, int Atk, int Def, int gold, int row, int col)
 template <typename EnemyType>
 void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
+	bool miss = (rand() % 100 < miss_combat_chance);
+	if (miss)
+		return;
 	double atk = p->getAtk();
 	double def = e.getDef();
 	int damage = ceil(100 / (100 + def) * atk);
