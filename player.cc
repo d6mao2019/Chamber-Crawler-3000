@@ -85,6 +85,13 @@ void goblin_attack(Player *p, EnemyType &e)
 	else
 	{
 		e.notify();
-		p->
+		p->setGold(p->getGold() + 5);
 	}
 }
+void Goblin::attack(Human &human) { goblin_attack<Human>(this, human); }
+void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf); }
+void Goblin::attack(Elf &elf) { goblin_attack<Elf>(this, elf); }
+void Goblin::attack(Orcs &orcs) { goblin_attack<Orcs>(this, orcs); }
+void Goblin::attack(Merchant &merchant) { goblin_attack<Merchant>(this, merchant); }
+void Goblin::attack(Dragon &dragon) { goblin_attack<Dragon>(this, dragon); }
+void Goblin::attack(Halfling &halfling) { goblin_attack<Halfling>(this, halfling); }
