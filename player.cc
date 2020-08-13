@@ -6,8 +6,11 @@ Player::Player(const int maxHP,int HP, int Atk, int Def, int gold, int row, int 
 	: Character{maxHP, HP, Atk, Def, gold, row, col} {}
 
 template <typename EnemyType>
-void common_attack(Player *p, EnemyType &e)
+void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
+	bool miss = (rand() % 100 < miss_combat_chance);
+	if (miss)
+		return;
 	double atk = p->getAtk();
 	double def = e.getDef();
 	int damage = ceil(100 / (100 + def) * atk);
@@ -16,13 +19,13 @@ void common_attack(Player *p, EnemyType &e)
 	else
 		e.notify();
 }
-void Player::attack(Human &human) { common_attack<Human>(this, human); }
-void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf); }
-void Player::attack(Elf &elf) { common_attack<Elf>(this, elf); }
-void Player::attack(Orcs &orcs) { common_attack<Orcs>(this, orcs); }
-void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant); }
-void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon); }
-void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling); }
+void Player::attack(Human &human) { common_attack<Human>(this, human, 0); }
+void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf, 0); }
+void Player::attack(Elf &elf) { common_attack<Elf>(this, elf, 0); }
+void Player::attack(Orcs &orcs) { common_attack<Orcs>(this, orcs, 0); }
+void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
+void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
+void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
@@ -43,24 +46,24 @@ Vampire::Vampire(int row, int col)
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>
-void vampire_attack_gain_HP(Player *p, EnemyType &e)
+void vampire_attack_gain_HP(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	common_attack<EnemyType>(p, e);
+	common_attack<EnemyType>(p, e, miss_combat_chance);
 	p->setHP(p->getHP() + 5);
 }
 template <typename EnemyType>
-void vampire_attack_lose_HP(Player *p, EnemyType &e)
+void vampire_attack_lose_HP(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	common_attack<EnemyType>(p, e);
+	common_attack<EnemyType>(p, e, miss_combat_chance);
 	p->setHP(p->getHP() - 5);
 }
-void Vampire::attack(Human &human) { vampire_attack_gain_HP<Human>(this, human); }
-void Vampire::attack(Dwarf &dwarf) { vampire_attack_lose_HP<Dwarf>(this, dwarf); }
-void Vampire::attack(Elf &elf) { vampire_attack_gain_HP<Elf>(this, elf); }
-void Vampire::attack(Orcs &orcs) { vampire_attack_gain_HP<Orcs>(this, orcs); }
-void Vampire::attack(Merchant &merchant) { vampire_attack_gain_HP<Merchant>(this, merchant); }
-void Vampire::attack(Dragon &dragon) { vampire_attack_gain_HP<Dragon>(this, dragon); }
-void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this, halfling); }
+void Vampire::attack(Human &human) { vampire_attack_gain_HP<Human>(this, human, 0); }
+void Vampire::attack(Dwarf &dwarf) { vampire_attack_lose_HP<Dwarf>(this, dwarf, 0); }
+void Vampire::attack(Elf &elf) { vampire_attack_gain_HP<Elf>(this, elf, 0); }
+void Vampire::attack(Orcs &orcs) { vampire_attack_gain_HP<Orcs>(this, orcs, 0); }
+void Vampire::attack(Merchant &merchant) { vampire_attack_gain_HP<Merchant>(this, merchant, 0); }
+void Vampire::attack(Dragon &dragon) { vampire_attack_gain_HP<Dragon>(this, dragon, 0); }
+void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this, halfling, 50); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Troll Class */ /* 0 attack override(s) */
@@ -75,8 +78,11 @@ Goblin::Goblin(int row, int col)
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>
-void goblin_attack(Player *p, EnemyType &e)
+void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
+	bool miss = (rand() % 100 < miss_combat_chance);
+	if (miss)
+		return;
 	double atk = p->getAtk();
 	double def = e.getDef();
 	int damage = ceil(100 / (100 + def) * atk);
@@ -88,10 +94,10 @@ void goblin_attack(Player *p, EnemyType &e)
 		p->setGold(p->getGold() + 5);
 	}
 }
-void Goblin::attack(Human &human) { goblin_attack<Human>(this, human); }
-void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf); }
-void Goblin::attack(Elf &elf) { goblin_attack<Elf>(this, elf); }
-void Goblin::attack(Orcs &orcs) { goblin_attack<Orcs>(this, orcs); }
-void Goblin::attack(Merchant &merchant) { goblin_attack<Merchant>(this, merchant); }
-void Goblin::attack(Dragon &dragon) { goblin_attack<Dragon>(this, dragon); }
-void Goblin::attack(Halfling &halfling) { goblin_attack<Halfling>(this, halfling); }
+void Goblin::attack(Human &human) { goblin_attack<Human>(this, human, 0); }
+void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf, 0); }
+void Goblin::attack(Elf &elf) { goblin_attack<Elf>(this, elf, 0); }
+void Goblin::attack(Orcs &orcs) { goblin_attack<Orcs>(this, orcs, 0); }
+void Goblin::attack(Merchant &merchant) { goblin_attack<Merchant>(this, merchant, 0); }
+void Goblin::attack(Dragon &dragon) { goblin_attack<Dragon>(this, dragon, 0); }
+void Goblin::attack(Halfling &halfling) { goblin_attack<Halfling>(this, halfling, 50); }
