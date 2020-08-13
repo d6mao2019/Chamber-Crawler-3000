@@ -2,6 +2,7 @@
 #define CHARACTER_H
 #include "floor.h"
 #include <memory>
+#include <iostream>
 
 enum class Direction
 {
@@ -14,6 +15,7 @@ enum class Direction
 	sw,
 	se
 };
+std::istream &operator>>(std::istream &in, Direction direction);
 
 class Character
 // invariants: all integer data fields are all non-negative.

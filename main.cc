@@ -5,16 +5,33 @@
 #include "potion.h"
 #include "floor.h"
 #include <iostream>
+#include <string>
 
 int main()
 {
     char cmd;
+    Direction direction;
+    Floor floor;
     while (std::cin >> cmd)
     {
         switch (cmd)
         {
         case 'u': // use potion.
+            if (std::cin >> direction)
+            {
+            }
         case 'a': // attack enemy.
+            try
+            {
+                std::cin >> direction;
+                /*
+                more code goes here.
+                */
+            }
+            catch (std::runtime_error &e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         case 's': //
         case 'd':
         case 'v':
@@ -23,6 +40,8 @@ int main()
         case 'f': // stops enemies from moving until this key is pressed again.
         case 'r': // restart game.
         case 'q': // exit game.
-        }
-    }
-}
+        default:
+            std::cerr << "Error: unrecognized command." << std::endl;
+        } // switch
+    }     // while
+} // main

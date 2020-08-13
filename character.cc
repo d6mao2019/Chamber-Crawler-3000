@@ -1,4 +1,31 @@
 #include "character.h"
+#include <stdexcept>
+#include <string>
+
+std::istream &operator>>(std::istream &in, Direction direction)
+{
+	std::string s;
+	in >> s;
+	if (s == "no")
+		direction = Direction::no;
+	else if (s == "so")
+		direction = Direction::so;
+	else if (s == "we")
+		direction = Direction::we;
+	else if (s == "ea")
+		direction = Direction::ea;
+	else if (s == "nw")
+		direction = Direction::nw;
+	else if (s == "ne")
+		direction = Direction::ne;
+	else if (s == "sw")
+		direction = Direction::sw;
+	else if (s == "se")
+		direction = Direction::se;
+	else
+		throw std::runtime_error{"Error: invalid direction."};
+	return in;
+}
 
 Character::Character(const int maxHP, int HP, int Atk, int Def, int gold, int row, int col)
 	: maxHP{maxHP}, HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
