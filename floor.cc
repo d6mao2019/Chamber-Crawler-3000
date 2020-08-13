@@ -8,10 +8,10 @@ std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vecto
     std::vector<Direction> result;
     int row = e->getRow();
     int col = e->getCol();
-    bool north = (textDisplay[row - 1][col] != '-');
-    bool south = (textDisplay[row + 1][col] != '-');
-    bool west = (textDisplay[row][col - 1] != '|');
-    bool east = (textDisplay[row][col + 1] != '|');
+    bool north = (textDisplay[row - 1][col] == '.');
+    bool south = (textDisplay[row + 1][col] == '.');
+    bool west = (textDisplay[row][col - 1] == '.');
+    bool east = (textDisplay[row][col + 1] == '.');
     if (north)
         result.push_back(Direction::no);
     if (south)
