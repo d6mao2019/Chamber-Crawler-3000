@@ -17,8 +17,16 @@ int main()
         switch (cmd)
         {
         case 'u': // use potion.
-            if (std::cin >> direction)
+            try
             {
+                std::cin >> direction;
+                /*
+                more code goes here.
+                */
+            }
+            catch (std::runtime_error &e)
+            {
+                std::cerr << e.what() << std::endl;
             }
         case 'a': // attack enemy.
             try

@@ -2,8 +2,8 @@
 #include "enemy.h"
 #include <cmath>
 
-Player::Player(const int maxHP,int HP, int Atk, int Def, int gold, int row, int col)
-	: Character{maxHP, HP, Atk, Def, gold, row, col} {}
+Player::Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
+	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 
 template <typename EnemyType>
 void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
