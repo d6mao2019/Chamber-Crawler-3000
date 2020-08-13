@@ -11,6 +11,7 @@ int Character::getRow() const { return row; }
 int Character::getCol() const { return col; }
 
 void Character::setHP(int new_HP) { HP = new_HP; }
+void Character::setGold(int new_gold) { gold = new_gold; }
 
 void Character::move(Direction direction)
 {

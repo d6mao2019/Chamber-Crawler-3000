@@ -45,6 +45,7 @@ public:
 	int getCol() const;
 
 	void setHP(int new_HP);
+	void setGold(int new_gold);
 	void move(Direction direction);
 	/*
 	// calculates the damage caused by this to other.

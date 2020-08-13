@@ -73,3 +73,18 @@ void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
 Goblin::Goblin(int row, int col)
 	: Player{110, 15, 20, 0, row, col} {}
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
+
+template <typename EnemyType>
+void goblin_attack(Player *p, EnemyType &e)
+{
+	double atk = p->getAtk();
+	double def = e.getDef();
+	int damage = ceil(100 / (100 + def) * atk);
+	if (e.getHP() > damage)
+		e.setHP(e.getHP() - damage);
+	else
+	{
+		e.notify();
+		p->
+	}
+}
