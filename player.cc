@@ -63,7 +63,13 @@ void Vampire::attack(Dragon &dragon) { vampire_attack_gain_HP<Dragon>(this, drag
 void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this, halfling); }
 
 ///////////////////////////////////////////////////////////////////////////////
-/* Troll Class */ /* 7 attack override(s) */
+/* Troll Class */ /* 0 attack override(s) */
 Troll::Troll(int row, int col)
 	: Player{120, 25, 15, 0, row, col} {}
 void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
+
+///////////////////////////////////////////////////////////////////////////////
+/* Goblin Class */ /* 7 attack override(s) */
+Goblin::Goblin(int row, int col)
+	: Player{110, 15, 20, 0, row, col} {}
+void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }

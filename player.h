@@ -33,13 +33,18 @@ public:
 };
 
 class Drow : public Player
+// all potions have their effect magnified by 1.5.
 {
 public:
 	Drow(int row, int col);
 	virtual void beAttackedBy(Enemy &e) override;
+	// 0 attack override(s).
 };
 
 class Vampire : public Player
+// has no maximum HP.
+// gains 5 HP every successful attack except for dwarfs.
+// loses 5 HP every successful attack on dwarfs.
 {
 public:
 	Vampire(int row, int col);
@@ -55,17 +60,21 @@ public:
 };
 
 class Troll : public Player
+// regains 5 HP every turn (capped at 120).
 {
 public:
 	Troll(int row, int col);
 	virtual void beAttackedBy(Enemy &e) override;
+	// 0 attack override(s).
 };
 
 class Goblin : public Player
+// steals 5 gold from every slain enemy.
 {
 public:
 	Goblin(int row, int col);
 	virtual void beAttackedBy(Enemy &e) override;
+	// 7 attack override(s).
 };
 
 #endif // !PLAYER_H
