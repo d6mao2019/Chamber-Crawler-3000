@@ -18,6 +18,7 @@ enum class Direction
 class Character
 // invariants: all integer data fields are all non-negative.
 {
+	const int maxHP;
 	// current health point.
 	int HP;
 	// base attack.
@@ -35,7 +36,7 @@ protected:
 
 public:
 	// constructor.
-	Character(int HP, int Atk, int Def, int gold, int row, int col);
+	Character(const int maxHP, int HP, int Atk, int Def, int gold, int row, int col);
 
 	virtual int getHP() const;	// needs to be overrided by Potion objects.
 	virtual int getAtk() const; // needs to be overrided by Potion objects.

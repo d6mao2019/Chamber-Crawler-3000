@@ -2,8 +2,8 @@
 #include "player.h"
 #include <cmath>
 
-Enemy::Enemy(int HP, int Atk, int Def, int gold, int row, int col)
-	: Character{HP, Atk, Def, gold, row, col} {}
+Enemy::Enemy(const int maxHP, int HP, int Atk, int Def, int gold, int row, int col)
+	: Character{maxHP, HP, Atk, Def, gold, row, col} {}
 
 template <typename PlayerType>
 void common_attack(Enemy *e, PlayerType &p)
@@ -30,19 +30,19 @@ void Enemy::notify() { floor->beNotifiedBy(*this); }
 ///////////////////////////////////////////////////////////////////////////////
 /* Human Class */ /* 0 attack override(s) */
 Human::Human(int row, int col)
-	: Enemy{140, 20, 20, 4, row, col} {}
+	: Enemy{140, 140, 20, 20, 4, row, col} {}
 void Human::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dwarf Class */ /* 0 attack override(s) */
 Dwarf::Dwarf(int row, int col)
-	: Enemy{100, 20, 30, 0, row, col} {}
+	: Enemy{100,100, 20, 30, 0, row, col} {}
 void Dwarf::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Elf Class */ /* 4 attack override(s). */
 Elf::Elf(int row, int col)
-	: Enemy{140, 30, 10, 0, row, col} {}
+	: Enemy{140, 140, 30, 10, 0, row, col} {}
 void Elf::beAttackedBy(Player &p) { p.attack(*this); }
 
 template <typename PlayerType>
@@ -68,7 +68,7 @@ void Elf::attack(Goblin &goblin) { elf_attack<Goblin>(this, goblin); }
 ///////////////////////////////////////////////////////////////////////////////
 /* Orcs Class */ /* 1 attack override(s). */
 Orcs::Orcs(int row, int col)
-	: Enemy{180, 30, 25, 0, row, col} {}
+	: Enemy{180, 180, 30, 25, 0, row, col} {}
 void Orcs::beAttackedBy(Player &p) { p.attack(*this); }
 
 void Orcs::attack(Goblin &goblin)
@@ -88,17 +88,17 @@ void Orcs::attack(Goblin &goblin)
 ///////////////////////////////////////////////////////////////////////////////
 /* Merchant Class */ /* 0 attack override(s) */
 Merchant::Merchant(int row, int col)
-	: Enemy{30, 70, 5, 0, row, col} {}
+	: Enemy{30,30, 70, 5, 0, row, col} {}
 void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dragon Class */ /* 0 attack override(s) */
 Dragon::Dragon(int row, int col)
-	: Enemy{150, 20, 20, 0, row, col} {}
+	: Enemy{150,150, 20, 20, 0, row, col} {}
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Halfling Class */ /* 0 attack override(s) */
 Halfling::Halfling(int row, int col)
-	: Enemy{100, 15, 20, 0, row, col} {}
+	: Enemy{100, 100, 15, 20, 0, row, col} {}
 void Halfling::beAttackedBy(Player &p) { p.attack(*this); }

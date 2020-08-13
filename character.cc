@@ -1,7 +1,7 @@
 #include "character.h"
 
-Character::Character(int HP, int Atk, int Def, int gold, int row, int col)
-	: HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
+Character::Character(const int maxHP, int HP, int Atk, int Def, int gold, int row, int col)
+	: maxHP{maxHP}, HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
 
 int Character::getHP() const { return HP; }
 int Character::getAtk() const { return Atk; }
