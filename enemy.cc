@@ -50,7 +50,8 @@ void elf_attack(Enemy *e, PlayerType &p)
 {
 	double atk = e->getAtk();
 	double def = p.getDef();
-	int damage = ceil(2 * (100 / (100 + def) * atk));
+	int damage = ceil(100 / (100 + def) * atk);
+	damage *= 2;
 	if (p.getHP() > damage)
 		p.setHP(p.getHP() - damage);
 	else

@@ -22,6 +22,7 @@ public:
 };
 
 class Human : public Enemy
+// drops 2 normal piles of gold.
 {
 public:
 	Human(int row, int col);
@@ -30,6 +31,7 @@ public:
 };
 
 class Dwarf : public Enemy
+// Vampires are allergic to dwarves and lose 5 HP rather than gain.
 {
 public:
 	Dwarf(int row, int col);
@@ -71,6 +73,7 @@ public:
 };
 
 class Dragon : public Enemy
+// always guards a treasure hoard
 {
 	std::shared_ptr<Gold> drgold;
 
@@ -81,6 +84,7 @@ public:
 };
 
 class Halfling : public Enemy
+// has a 50% chance to cause the player character to miss in combat.
 {
 public:
 	Halfling(int row, int col);
