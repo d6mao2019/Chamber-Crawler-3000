@@ -13,7 +13,7 @@ class Halfling;
 class Player : public Character
 {
 public:
-	Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+	Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);

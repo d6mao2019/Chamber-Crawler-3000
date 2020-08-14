@@ -20,13 +20,13 @@ std::istream &operator>>(std::istream &in, Direction direction);
 class Character
 // invariants: all integer data fields are all non-negative.
 {
-	const int MaxHP;
+	const double MaxHP;
 	// current health point.
-	int HP;
+	double HP;
 	// base attack.
-	const int Atk;
+	const double Atk;//感觉这块不要const，之后要改的吧。还是decorator会要这个是const，明天说一下
 	// base defense.
-	const int Def;
+	const double Def;
 	// the amount of gold holding.
 	int gold;
 	// position on the floor.
@@ -38,7 +38,7 @@ protected:
 
 public:
 	// constructor.
-	Character(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+	Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 
 	virtual int getHP() const;	// needs to be overrided by Potion objects.
 	virtual int getAtk() const; // needs to be overrided by Potion objects.

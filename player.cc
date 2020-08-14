@@ -4,7 +4,7 @@
 #include <cmath>
 #include <stdexcept>
 
-Player::Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
+Player::Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 
 template <typename EnemyType>
@@ -21,7 +21,7 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 			return;
 		double atk = p->getAtk();
 		double def = e.getDef();
-		int damage = ceil(100 / (100 + def) * atk);
+		double damage = 100 / (100 + def) * atk;
 		if (e.getHP() > damage)
 			e.setHP(e.getHP() - damage);
 		else
@@ -98,7 +98,7 @@ void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 			return;
 		double atk = p->getAtk();
 		double def = e.getDef();
-		int damage = ceil(100 / (100 + def) * atk);
+		double damage = 100 / (100 + def) * atk;
 		if (e.getHP() > damage)
 			e.setHP(e.getHP() - damage);
 		else
