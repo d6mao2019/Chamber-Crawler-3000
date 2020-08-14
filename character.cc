@@ -1,6 +1,7 @@
 #include "character.h"
 #include <stdexcept>
 #include <string>
+#include <math.h>
 
 std::istream &operator>>(std::istream &in, Direction direction)
 {
@@ -27,7 +28,7 @@ std::istream &operator>>(std::istream &in, Direction direction)
 	return in;
 }
 
-Character::Character(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
+Character::Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
 	: MaxHP{MaxHP}, HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
 
 int Character::getHP() const { return HP; }

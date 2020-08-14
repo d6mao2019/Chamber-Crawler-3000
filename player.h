@@ -14,7 +14,7 @@ class Player : public Character
 {
 public:
 	// Player constructor.
-	Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+	Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 
 	bool adjacent(Enemy &other);
 	virtual void attack(Human &human);

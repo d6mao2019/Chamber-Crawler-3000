@@ -11,8 +11,8 @@ class Goblin;
 class Enemy : public Character
 {
 public:
-	// Enemy constructor.
-	Enemy(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+	// constructor.
+	Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 
 	virtual bool adjacent(Player &other);
 	virtual void attack(Shade &shade);

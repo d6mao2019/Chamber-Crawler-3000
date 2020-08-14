@@ -3,7 +3,7 @@
 #include "gold.h"
 #include <cmath>
 
-Enemy::Enemy(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
+Enemy::Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 
 bool Enemy::adjacent(Player &other)
@@ -19,7 +19,7 @@ void common_attack(Enemy *e, PlayerType &p)
 	{
 		double atk = e->getAtk();
 		double def = p.getDef();
-		int damage = ceil(100 / (100 + def) * atk);
+		double damage = 100 / (100 + def) * atk;
 		if (p.getHP() > damage)
 			p.setHP(p.getHP() - damage);
 		else
@@ -66,7 +66,7 @@ void elf_attack(Enemy *e, PlayerType &p)
 	{
 		double atk = e->getAtk();
 		double def = p.getDef();
-		int damage = ceil(100 / (100 + def) * atk);
+		double damage = 100 / (100 + def) * atk;
 		damage *= 2;
 		if (p.getHP() > damage)
 			p.setHP(p.getHP() - damage);
@@ -93,7 +93,7 @@ void Orc::attack(Goblin &goblin)
 	{
 		double atk = getAtk();
 		double def = goblin.getDef();
-		int damage = ceil(1.5 * (100 / (100 + def) * atk));
+		double damage = 1.5 * (100 / (100 + def) * atk);
 		if (goblin.getHP() > damage)
 			goblin.setHP(goblin.getHP() - damage);
 		else
