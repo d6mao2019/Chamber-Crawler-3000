@@ -11,7 +11,7 @@ int main()
 {
     char cmd;
     Direction direction;
-    Floor floor;
+    Floor floor{20, 10, 10};
     while (std::cin >> cmd)
     {
         switch (cmd)

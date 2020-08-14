@@ -1,7 +1,8 @@
-#ifndef ENEMYGENERATOR_H
-#define ENEMYGENERATOR_H
+#ifndef GENERATORS_H
+#define GENERATORS_H
 #include <memory>
 class Enemy;
+class Floor;
 
 class EnemyGenerator
 {
@@ -21,4 +22,4 @@ public:
     std::shared_ptr<Enemy> generate();
 };
 
-#endif // !ENEMYGENERATOR_H
+#endif // !GENERATORS_H

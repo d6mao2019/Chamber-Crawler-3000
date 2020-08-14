@@ -5,8 +5,23 @@
 #include <cstdlib>
 #include <stdexcept>
 
+std::vector<std::pair<int, int>> available_spots(std::vector<std::vector<char>> &text_display)
+{
+    std::vector<std::pair<int, int>> result;
+    for (int i = 0; i < text_display.size(); ++i)
+    {
+        for (int j = 0; j < text_display[i].size(); ++j)
+        {
+            if (text_display[i][j] == '.')
+                result.emplace_back(i, j);
+        }
+    }
+    return result;
+}
+
 Floor::Floor(int enemy_num, int positon_num, int gold_num)
 {
+    std::vector<std::pair<int, int>> availables = available_spots(text_display);
     /* text_display */
     /* spawn enemies. */
     for (int i = 0; i < enemy_num; ++i)
