@@ -1,5 +1,6 @@
 #include "floor.h"
 #include "character.h"
+#include "player.h"
 #include "enemy.h"
 #include <cstdlib>
 
@@ -37,7 +38,7 @@ void Floor::ERMSwitch()
 
 void Floor::tick()
 {
-    // enemy randome moves.
+    /* enemy randome moves. */
     if (ERM)
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
@@ -45,6 +46,47 @@ void Floor::tick()
             std::vector<Direction> availables = available_directions(*i, textDisplay);
             Direction direction = availables[rand() % availables.size()];
             (*i)->move(direction);
+        }
+    }
+    /* enemy attack player. */
+    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+    {
+        player->beAttackedBy(**i);
+    }
+}
+
+void Floor::consume_potion(Direction direction)
+{
+    int row = player->getRow();
+    int col = player->getCol();
+    /* check if it is a potion. */
+    char target;
+    switch (direction)
+    {
+    case Direction::no:
+        target = textDisplay[row - 1][col];
+    case Direction::so:
+        target = textDisplay[row + 1][col];
+    case Direction::we:
+        target = textDisplay[row][col - 1];
+    case Direction::ea:
+        target = textDisplay[row][col + 1];
+    case Direction::nw:
+        target = textDisplay[row - 1][col - 1];
+    case Direction::ne:
+        target = textDisplay[row - 1][col + 1];
+    case Direction::sw:
+        target = textDisplay[row + 1][col - 1];
+    case Direction::se:
+        target = textDisplay[row + 1][col + 1];
+    }
+    if (target != 'P')
+        throw;
+    /* find the potion in the list. */
+    else
+    {
+        for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
+        {
         }
     }
 }

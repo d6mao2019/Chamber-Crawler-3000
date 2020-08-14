@@ -1,6 +1,8 @@
+#include "character.h"
 #include "player.h"
 #include "enemy.h"
 #include <cmath>
+#include <stdexcept>
 
 Player::Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
@@ -8,16 +10,25 @@ Player::Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
 template <typename EnemyType>
 void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	bool miss = (rand() % 100 < miss_combat_chance);
-	if (miss)
-		return;
-	double atk = p->getAtk();
-	double def = e.getDef();
-	int damage = ceil(100 / (100 + def) * atk);
-	if (e.getHP() > damage)
-		e.setHP(e.getHP() - damage);
+	if (adjacent(*p, e))
+	{
+		int p_row = p->getRow();
+		int p_col = p->getCol();
+		int e_row = e.getRow();
+		int e_col = e.getCol();
+		bool miss = (rand() % 100 < miss_combat_chance);
+		if (miss)
+			return;
+		double atk = p->getAtk();
+		double def = e.getDef();
+		int damage = ceil(100 / (100 + def) * atk);
+		if (e.getHP() > damage)
+			e.setHP(e.getHP() - damage);
+		else
+			e.notify();
+	}
 	else
-		e.notify();
+		throw std::runtime_error{"Error: trying to attack non-adjacent target."};
 }
 void Player::attack(Human &human) { common_attack<Human>(this, human, 0); }
 void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf, 0); }
@@ -80,19 +91,24 @@ void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
 template <typename EnemyType>
 void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	bool miss = (rand() % 100 < miss_combat_chance);
-	if (miss)
-		return;
-	double atk = p->getAtk();
-	double def = e.getDef();
-	int damage = ceil(100 / (100 + def) * atk);
-	if (e.getHP() > damage)
-		e.setHP(e.getHP() - damage);
-	else
+	if (adjacent(*p, e))
 	{
-		e.notify();
-		p->setGold(p->getGold() + 5);
+		bool miss = (rand() % 100 < miss_combat_chance);
+		if (miss)
+			return;
+		double atk = p->getAtk();
+		double def = e.getDef();
+		int damage = ceil(100 / (100 + def) * atk);
+		if (e.getHP() > damage)
+			e.setHP(e.getHP() - damage);
+		else
+		{
+			e.notify();
+			p->setGold(p->getGold() + 5);
+		}
 	}
+	else
+		throw std::runtime_error{"Error: trying to attack non-adjacent target."};
 }
 void Goblin::attack(Human &human) { goblin_attack<Human>(this, human, 0); }
 void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf, 0); }

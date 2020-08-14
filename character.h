@@ -56,4 +56,6 @@ public:
 	*/
 };
 
+bool adjacent(Character &c1, Character &c2);
+
 #endif // !CHARACTER_H

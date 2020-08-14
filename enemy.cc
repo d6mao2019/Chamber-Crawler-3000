@@ -8,15 +8,18 @@ Enemy::Enemy(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
 template <typename PlayerType>
 void common_attack(Enemy *e, PlayerType &p)
 {
-	double atk = e->getAtk();
-	double def = p.getDef();
-	int damage = ceil(100 / (100 + def) * atk);
-	if (p.getHP() > damage)
-		p.setHP(p.getHP() - damage);
-	else
+	if (adjacent(*e, p))
 	{
-		// player got killed. game over.
-		// don't know what to do yet.
+		double atk = e->getAtk();
+		double def = p.getDef();
+		int damage = ceil(100 / (100 + def) * atk);
+		if (p.getHP() > damage)
+			p.setHP(p.getHP() - damage);
+		else
+		{
+			// player got killed. game over.
+			// don't know what to do yet.
+		}
 	}
 }
 void Enemy::attack(Shade &shade) { common_attack<Shade>(this, shade); }
@@ -48,16 +51,19 @@ void Elf::beAttackedBy(Player &p) { p.attack(*this); }
 template <typename PlayerType>
 void elf_attack(Enemy *e, PlayerType &p)
 {
-	double atk = e->getAtk();
-	double def = p.getDef();
-	int damage = ceil(100 / (100 + def) * atk);
-	damage *= 2;
-	if (p.getHP() > damage)
-		p.setHP(p.getHP() - damage);
-	else
+	if (adjacent(*e, p))
 	{
-		// player got killed. game over.
-		// don't know what to do yet.
+		double atk = e->getAtk();
+		double def = p.getDef();
+		int damage = ceil(100 / (100 + def) * atk);
+		damage *= 2;
+		if (p.getHP() > damage)
+			p.setHP(p.getHP() - damage);
+		else
+		{
+			// player got killed. game over.
+			// don't know what to do yet.
+		}
 	}
 }
 void Elf::attack(Shade &shade) { elf_attack<Shade>(this, shade); }
@@ -73,15 +79,18 @@ void Orcs::beAttackedBy(Player &p) { p.attack(*this); }
 
 void Orcs::attack(Goblin &goblin)
 {
-	double atk = getAtk();
-	double def = goblin.getDef();
-	int damage = ceil(1.5 * (100 / (100 + def) * atk));
-	if (goblin.getHP() > damage)
-		goblin.setHP(goblin.getHP() - damage);
-	else
+	if (adjacent(*this, goblin))
 	{
-		// player got killed. game over.
-		// don't know what to do yet.
+		double atk = getAtk();
+		double def = goblin.getDef();
+		int damage = ceil(1.5 * (100 / (100 + def) * atk));
+		if (goblin.getHP() > damage)
+			goblin.setHP(goblin.getHP() - damage);
+		else
+		{
+			// player got killed. game over.
+			// don't know what to do yet.
+		}
 	}
 }
 

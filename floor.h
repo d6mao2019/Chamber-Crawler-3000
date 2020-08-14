@@ -21,7 +21,8 @@ public:
 	void beNotifiedBy(Enemy &e); // enemies notify floor when they are slain.
 	void ERMSwitch();			 // turn on/off enemy random moves.
 	void tick();				 // random move of enemies.
-	void consume();
+	void consume_potion(Direction direction);
+	void attack_enemy(Direction direction);
 };
 
 #endif // !FLOOR_H

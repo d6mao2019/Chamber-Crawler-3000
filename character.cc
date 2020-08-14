@@ -67,6 +67,12 @@ void Character::move(Direction direction)
 	}
 }
 
+bool adjacent(Character &c1, Character &c2)
+{
+	int dist_square = pow(c1.getRow() - c2.getRow(), 2) + pow(c1.getCol() - c2.getCol(), 2);
+	return dist_square == 1 || dist_square == 2;
+}
+
 /* Useless function...
 int Character::calcDamageTo(const Character &other) const
 {
