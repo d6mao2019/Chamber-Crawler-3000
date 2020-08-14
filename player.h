@@ -5,7 +5,7 @@ class Enemy;
 class Human;
 class Dwarf;
 class Elf;
-class Orcs;
+class Orc;
 class Merchant;
 class Dragon;
 class Halfling;
@@ -17,7 +17,7 @@ public:
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
-	virtual void attack(Orcs &orcs);
+	virtual void attack(Orc &orc);
 	virtual void attack(Merchant &merchant);
 	virtual void attack(Dragon &dragon);
 	virtual void attack(Halfling &halfling);
@@ -53,7 +53,7 @@ public:
 	virtual void attack(Human &human) override;
 	virtual void attack(Dwarf &dwarf) override;
 	virtual void attack(Elf &elf) override;
-	virtual void attack(Orcs &orcs) override;
+	virtual void attack(Orc &orc) override;
 	virtual void attack(Merchant &merchant) override;
 	virtual void attack(Dragon &dragon) override;
 	virtual void attack(Halfling &halfling) override;
@@ -78,7 +78,7 @@ public:
 	virtual void attack(Human &human) override;
 	virtual void attack(Dwarf &dwarf) override;
 	virtual void attack(Elf &elf) override;
-	virtual void attack(Orcs &orcs) override;
+	virtual void attack(Orc &orc) override;
 	virtual void attack(Merchant &merchant) override;
 	virtual void attack(Dragon &dragon) override;
 	virtual void attack(Halfling &halfling) override;

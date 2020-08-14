@@ -5,28 +5,79 @@
 #include <cstdlib>
 #include <stdexcept>
 
-std::vector<std::pair<int, int>> available_spots(std::vector<std::vector<char>> &text_display)
+// helper.
+// determine which spot is still available (empty) and randome select num from them.
+// remain silent if num < availables.size().
+std::vector<std::pair<int, int>> generate_locations(std::vector<std::vector<char>> &text_display, int num)
 {
     std::vector<std::pair<int, int>> result;
+    /* get all locations. */
+    std::vector<std::pair<int, int>> all;
     for (int i = 0; i < text_display.size(); ++i)
     {
         for (int j = 0; j < text_display[i].size(); ++j)
         {
             if (text_display[i][j] == '.')
-                result.emplace_back(i, j);
+                all.emplace_back(i, j);
+        }
+    }
+    /* random select. */
+    num = (num <= all.size()) ? num : all.size();
+    for (int i = 0; i < num; ++i)
+    {
+        int rest = num - 1;
+        int j = rand() % rest + i;
+        std::swap(all[i], all[j]);
+        result.push_back(all[i]);
+    }
+    return result;
+}
+// helper.
+std::vector<std::shared_ptr<Enemy>> generate_enemies(std::vector<std::vector<char>> &text_display, int num)
+{
+    std::vector<std::pair<int, int>> locations = generate_locations(text_display, num);
+    std::vector<std::shared_ptr<Enemy>> result;
+    for (int i = 0; i < locations.size(); ++i)
+    {
+        int type = rand() % 18;
+        if (0 <= type && type < 4) // human.
+        {
+            auto e = std::make_shared<Human>(locations[i].first, locations[i].second);
+            result.push_back(e);
+        }
+        if (4 <= type && type < 7) // dwarf.
+        {
+            auto e = std::make_shared<Dwarf>(locations[i].first, locations[i].second);
+            result.push_back(e);
+        }
+        if (7 <= type && type < 12) // halfling.
+        {
+            auto e = std::make_shared<Halfling>(locations[i].first, locations[i].second);
+            result.push_back(e);
+        }
+        if (12 <= type && type < 14) // elf.
+        {
+            auto e = std::make_shared<Elf>(locations[i].first, locations[i].second);
+            result.push_back(e);
+        }
+        if (14 <= type && type < 16) // orc.
+        {
+            auto e = std::make_shared<Orc>(locations[i].first, locations[i].second);
+            result.push_back(e);
+        }
+        if (16 <= type && type < 18) // merchant.
+        {
+            auto e = std::make_shared<Merchant>(locations[i].first, locations[i].second);
+            result.push_back(e);
         }
     }
     return result;
 }
-
 Floor::Floor(int enemy_num, int positon_num, int gold_num)
 {
-    std::vector<std::pair<int, int>> availables = available_spots(text_display);
     /* text_display */
     /* spawn enemies. */
-    for (int i = 0; i < enemy_num; ++i)
-    {
-    }
+    enemy_list = generate_enemies(text_display, enemy_num);
     /* spawn potions. */
     for (int i = 0; i < positon_num; ++i)
     {
@@ -36,6 +87,8 @@ Floor::Floor(int enemy_num, int positon_num, int gold_num)
     {
     }
 }
+
+std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {

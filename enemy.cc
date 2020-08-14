@@ -77,12 +77,12 @@ void Elf::attack(Troll &troll) { elf_attack<Troll>(this, troll); }
 void Elf::attack(Goblin &goblin) { elf_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
-/* Orcs Class */ /* 1 attack override(s). */
-Orcs::Orcs(int row, int col)
+/* Orc Class */ /* 1 attack override(s). */
+Orc::Orc(int row, int col)
 	: Enemy{180, 180, 30, 25, 0, row, col} {}
-void Orcs::beAttackedBy(Player &p) { p.attack(*this); }
+void Orc::beAttackedBy(Player &p) { p.attack(*this); }
 
-void Orcs::attack(Goblin &goblin)
+void Orc::attack(Goblin &goblin)
 {
 	if (adjacent(*this, goblin))
 	{
