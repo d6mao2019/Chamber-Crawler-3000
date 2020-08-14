@@ -5,13 +5,14 @@
 #include <cstdlib>
 #include <stdexcept>
 
-std::vector<std::vector<std::pair<int, int>>> Floor::choose_locations(int enemy_num, int potion_num, int gold_num)
+/* some problem with random generations.
+std::vector<std::vector<std::pair<int, int>>> Floor::choose_locations(int potion_num, int gold_num, int enemy_num)
 {
-    std::vector<std::pair<int, int>> enemies;
     std::vector<std::pair<int, int>> potions;
     std::vector<std::pair<int, int>> golds;
-    std::vector<std::vector<std::pair<int, int>>> result{enemies, potions, golds};
-    /* get all locations. */
+    std::vector<std::pair<int, int>> enemies;
+    std::vector<std::vector<std::pair<int, int>>> result{potions, golds, enemies};
+    // get all locations.
     std::vector<std::pair<int, int>> all;
     for (int i = 0; i < text_display.size(); ++i)
     {
@@ -21,28 +22,28 @@ std::vector<std::vector<std::pair<int, int>>> Floor::choose_locations(int enemy_
                 all.emplace_back(i, j);
         }
     }
-    /* random select. */
+    // random select.
     int remaining = all.size();
-    enemy_num = (enemy_num <= remaining) ? enemy_num : remaining;
-    remaining = remaining - enemy_num;
-    for (int i = 0; i < enemy_num; ++i)
+    potion_num = (potion_num <= remaining) ? potion_num : remaining;
+    remaining = remaining - potion_num;
+    for (int i = 0; i < enemy_num + potion_num; ++i)
     {
         int rest = all.size() - i;
         int j = rand() % rest + i;
         std::swap(all[i], all[j]);
         result[0].push_back(all[i]);
     }
-    potion_num = (potion_num <= remaining) ? potion_num : remaining;
-    remaining = remaining - potion_num;
-    for (int i = enemy_num; i < enemy_num + potion_num; ++i)
+    gold_num = (gold_num <= remaining) ? gold_num : remaining;
+    remaining = remaining - gold_num;
+    for (int i = enemy_num + potion_num; i < enemy_num + potion_num + gold_num; ++i)
     {
         int rest = all.size() - i;
         int j = rand() % rest + i;
         std::swap(all[i], all[j]);
         result[1].push_back(all[i]);
     }
-    gold_num = (gold_num <= remaining) ? gold_num : remaining;
-    for (int i = enemy_num + potion_num; i < enemy_num + potion_num + gold_num; ++i)
+    enemy_num = (enemy_num <= remaining) ? enemy_num : remaining;
+    for (int i = 0; i < enemy_num; ++i)
     {
         int rest = all.size() - i;
         int j = rand() % rest + i;
@@ -95,18 +96,22 @@ void Floor::generate_enemies(std::vector<std::pair<int, int>> &locations)
         }
     }
 }
+*/
 
 // constructor.
-Floor::Floor(int enemy_num, int potion_num, int gold_num)
+Floor::Floor(int potion_num, int gold_num, int enemy_num)
 {
     // text display.
     // how to generate initial text display???
-    // a note: should place player before placing other things on the floor.
-    auto locations = choose_locations(enemy_num, potion_num, gold_num);
-    generate_enemies(locations[0]);
-    generate_potions(locations[1]);
-    generate_golds(locations[2]);
-    // a note: generator of Gold should take care of spawning Dragons.
+    // note: should place player before placing other things on the floor.
+    // note: player should not be initialized in the chamber that with
+    // the stairs to the next floor.
+    // note: stairs and player are both placed on floor randomly.
+    auto locations = choose_locations(potion_num, gold_num, enemy_num);
+    generate_potions(locations[0]);
+    generate_golds(locations[1]);
+    generate_enemies(locations[2]);
+    // note: generator of Gold should take care of spawning Dragons.
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }
