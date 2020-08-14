@@ -17,7 +17,8 @@ private:
 
 public:
 	// Player constructor.
-	Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
+	Player(double MaxHP, double HP, double Atk, double Def,
+		   int gold, int row, int col, double scaling);
 
 	bool adjacent(Enemy &other);
 	virtual void attack(Human &human);

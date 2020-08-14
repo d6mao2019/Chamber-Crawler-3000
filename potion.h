@@ -18,22 +18,13 @@ public:
 	virtual double getDef() const override;
 };
 
-class HPBoost : public Potion
-{
-public:
-};
-
 class AtkBoost : public Potion
 {
 public:
+	AtkBoost(int row, int col, std::shared_ptr<Player> p);
 };
 
 class DefBoost : public Potion
-{
-public:
-};
-
-class HPWound : public Potion
 {
 public:
 };
