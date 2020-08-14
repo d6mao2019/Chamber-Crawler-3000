@@ -104,15 +104,30 @@ void Orc::attack(Goblin &goblin)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/* Merchant Class */ /* 0 attack override(s) */
+/* Merchant Class */ /* 5 attack override(s) */
 Merchant::Merchant(int row, int col)
 	: Enemy{30, 30, 70, 5, 0, row, col} {}
 void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
+
+bool Merchant::getHostility() const { return neutral; }
+
+template <typename PlayerType>
+void merchant_attack(Merchant *e, PlayerType &p)
+{
+	if (!e->getHostility())
+		common_attack<PlayerType>(e, p);
+}
+void Merchant::attack(Shade &shade) { merchant_attack<Shade>(this, shade); }
+void Merchant::attack(Drow &drow) { merchant_attack<Drow>(this, drow); }
+void Merchant::attack(Vampire &vampire) { merchant_attack<Vampire>(this, vampire); }
+void Merchant::attack(Troll &troll) { merchant_attack<Troll>(this, troll); }
+void Merchant::attack(Goblin &goblin) { merchant_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dragon Class */ /* 0 attack override(s) */
 Dragon::Dragon(int row, int col)
 	: Enemy{150, 150, 20, 20, 0, row, col} {}
+void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 bool Dragon::adjacent(Player &other)
 {
@@ -120,8 +135,6 @@ bool Dragon::adjacent(Player &other)
 	int dist2 = pow(hoard->getRow() - other.getRow(), 2) + pow(hoard->getCol() - other.getCol(), 2);
 	return dist1 == 1 || dist1 == 2 || dist2 == 1 || dist2 == 2;
 }
-
-void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 void move(Direction direction) { return; } // does nothing since Dragons are stationary.
 

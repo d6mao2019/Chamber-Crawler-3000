@@ -74,7 +74,13 @@ class Merchant : public Enemy
 public:
 	Merchant(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
-	// 0 attack override(s).
+	bool getHostility() const;
+	// 5 attack override(s).
+	virtual void attack(Shade &shade) override;
+	virtual void attack(Drow &drow) override;
+	virtual void attack(Vampire &vampire) override;
+	virtual void attack(Troll &troll) override;
+	virtual void attack(Goblin &goblin) override;
 };
 
 class Dragon : public Enemy
@@ -84,9 +90,9 @@ class Dragon : public Enemy
 
 public:
 	Dragon(int row, int col);
+	virtual void beAttackedBy(Player &p) override;
 	virtual bool adjacent(Player &other) override;
 	// 0 attack override(s).
-	virtual void beAttackedBy(Player &p) override;
 	virtual void move(Direction direction) override;
 };
 
