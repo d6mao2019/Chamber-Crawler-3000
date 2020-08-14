@@ -4,7 +4,7 @@
 #include "item.h"
 #include <memory>
 
-class Potion : public item
+class Potion : public Item
 {
 public:
 	Potion(int row = 0, int col = 0);
