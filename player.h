@@ -12,6 +12,9 @@ class Halfling;
 
 class Player : public Character
 {
+private:
+	double scaling;
+
 public:
 	// Player constructor.
 	Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);

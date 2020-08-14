@@ -89,7 +89,7 @@ class Dragon : public Enemy
 	std::shared_ptr<Gold> hoard;
 
 public:
-	Dragon(int row, int col);
+	Dragon(int row, int col, std::shared_ptr<Gold> hoard);
 	virtual void beAttackedBy(Player &p) override;
 	virtual bool adjacent(Player &other) override;
 	// 0 attack override(s).
