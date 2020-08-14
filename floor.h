@@ -19,18 +19,21 @@ class Floor
 	// helper function for constructor.
 	// determine which spot is still available (empty) and randome select num from them.
 	// remain silent if num < availables.size().
-	std::vector<std::vector<std::pair<int, int>>> find_locations(int num);
+	std::vector<std::vector<std::pair<int, int>>> find_locations(int enemy_num, int potion_num, int gold_num);
 	// helper function for constructor.
-	void generate_enemies(int enemy_num);
+	// modify enemy_list and text_display.
+	void generate_enemies(std::vector<std::pair<int, int>> &locations);
 	// helper function for constructor.
-	void generate_potions(int potion_num);
+	// modify potion_list and text_display.
+	void generate_potions(std::vector<std::pair<int, int>> &locations);
 	// helper function for constructor.
-	void generate_golds(int gold_num);
+	// modify gold_list and text_display.
+	void generate_golds(std::vector<std::pair<int, int>> &locations);
 
 public:
 	// constructor.
 	// responsible for generating enemies, potions, and gold piles.
-	Floor(int enemy_num, int positon_num, int gold_num);
+	Floor(int enemy_num, int potion_num, int gold_num);
 
 	// accessor.
 	std::vector<std::vector<char>> getTextDisplay();

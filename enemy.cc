@@ -17,8 +17,7 @@ void common_attack(Enemy *e, PlayerType &p)
 			p.setHP(p.getHP() - damage);
 		else
 		{
-			// player got killed. game over.
-			// don't know what to do yet.
+			// player got killed. give them the option of playing again or quitting.
 		}
 	}
 }
@@ -66,8 +65,7 @@ void elf_attack(Enemy *e, PlayerType &p)
 			p.setHP(p.getHP() - damage);
 		else
 		{
-			// player got killed. game over.
-			// don't know what to do yet.
+			// player got killed. give them the option of playing again or quitting.
 		}
 	}
 }
@@ -93,8 +91,7 @@ void Orc::attack(Goblin &goblin)
 			goblin.setHP(goblin.getHP() - damage);
 		else
 		{
-			// player got killed. game over.
-			// don't know what to do yet.
+			// player got killed. give them the option of playing again or quitting.
 		}
 	}
 }
