@@ -18,7 +18,8 @@ public:
 	virtual void attack(Troll &troll);
 	virtual void attack(Goblin &goblin);
 	virtual void beAttackedBy(Player &p) = 0;
-	void notify(); // notify the floor when slain.
+	void notify();				   // notify the floor when slain.
+	bool operator==(Enemy &other); // Enemy comparison by location on floor.
 };
 
 class Human : public Enemy

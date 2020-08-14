@@ -30,6 +30,11 @@ void Enemy::attack(Goblin &goblin) { common_attack<Goblin>(this, goblin); }
 
 void Enemy::notify() { floor->beNotifiedBy(*this); }
 
+bool Enemy::operator==(Enemy &other)
+{
+	return this->getRow() == other.getRow() && this->getCol() == other.getCol();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 /* Human Class */ /* 0 attack override(s) */
 Human::Human(int row, int col)

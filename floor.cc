@@ -4,6 +4,23 @@
 #include "enemy.h"
 #include <cstdlib>
 
+void Floor::beNotifiedBy(Enemy &e)
+{
+    /* modify vector. */
+    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+    {
+        }
+    /* modify text display. */
+}
+
+void Floor::ERMSwitch()
+{
+    if (ERM)
+        ERM = false;
+    else
+        ERM = true;
+}
+
 std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &textDisplay)
 {
     std::vector<Direction> result;
@@ -26,14 +43,6 @@ std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vecto
     if (textDisplay[row + 1][col + 1] == '.') // south east.
         result.push_back(Direction::se);
     return result;
-}
-
-void Floor::ERMSwitch()
-{
-    if (ERM)
-        ERM = false;
-    else
-        ERM = true;
 }
 
 void Floor::tick()
