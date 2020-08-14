@@ -3,8 +3,9 @@
 #include <cmath>
 #include <stdexcept>
 
-Player::Player(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
-	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
+Player::Player(double MaxHP, double HP, double Atk, double Def,
+			   int gold, int row, int col, double scaling)
+	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling} {}
 
 bool Player::adjacent(Enemy &other)
 {
@@ -42,19 +43,19 @@ void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
-	: Player{125, 125, 25, 25, 0, row, col} {}
+	: Player{125, 125, 25, 25, 0, row, col, 1.0} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Drow Class */ /* 0 attack override(s) */
 Drow::Drow(int row, int col)
-	: Player{150, 150, 25, 15, 0, row, col} {}
+	: Player{150, 150, 25, 15, 0, row, col, 1.5} {}
 void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Vampire Class */ /* 7 attack override(s) */
 Vampire::Vampire(int row, int col)
-	: Player{INT_MAX, 50, 35, 25, 0, row, col} {}
+	: Player{INT_MAX, 50, 35, 25, 0, row, col, 1.0} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>
@@ -80,13 +81,13 @@ void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this
 ///////////////////////////////////////////////////////////////////////////////
 /* Troll Class */ /* 0 attack override(s) */
 Troll::Troll(int row, int col)
-	: Player{120, 120, 25, 15, 0, row, col} {}
+	: Player{120, 120, 25, 15, 0, row, col, 1.0} {}
 void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Goblin Class */ /* 7 attack override(s) */
 Goblin::Goblin(int row, int col)
-	: Player{110, 110, 15, 20, 0, row, col} {}
+	: Player{110, 110, 15, 20, 0, row, col, 1.0} {}
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>

@@ -9,47 +9,69 @@
 
 int main(int argc, char * argv[])
 {
+<<<<<<< HEAD
     if (argc != 0){
         
     }
     char cmd;
+=======
+    std::string cmd;
+>>>>>>> 610f6bf3dba2a4e8ac12a2ab1552898e694b4914
     Direction direction;
-    Floor floor{20, 10, 10};
-    while (std::cin >> cmd)
+    for (int i = 0; i < 5; ++i)
     {
-        switch (cmd)
+        Floor floor{20, 10, 10};
+        while (std::cin >> cmd)
         {
-        case 'u': // use potion.
-            try
+            if (cmd == "u") // use potion.
             {
-                std::cin >> direction;
-                floor.consume_potion(direction);
+                try
+                {
+                    std::cin >> direction;
+                    floor.consume_potion(direction);
+                }
+                catch (std::runtime_error &e)
+                {
+                    std::cerr << e.what() << std::endl;
+                }
             }
-            catch (std::runtime_error &e)
+            else if (cmd == "a") // attack enemy.
             {
-                std::cerr << e.what() << std::endl;
+                try
+                {
+                    std::cin >> direction;
+                    floor.attack_enemy(direction);
+                }
+                catch (std::runtime_error &e)
+                {
+                    std::cerr << e.what() << std::endl;
+                }
             }
-        case 'a': // attack enemy.
-            try
+            else if (cmd == "s")
             {
-                std::cin >> direction;
-                floor.attack_enemy(direction);
             }
-            catch (std::runtime_error &e)
+            else if (cmd == "d")
             {
-                std::cerr << e.what() << std::endl;
             }
-        case 's': //
-        case 'd':
-        case 'v':
-        case 'g':
-        case 't':
-        case 'f': // stops enemies from moving until this key is pressed again.
-            floor.ERMSwitch();
-        case 'r': // restart game.
-        case 'q': // exit game.
-        default:
-            std::cerr << "Error: unrecognized command." << std::endl;
-        } // switch
-    }     // while
+            else if (cmd == "v")
+            {
+            }
+            else if (cmd == "g")
+            {
+            }
+            else if (cmd == "t")
+            {
+            }
+            else if (cmd == "f") // stops enemies from moving until this key is pressed again.
+                floor.ERMSwitch();
+            else if (cmd == "r") // restart game.
+            {
+            }
+            else if (cmd == "q") // quit game.
+            {
+            }
+            else
+                std::cerr << "Error: unrecognized command." << std::endl;
+        } // while
+    }     // for
 } // main
