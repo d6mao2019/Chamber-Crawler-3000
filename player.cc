@@ -39,7 +39,7 @@ void Player::attack(Orc &orc) { common_attack<Orc>(this, orc, 0); }
 void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
-double Player::getScal() const{return scaling;}
+double Player::getScal() const { return scaling; }
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)

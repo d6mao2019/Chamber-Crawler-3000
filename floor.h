@@ -34,8 +34,8 @@ public:
 		  std::vector<std::vector<std::pair<int, int>>> &availables,
 		  int potion_num, int gold_num, int enemy_num);
 
-	Floor(std::vector<std::vector<char>> &text_display, 
-		  std::shared_ptr<Player> player, 
+	Floor(std::vector<std::vector<char>> &text_display,
+		  std::shared_ptr<Player> player,
 		  std::vector<std::shared_ptr<Enemy>> enemy_list,
 		  std::vector<std::shared_ptr<Potion>> potion_list,
 		  std::vector<std::shared_ptr<Gold>> gold_list,
