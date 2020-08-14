@@ -3,7 +3,7 @@
 #include <memory>
 #include "item.h"
 
-class Gold: public Item
+class Gold : public Item
 {
     const int value;
     int row, col;
@@ -34,7 +34,8 @@ public:
 
 class DragonHoard : public Gold
 {
-    bool canPickUp=0;
+    bool canPickUp = 0;
+
 public:
     DragonHoard(int row, int col);
     virtual bool canBepickedup() const override;
