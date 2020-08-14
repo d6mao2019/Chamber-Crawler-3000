@@ -24,7 +24,7 @@ class Character
 	// current health point.
 	double HP;
 	// base attack.
-	const double Atk; //感觉这块不要const，之后要改的吧。还是decorator会要这个是const，明天说一下
+	const double Atk;
 	// base defense.
 	const double Def;
 	// the amount of gold holding.
@@ -40,16 +40,17 @@ public:
 	// constructor.
 	Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 
-	virtual int getHP() const;	// needs to be overrided by Potion objects.
-	virtual int getAtk() const; // needs to be overrided by Potion objects.
-	virtual int getDef() const; // needs to be overrided by Potion objects.
-	int getMaxHP() const;
+	virtual double getHP() const;  // needs to be overrided by Potion objects.
+	virtual double getAtk() const; // needs to be overrided by Potion objects.
+	virtual double getDef() const; // needs to be overrided by Potion objects.
+	double getMaxHP() const;
 	int getGold() const;
 	int getRow() const;
 	int getCol() const;
 
-	void setHP(int new_HP);
+	void setHP(double new_HP);
 	void setGold(int new_gold);
+	void setLocation(int row, int col);
 	virtual void move(Direction direction);
 };
 

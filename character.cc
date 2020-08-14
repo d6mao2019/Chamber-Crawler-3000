@@ -31,15 +31,20 @@ std::istream &operator>>(std::istream &in, Direction direction)
 Character::Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
 	: MaxHP{MaxHP}, HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
 
-int Character::getHP() const { return HP; }
-int Character::getAtk() const { return Atk; }
-int Character::getDef() const { return Def; }
-int Character::getMaxHP() const { return MaxHP; }
+double Character::getHP() const { return HP; }
+double Character::getAtk() const { return Atk; }
+double Character::getDef() const { return Def; }
+double Character::getMaxHP() const { return MaxHP; }
 int Character::getGold() const { return gold; }
 int Character::getRow() const { return row; }
 int Character::getCol() const { return col; }
-void Character::setHP(int new_HP) { HP = new_HP; }
+void Character::setHP(double new_HP) { HP = new_HP; }
 void Character::setGold(int new_gold) { gold = new_gold; }
+void Character::setLocation(int new_row, int new_col)
+{
+	row = new_row;
+	col = new_col;
+}
 
 void Character::move(Direction direction)
 {

@@ -125,8 +125,8 @@ void Merchant::attack(Goblin &goblin) { merchant_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dragon Class */ /* 0 attack override(s) */
-Dragon::Dragon(int row, int col)
-	: Enemy{150, 150, 20, 20, 0, row, col} {}
+Dragon::Dragon(int row, int col, std::shared_ptr<Gold> hoard)
+	: Enemy{150, 150, 20, 20, 0, row, col}, hoard{hoard} {}
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 bool Dragon::adjacent(Player &other)

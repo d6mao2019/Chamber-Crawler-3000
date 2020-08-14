@@ -5,50 +5,38 @@
 
 class Potion : public Player
 {
-	const int effect;
-	int row, col;
+	const double effect;
+	const double scaling;
 
 protected:
 	std::shared_ptr<Player> player;
 
 public:
-	virtual void modifyPlayer() = 0;
-};
-
-class HPBoost : public Potion
-{
-public:
-	virtual void modifyPlayer() override;
+	Potion(int effect, int scaling, int row, int col);
+	virtual double getHP() const override;
+	virtual double getAtk() const override;
+	virtual double getDef() const override;
 };
 
 class AtkBoost : public Potion
 {
 public:
-	virtual void modifyPlayer() override;
+	AtkBoost(int row, int col, std::shared_ptr<Player> p);
 };
 
 class DefBoost : public Potion
 {
 public:
-	virtual void modifyPlayer() override;
-};
-
-class HPWound : public Potion
-{
-public:
-	virtual void modifyPlayer() override;
 };
 
 class AtkWound : public Potion
 {
 public:
-	virtual void modifyPlayer() override;
 };
 
 class DefWound : public Potion
 {
 public:
-	virtual void modifyPlayer() override;
 };
 
 #endif // !POTION_H
