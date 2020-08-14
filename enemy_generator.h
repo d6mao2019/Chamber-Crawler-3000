@@ -12,9 +12,11 @@ private:
     const int elf_prob = 2;
     const int orc_prob = 2;
     const int merchant_prob = 2;
+    const int total = 18;
+    Floor *floor;
 
 public:
-    EnemyGenerator();
+    EnemyGenerator(Floor *floor);
     ~EnemyGenerator();
     std::shared_ptr<Enemy> generate();
 };

@@ -9,7 +9,7 @@ class Player;
 
 class Floor
 {
-	std::vector<std::vector<char>> textDisplay;
+	std::vector<std::vector<char>> text_display;
 	std::vector<std::shared_ptr<Enemy>> enemy_list;
 	std::vector<std::shared_ptr<Potion>> potion_list;
 	std::vector<std::shared_ptr<Gold>> gold_list;
@@ -17,9 +17,9 @@ class Floor
 	bool ERM; // enemy random move controller.
 
 public:
-	Floor();					 // responsible for generating chambers and enemies.
-	void beNotifiedBy(Enemy &e); // enemies notify floor when they are slain.
-	void ERMSwitch();			 // turn on/off enemy random moves.
+	Floor(int enemy_num, int positon_num, int gold_num); // responsible for generating chambers and enemies.
+	void beNotifiedBy(Enemy &e);						 // enemies notify floor when they are slain.
+	void ERMSwitch();									 // turn on/off enemy random moves.
 	// tick does two things.
 	// 1. enemies move randomly if ERM is turned on.
 	// 2. enemies attack player if close enough.

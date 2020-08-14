@@ -5,6 +5,23 @@
 #include <cstdlib>
 #include <stdexcept>
 
+Floor::Floor(int enemy_num, int positon_num, int gold_num)
+{
+    /* text_display */
+    /* spawn enemies. */
+    for (int i = 0; i < enemy_num; ++i)
+    {
+    }
+    /* spawn potions. */
+    for (int i = 0; i < positon_num; ++i)
+    {
+    }
+    /* spawn gold piles. */
+    for (int i = 0; i < gold_num; ++i)
+    {
+    }
+}
+
 void Floor::beNotifiedBy(Enemy &e)
 {
     int original_size = enemy_list.size(); // debugging purpose.
@@ -17,7 +34,7 @@ void Floor::beNotifiedBy(Enemy &e)
     if (enemy_list.size() != original_size - 1) // debugging purpose.
         throw std::logic_error{"Bug: something wrong with the enemy list. added or removed improperly sometime."};
     /* modify text display. */
-    textDisplay[e.getRow()][e.getCol()] = '.';
+    text_display[e.getRow()][e.getCol()] = '.';
 }
 
 void Floor::ERMSwitch()
@@ -28,26 +45,26 @@ void Floor::ERMSwitch()
         ERM = true;
 }
 
-std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &textDisplay)
+std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &text_display)
 {
     std::vector<Direction> result;
     int row = e->getRow();
     int col = e->getCol();
-    if (textDisplay[row - 1][col] == '.') // north.
+    if (text_display[row - 1][col] == '.') // north.
         result.push_back(Direction::no);
-    if (textDisplay[row + 1][col] == '.') // south.
+    if (text_display[row + 1][col] == '.') // south.
         result.push_back(Direction::so);
-    if (textDisplay[row][col - 1] == '.') // west.
+    if (text_display[row][col - 1] == '.') // west.
         result.push_back(Direction::we);
-    if (textDisplay[row][col + 1] == '.') // east.
+    if (text_display[row][col + 1] == '.') // east.
         result.push_back(Direction::ea);
-    if (textDisplay[row - 1][col - 1] == '.') // north west.
+    if (text_display[row - 1][col - 1] == '.') // north west.
         result.push_back(Direction::nw);
-    if (textDisplay[row - 1][col + 1] == '.') // north east.
+    if (text_display[row - 1][col + 1] == '.') // north east.
         result.push_back(Direction::ne);
-    if (textDisplay[row + 1][col - 1] == '.') // south west.
+    if (text_display[row + 1][col - 1] == '.') // south west.
         result.push_back(Direction::sw);
-    if (textDisplay[row + 1][col + 1] == '.') // south east.
+    if (text_display[row + 1][col + 1] == '.') // south east.
         result.push_back(Direction::se);
     return result;
 }
@@ -59,7 +76,7 @@ void Floor::tick()
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
         {
-            std::vector<Direction> availables = available_directions(*i, textDisplay);
+            std::vector<Direction> availables = available_directions(*i, text_display);
             Direction direction = availables[rand() % availables.size()];
             (*i)->move(direction);
         }
