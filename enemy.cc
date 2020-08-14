@@ -82,7 +82,7 @@ void Orc::beAttackedBy(Player &p) { p.attack(*this); }
 
 void Orc::attack(Goblin &goblin)
 {
-	if (adjacent(*this, goblin))
+	if (adjacent(goblin))
 	{
 		double atk = getAtk();
 		double def = goblin.getDef();
