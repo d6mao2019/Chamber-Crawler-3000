@@ -5,26 +5,38 @@ class Dragon;
 
 class Gold
 {
-    int value;
+    const int value;
     int row, col;
 
 public:
+    Gold(int value, int row, int col);
     int getVal() const;
     int getRow() const;
     int getCol() const;
 };
 
-class DragonHoard : public Gold
-{
-    //  std::shared_ptr<Dragon> drg;
-};
-
 class SmallHoard : public Gold
 {
+public:
+    SmallHoard(int row, int col);
 };
 
 class Normal : public Gold
 {
+public:
+    Normal(int row, int col);
+};
+
+class MerchantHoard : public Gold
+{
+public:
+    MerchantHoard(int row, int col);
+};
+
+class DragonHoard : public Gold
+{
+public:
+    DragonHoard(int row, int col);
 };
 
 #endif // !GOLD_H

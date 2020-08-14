@@ -106,6 +106,7 @@ Floor::Floor(int enemy_num, int potion_num, int gold_num)
     generate_enemies(locations[0]);
     generate_potions(locations[1]);
     generate_golds(locations[2]);
+    // a note: generator of Gold should take care of spawning Dragons.
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }
