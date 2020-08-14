@@ -20,9 +20,7 @@ int main()
             try
             {
                 std::cin >> direction;
-                /*
-                more code goes here.
-                */
+                floor.consume_potion(direction);
             }
             catch (std::runtime_error &e)
             {
@@ -32,9 +30,7 @@ int main()
             try
             {
                 std::cin >> direction;
-                /*
-                more code goes here.
-                */
+                floor.attack_enemy(direction);
             }
             catch (std::runtime_error &e)
             {

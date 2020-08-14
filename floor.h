@@ -14,7 +14,7 @@ class Floor
 	std::vector<std::shared_ptr<Potion>> potion_list;
 	std::vector<std::shared_ptr<Gold>> gold_list;
 	std::shared_ptr<Player> player;
-	bool ERM; // enemy random move.
+	bool ERM; // enemy random move controller.
 
 public:
 	Floor();					 // responsible for generating chambers and enemies.

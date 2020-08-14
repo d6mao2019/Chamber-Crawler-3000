@@ -1,6 +1,7 @@
 #ifndef ENEMYGENERATOR_H
 #define ENEMYGENERATOR_H
-#include "enemy.h"
+#include <memory>
+class Enemy;
 
 class EnemyGenerator
 {
@@ -13,9 +14,9 @@ private:
     const int merchant_prob = 2;
 
 public:
-    EnemyGenerator(/* args */);
+    EnemyGenerator();
     ~EnemyGenerator();
-    Enemy *generate();
+    std::shared_ptr<Enemy> generate();
 };
 
-#endif
+#endif // !ENEMYGENERATOR_H
