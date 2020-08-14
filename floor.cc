@@ -149,9 +149,12 @@ void Floor::tick()
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
         {
+            char symbol = text_display[(*i)->getRow()][(*i)->getCol()];
+            text_display[(*i)->getRow()][(*i)->getCol()] = '.';
             std::vector<Direction> availables = available_directions(*i, text_display);
             Direction direction = availables[rand() % availables.size()];
             (*i)->move(direction);
+            text_display[(*i)->getRow()][(*i)->getCol()] = symbol;
         }
     }
     /* enemy attack player. */
