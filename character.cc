@@ -66,9 +66,3 @@ void Character::move(Direction direction)
 		++col;
 	}
 }
-
-bool Character::adjacent(Character &other)
-{
-	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
-	return dist_square == 1 || dist_square == 2;
-}

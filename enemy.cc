@@ -1,14 +1,21 @@
 #include "enemy.h"
 #include "player.h"
+#include "gold.h"
 #include <cmath>
 
 Enemy::Enemy(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 
+bool Enemy::adjacent(Player &other)
+{
+	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
+	return dist_square == 1 || dist_square == 2;
+}
+
 template <typename PlayerType>
 void common_attack(Enemy *e, PlayerType &p)
 {
-	if (adjacent(*e, p))
+	if (e->adjacent(p))
 	{
 		double atk = e->getAtk();
 		double def = p.getDef();
@@ -55,7 +62,7 @@ void Elf::beAttackedBy(Player &p) { p.attack(*this); }
 template <typename PlayerType>
 void elf_attack(Enemy *e, PlayerType &p)
 {
-	if (adjacent(*e, p))
+	if (e->adjacent(p))
 	{
 		double atk = e->getAtk();
 		double def = p.getDef();
@@ -82,7 +89,7 @@ void Orc::beAttackedBy(Player &p) { p.attack(*this); }
 
 void Orc::attack(Goblin &goblin)
 {
-	if (adjacent(*this, goblin))
+	if (adjacent(goblin))
 	{
 		double atk = getAtk();
 		double def = goblin.getDef();
@@ -106,6 +113,13 @@ void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
 /* Dragon Class */ /* 0 attack override(s) */
 Dragon::Dragon(int row, int col)
 	: Enemy{150, 150, 20, 20, 0, row, col} {}
+bool Dragon::adjacent(Player &other)
+{
+	int dist1 = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
+	int dist2 = pow(hoard->getRow() - other.getRow(), 2) + pow(hoard->getCol() - other.getCol(), 2);
+	return dist1 == 1 || dist1 == 2 || dist2 == 1 || dist2 == 2;
+}
+
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////

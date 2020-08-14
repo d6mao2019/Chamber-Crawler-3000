@@ -11,14 +11,18 @@ class Goblin;
 class Enemy : public Character
 {
 public:
+	// Enemy constructor.
 	Enemy(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+
+	virtual bool adjacent(Player &other);
 	virtual void attack(Shade &shade);
 	virtual void attack(Drow &drow);
 	virtual void attack(Vampire &vampire);
 	virtual void attack(Troll &troll);
 	virtual void attack(Goblin &goblin);
 	virtual void beAttackedBy(Player &p) = 0;
-	void notify();				   // notify the floor when slain.
+	void notify(); // notify the floor when slain.
+
 	bool operator==(Enemy &other); // Enemy comparison by location on floor.
 };
 
@@ -80,6 +84,7 @@ class Dragon : public Enemy
 
 public:
 	Dragon(int row, int col);
+	virtual bool adjacent(Player &other) override;
 	virtual void beAttackedBy(Player &p) override;
 	// 0 attack override(s).
 };

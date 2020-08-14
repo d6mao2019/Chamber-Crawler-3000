@@ -51,8 +51,6 @@ public:
 	void setHP(int new_HP);
 	void setGold(int new_gold);
 	void move(Direction direction);
-
-	bool adjacent(Character &other);
 };
 
 #endif // !CHARACTER_H

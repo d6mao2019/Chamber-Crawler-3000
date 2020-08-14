@@ -1,4 +1,3 @@
-#include "character.h"
 #include "player.h"
 #include "enemy.h"
 #include <cmath>
@@ -7,10 +6,16 @@
 Player::Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 
+bool Player::adjacent(Enemy &other)
+{
+	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
+	return dist_square == 1 || dist_square == 2;
+}
+
 template <typename EnemyType>
 void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	if (adjacent(*p, e))
+	if (p->adjacent(e))
 	{
 		int p_row = p->getRow();
 		int p_col = p->getCol();
@@ -91,7 +96,7 @@ void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
 template <typename EnemyType>
 void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
-	if (adjacent(*p, e))
+	if (p->adjacent(e))
 	{
 		bool miss = (rand() % 100 < miss_combat_chance);
 		if (miss)

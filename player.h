@@ -13,7 +13,10 @@ class Halfling;
 class Player : public Character
 {
 public:
+	// Player constructor.
 	Player(int MaxHP, int HP, int Atk, int Def, int gold, int row, int col);
+
+	bool adjacent(Enemy &other);
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
