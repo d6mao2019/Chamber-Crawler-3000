@@ -1,42 +1,64 @@
 #ifndef POTION_H
 #define POTION_H
 #include "player.h"
+#include "item.h"
 #include <memory>
 
-class Potion : public Player
+class Potion: public item
 {
-	const double effect;
-	const double scaling;
-
-protected:
-	std::shared_ptr<Player> player;
-
 public:
-	Potion(int effect, int scaling, int row, int col);
-	virtual double getHP() const override;
-	virtual double getAtk() const override;
-	virtual double getDef() const override;
+	Potion(int row=0, int col=0);
+	virtual void consume(Player& pl)=0;
 };
 
 class AtkBoost : public Potion
 {
+	const int boost = 5;
 public:
-	AtkBoost(int row, int col, std::shared_ptr<Player> p);
+	AtkBoost(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
 };
 
 class DefBoost : public Potion
 {
+	const int boost = 5;
 public:
+	DefBoost(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
 };
 
 class AtkWound : public Potion
 {
 public:
+	const int wound = 5;
+	AtkWound(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
 };
 
 class DefWound : public Potion
 {
+	const int wound = 5;
+
 public:
+	DefWound(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
 };
 
+class HPWound : public Potion
+{
+	const int hp = 5;
+
+public:
+	HPWound(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
+};
+
+class HPBoost : public Potion
+{
+	const int hp = 5;
+
+public:
+	HPBoost(int row=0, int col=0);
+	virtual void consume(Player& pl) override;
+};
 #endif // !POTION_H
