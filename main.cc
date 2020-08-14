@@ -6,9 +6,64 @@
 #include "floor.h"
 #include <iostream>
 #include <string>
+#include <fstream>
+using namespace std;
+
+Floor readFloor(ifstream &f){
+    std::vector<std::vector<char>> text_display;
+    std::shared_ptr<Player> player;
+    std::vector<std::shared_ptr<Enemy>> enemy_list;
+    std::vector<std::shared_ptr<Potion>> potion_list;
+    std::vector<std::shared_ptr<Gold>> gold_list;
+    std::vector<std::vector<std::pair<int, int>>> availables;
+    std::string line;
+    getline(f,line);
+    for(int i = 0; i < line.length();++i){
+        text_display[0].push_back(line[i]);
+    }
+    int row = 1;
+    do{
+        getline(f,line);
+        for(int col = 0; col < line.length();++col){
+            switch(line[col]){
+                case '0':
+                    text_display[row].push_back('P');
+                case '1':
+                    text_display[row].push_back('P');
+                case '2':
+                    text_display[row].push_back('P');
+                case '3':
+                    text_display[row].push_back('P');
+                case '4':
+                    text_display[row].push_back('P');
+                case '5':
+                    text_display[row].push_back('P');
+                case '6':
+                    text_display[row].push_back('G');
+                case '7':
+                    text_display[row].push_back('G');
+                case '8':
+                    text_display[row].push_back('G');
+                case '9':
+                    text_display[row].push_back('G'); 
+                default:    
+                    text_display[row].push_back(line[col]);
+            }
+            
+        }
+    }
+
+}
+
+
+
 
 int main(int argc, char * argv[])
 {
+    ifstream inputMap (argv[0]);
+    if(argc>0){
+        
+    }
     char cmd;
     std::string cmd;
     Direction direction;
@@ -29,6 +84,15 @@ int main(int argc, char * argv[])
     else if (cmd == "t")
     {
     }
+
+
+
+
+
+
+
+
+
     for (int i = 0; i < 5; ++i)
     {
         Floor floor{20, 10, 10};

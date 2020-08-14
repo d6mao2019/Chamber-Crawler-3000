@@ -53,8 +53,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
           std::vector<std::shared_ptr<Enemy>> enemy_list,
 		  std::vector<std::shared_ptr<Potion>> potion_list,
 		  std::vector<std::shared_ptr<Gold>> gold_list,
-          std::vector<std::vector<std::pair<int, int>>> &availables,
-		  int enemy_num)
+          std::vector<std::vector<std::pair<int, int>>> &availables)
     : text_display{text_display}, player{player}, enemy_list{enemy_list},potion_list{potion_list}, gold_list{gold_list}
 {
     this->ERM = 1;
