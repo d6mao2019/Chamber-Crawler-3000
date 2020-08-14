@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <stdexcept>
 
-std::vector<std::vector<std::pair<int, int>>> Floor::find_locations(int enemy_num, int potion_num, int gold_num)
+std::vector<std::vector<std::pair<int, int>>> Floor::choose_locations(int enemy_num, int potion_num, int gold_num)
 {
     std::vector<std::pair<int, int>> enemies;
     std::vector<std::pair<int, int>> potions;
@@ -102,7 +102,7 @@ Floor::Floor(int enemy_num, int potion_num, int gold_num)
     // text display.
     // how to generate initial text display???
     // a note: should place player before placing other things on the floor.
-    auto locations = find_locations(enemy_num, potion_num, gold_num);
+    auto locations = choose_locations(enemy_num, potion_num, gold_num);
     generate_enemies(locations[0]);
     generate_potions(locations[1]);
     generate_golds(locations[2]);
@@ -159,7 +159,7 @@ std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vecto
 
 void Floor::tick()
 {
-    /* enemy randome moves. */
+    /* enemy random moves. */
     if (ERM)
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
@@ -171,22 +171,19 @@ void Floor::tick()
     }
     /* enemy attack player. */
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-    {
         player->beAttackedBy(**i);
-    }
 }
 
 void Floor::attack_enemy(Direction direction)
 {
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-    {
         (*i)->beAttackedBy(*player);
-    }
 }
 
 void Floor::consume_potion(Direction direction)
 {
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
+        // what to write here depends on implementation of Potion class.
     }
 }

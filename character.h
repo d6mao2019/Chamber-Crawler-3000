@@ -43,6 +43,7 @@ public:
 	virtual int getHP() const;	// needs to be overrided by Potion objects.
 	virtual int getAtk() const; // needs to be overrided by Potion objects.
 	virtual int getDef() const; // needs to be overrided by Potion objects.
+	int getMaxHP() const;
 	int getGold() const;
 	int getRow() const;
 	int getCol() const;
