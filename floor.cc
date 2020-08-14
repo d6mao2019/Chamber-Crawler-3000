@@ -48,7 +48,27 @@ void Floor::select_enemy(int row, int col)
         text_display[row][col] = 'M';
     }
 }
-
+Floor::Floor(std::vector<std::vector<char>> &text_display, 
+		  std::shared_ptr<Player> player, 
+          std::vector<std::shared_ptr<Enemy>> enemy_list,
+		  std::vector<std::shared_ptr<Potion>> potion_list,
+		  std::vector<std::shared_ptr<Gold>> gold_list,
+          std::vector<std::vector<std::pair<int, int>>> &availables,
+		  int enemy_num)
+    : text_display{text_display}, player{player}, enemy_list{enemy_list},potion_list{potion_list}, gold_list{gold_list}
+{
+    this->ERM = 1;
+    // place player.
+    std::vector<int> chambers{0, 1, 2, 3, 4};
+    int chamber = rand() % 5;
+    std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
+    player->setLocation(location.first, location.second);
+    // place stairway.
+    chambers.erase(chambers.begin() + chamber);
+    chamber = chambers[rand() % 4];
+    location = availables[chamber][rand() % availables[chamber].size()];
+    text_display[location.first][location.second] = '\\';
+}
 // constructor.
 Floor::Floor(std::vector<std::vector<char>> &text_display,
              std::shared_ptr<Player> player,
@@ -56,6 +76,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
              int potion_num, int gold_num, int enemy_num)
     : text_display{text_display}, player{player}
 {
+    this->ERM = 1;
     // note: generator of Gold should take care of spawning Dragons.
     // place player.
     std::vector<int> chambers{0, 1, 2, 3, 4};
@@ -149,9 +170,12 @@ void Floor::tick()
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
         {
+            char symbol = text_display[(*i)->getRow()][(*i)->getCol()];
+            text_display[(*i)->getRow()][(*i)->getCol()] = '.';
             std::vector<Direction> availables = available_directions(*i, text_display);
             Direction direction = availables[rand() % availables.size()];
             (*i)->move(direction);
+            text_display[(*i)->getRow()][(*i)->getCol()] = symbol;
         }
     }
     /* enemy attack player. */
