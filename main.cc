@@ -12,6 +12,23 @@ int main(int argc, char * argv[])
     char cmd;
     std::string cmd;
     Direction direction;
+    std::string message;
+    message = "Please select your race.";
+    if (cmd == "s")
+    {
+    }
+    else if (cmd == "d")
+    {
+    }
+    else if (cmd == "v")
+    {
+    }
+    else if (cmd == "g")
+    {
+    }
+    else if (cmd == "t")
+    {
+    }
     for (int i = 0; i < 5; ++i)
     {
         Floor floor{20, 10, 10};
@@ -40,21 +57,6 @@ int main(int argc, char * argv[])
                 {
                     std::cerr << e.what() << std::endl;
                 }
-            }
-            else if (cmd == "s")
-            {
-            }
-            else if (cmd == "d")
-            {
-            }
-            else if (cmd == "v")
-            {
-            }
-            else if (cmd == "g")
-            {
-            }
-            else if (cmd == "t")
-            {
             }
             else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                 floor.ERMSwitch();
