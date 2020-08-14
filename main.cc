@@ -7,8 +7,11 @@
 #include <iostream>
 #include <string>
 
-int main()
+int main(int argc, char * argv[])
 {
+    if (argc != 0){
+        
+    }
     char cmd;
     Direction direction;
     Floor floor{20, 10, 10};
