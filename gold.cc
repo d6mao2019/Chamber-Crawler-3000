@@ -1,12 +1,10 @@
 #include "gold.h"
 
 Gold::Gold(int value, int row, int col)
-    : value{value}, row{row}, col{col} {}
+    : value{value}, Item{row,col} {}
 
 int Gold::getVal() const { return value; }
-int Gold::getRow() const { return row; }
-int Gold::getCol() const { return col; }
-
+bool Gold::canBepickedup() const{return true;}
 ///////////////////////////////////////////////////////////////////////////////
 /* SmallHoard Class */
 SmallHoard::SmallHoard(int row, int col)
@@ -26,3 +24,6 @@ MerchantHoard::MerchantHoard(int row, int col)
 /* DragonHoard Class */
 DragonHoard::DragonHoard(int row, int col)
     : Gold{6, row, col} {}
+bool DragonHoard::canBepickedup() const{
+    return canPickUp;
+}

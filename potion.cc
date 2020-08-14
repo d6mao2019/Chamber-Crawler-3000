@@ -2,7 +2,7 @@
 #include "player.h"
 
 Potion::Potion(int row = 0, int col = 0)
-    : item{row, col} {}
+    : Item{row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* AtkBoost Class */

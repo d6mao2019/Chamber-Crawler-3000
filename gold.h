@@ -1,18 +1,17 @@
 #ifndef GOLD_H
 #define GOLD_H
 #include <memory>
-class Dragon;
+#include "item.h"
 
-class Gold
+class Gold: public Item
 {
     const int value;
     int row, col;
 
 public:
     Gold(int value, int row, int col);
+    virtual bool canBepickedup() const;
     int getVal() const;
-    int getRow() const;
-    int getCol() const;
 };
 
 class SmallHoard : public Gold
@@ -35,8 +34,10 @@ public:
 
 class DragonHoard : public Gold
 {
+    bool canPickUp=0;
 public:
     DragonHoard(int row, int col);
+    virtual bool canBepickedup() const override;
 };
 
 #endif // !GOLD_H
