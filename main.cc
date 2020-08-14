@@ -58,13 +58,16 @@ Floor readFloor(ifstream &f){
 
 
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
+<<<<<<< HEAD
     ifstream inputMap (argv[0]);
     if(argc>0){
         
     }
     char cmd;
+=======
+>>>>>>> 5db7b038529980307072536fdf52f0a3ca6b4843
     std::string cmd;
     Direction direction;
     std::string message;

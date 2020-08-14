@@ -21,6 +21,7 @@ public:
 		   int gold, int row, int col, double scaling);
 
 	bool adjacent(Enemy &other);
+	double getScal() const;
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);

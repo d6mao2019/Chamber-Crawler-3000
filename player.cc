@@ -26,8 +26,11 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 		double damage = 100 / (100 + def) * atk;
 		if (e.getHP() > damage)
 			e.setHP(e.getHP() - damage);
-		else
+		else // slain.
+		{
 			e.notify();
+			p->setGold(p->getGold() + e.getGold());
+		}
 	}
 	else
 		throw std::runtime_error{"Error: trying to attack non-adjacent target."};
@@ -39,7 +42,7 @@ void Player::attack(Orc &orc) { common_attack<Orc>(this, orc, 0); }
 void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
-
+double Player::getScal() const { return scaling; }
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
@@ -106,6 +109,7 @@ void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 		else
 		{
 			e.notify();
+			p->setGold(p->getGold() + e.getGold());
 			p->setGold(p->getGold() + 5);
 		}
 	}

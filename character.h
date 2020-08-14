@@ -23,10 +23,10 @@ class Character
 	const double MaxHP;
 	// current health point.
 	double HP;
-	// base attack.
-	const double Atk;
-	// base defense.
-	const double Def;
+	//  attack.
+	double Atk;
+	//  defense.
+	double Def;
 	// the amount of gold holding.
 	int gold;
 	// position on the floor.
@@ -49,6 +49,8 @@ public:
 	int getCol() const;
 
 	void setHP(double new_HP);
+	void setAtk(double new_atk);
+	void setDef(double new_def);
 	void setGold(int new_gold);
 	void setLocation(int row, int col);
 	virtual void move(Direction direction);

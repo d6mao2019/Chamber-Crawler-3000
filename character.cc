@@ -38,8 +38,12 @@ double Character::getMaxHP() const { return MaxHP; }
 int Character::getGold() const { return gold; }
 int Character::getRow() const { return row; }
 int Character::getCol() const { return col; }
-void Character::setHP(double new_HP) { HP = new_HP; }
+
+void Character::setHP(double new_HP) { new_HP < 0 ? HP = 0 : (new_HP > MaxHP ? HP = MaxHP : HP = new_HP); }
+void Character::setAtk(double new_atk) { new_atk < 0 ? Atk = 0 : Atk = new_atk; }
+void Character::setDef(double new_def) { Def < 0 ? Def = 0 : Def = new_def; }
 void Character::setGold(int new_gold) { gold = new_gold; }
+
 void Character::setLocation(int new_row, int new_col)
 {
 	row = new_row;
