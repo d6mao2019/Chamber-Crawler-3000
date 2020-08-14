@@ -3,14 +3,21 @@
 #include "player.h"
 #include "enemy.h"
 #include <cstdlib>
+#include <stdexcept>
 
 void Floor::beNotifiedBy(Enemy &e)
 {
+    int original_size = enemy_list.size(); // debugging purpose.
     /* modify vector. */
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
-        }
+        if (**i == e)
+            enemy_list.erase(i);
+    }
+    if (enemy_list.size() != original_size - 1) // debugging purpose.
+        throw std::logic_error{"Bug: something wrong with the enemy list. added or removed improperly sometime."};
     /* modify text display. */
+    textDisplay[e.getRow()][e.getCol()] = '.';
 }
 
 void Floor::ERMSwitch()
@@ -64,38 +71,17 @@ void Floor::tick()
     }
 }
 
+void Floor::attack_enemy(Direction direction)
+{
+    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+    {
+        (*i)->beAttackedBy(*player);
+    }
+}
+
 void Floor::consume_potion(Direction direction)
 {
-    int row = player->getRow();
-    int col = player->getCol();
-    /* check if it is a potion. */
-    char target;
-    switch (direction)
+    for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
-    case Direction::no:
-        target = textDisplay[row - 1][col];
-    case Direction::so:
-        target = textDisplay[row + 1][col];
-    case Direction::we:
-        target = textDisplay[row][col - 1];
-    case Direction::ea:
-        target = textDisplay[row][col + 1];
-    case Direction::nw:
-        target = textDisplay[row - 1][col - 1];
-    case Direction::ne:
-        target = textDisplay[row - 1][col + 1];
-    case Direction::sw:
-        target = textDisplay[row + 1][col - 1];
-    case Direction::se:
-        target = textDisplay[row + 1][col + 1];
-    }
-    if (target != 'P')
-        throw;
-    /* find the potion in the list. */
-    else
-    {
-        for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
-        {
-        }
     }
 }
