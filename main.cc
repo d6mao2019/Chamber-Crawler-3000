@@ -9,14 +9,8 @@
 
 int main(int argc, char * argv[])
 {
-<<<<<<< HEAD
-    if (argc != 0){
-        
-    }
     char cmd;
-=======
     std::string cmd;
->>>>>>> 610f6bf3dba2a4e8ac12a2ab1552898e694b4914
     Direction direction;
     for (int i = 0; i < 5; ++i)
     {
