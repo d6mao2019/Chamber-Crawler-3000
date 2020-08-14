@@ -34,10 +34,10 @@ Character::Character(double MaxHP, double HP, double Atk, double Def, int gold, 
 int Character::getHP() const { return HP; }
 int Character::getAtk() const { return Atk; }
 int Character::getDef() const { return Def; }
+int Character::getMaxHP() const { return MaxHP; }
 int Character::getGold() const { return gold; }
 int Character::getRow() const { return row; }
 int Character::getCol() const { return col; }
-
 void Character::setHP(int new_HP) { HP = new_HP; }
 void Character::setGold(int new_gold) { gold = new_gold; }
 
@@ -68,18 +68,8 @@ void Character::move(Direction direction)
 	}
 }
 
-bool adjacent(Character &c1, Character &c2)
+bool Character::adjacent(Character &other)
 {
-	int dist_square = pow(c1.getRow() - c2.getRow(), 2) + pow(c1.getCol() - c2.getCol(), 2);
+	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
 	return dist_square == 1 || dist_square == 2;
 }
-
-/* Useless function...
-int Character::calcDamageTo(const Character &other) const
-{
-	double atk = getAtk();
-	double def = other.getDef();
-	int damage = ceil(100 / (100 + def) * atk);
-	return damage;
-}
-*/

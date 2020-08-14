@@ -33,7 +33,7 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 void Player::attack(Human &human) { common_attack<Human>(this, human, 0); }
 void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf, 0); }
 void Player::attack(Elf &elf) { common_attack<Elf>(this, elf, 0); }
-void Player::attack(Orcs &orcs) { common_attack<Orcs>(this, orcs, 0); }
+void Player::attack(Orc &orc) { common_attack<Orc>(this, orc, 0); }
 void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
@@ -71,7 +71,7 @@ void vampire_attack_lose_HP(Player *p, EnemyType &e, int miss_combat_chance)
 void Vampire::attack(Human &human) { vampire_attack_gain_HP<Human>(this, human, 0); }
 void Vampire::attack(Dwarf &dwarf) { vampire_attack_lose_HP<Dwarf>(this, dwarf, 0); }
 void Vampire::attack(Elf &elf) { vampire_attack_gain_HP<Elf>(this, elf, 0); }
-void Vampire::attack(Orcs &orcs) { vampire_attack_gain_HP<Orcs>(this, orcs, 0); }
+void Vampire::attack(Orc &orc) { vampire_attack_gain_HP<Orc>(this, orc, 0); }
 void Vampire::attack(Merchant &merchant) { vampire_attack_gain_HP<Merchant>(this, merchant, 0); }
 void Vampire::attack(Dragon &dragon) { vampire_attack_gain_HP<Dragon>(this, dragon, 0); }
 void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this, halfling, 50); }
@@ -113,7 +113,7 @@ void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 void Goblin::attack(Human &human) { goblin_attack<Human>(this, human, 0); }
 void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf, 0); }
 void Goblin::attack(Elf &elf) { goblin_attack<Elf>(this, elf, 0); }
-void Goblin::attack(Orcs &orcs) { goblin_attack<Orcs>(this, orcs, 0); }
+void Goblin::attack(Orc &orc) { goblin_attack<Orc>(this, orc, 0); }
 void Goblin::attack(Merchant &merchant) { goblin_attack<Merchant>(this, merchant, 0); }
 void Goblin::attack(Dragon &dragon) { goblin_attack<Dragon>(this, dragon, 0); }
 void Goblin::attack(Halfling &halfling) { goblin_attack<Halfling>(this, halfling, 50); }

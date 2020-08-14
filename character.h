@@ -43,6 +43,7 @@ public:
 	virtual int getHP() const;	// needs to be overrided by Potion objects.
 	virtual int getAtk() const; // needs to be overrided by Potion objects.
 	virtual int getDef() const; // needs to be overrided by Potion objects.
+	int getMaxHP() const;
 	int getGold() const;
 	int getRow() const;
 	int getCol() const;
@@ -50,12 +51,8 @@ public:
 	void setHP(int new_HP);
 	void setGold(int new_gold);
 	void move(Direction direction);
-	/*
-	// calculates the damage caused by this to other.
-	int calcDamageTo(const Character &other) const;
-	*/
-};
 
-bool adjacent(Character &c1, Character &c2);
+	bool adjacent(Character &other);
+};
 
 #endif // !CHARACTER_H

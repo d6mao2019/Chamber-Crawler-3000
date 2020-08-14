@@ -53,11 +53,11 @@ public:
 	virtual void attack(Goblin &goblin) override;
 };
 
-class Orcs : public Enemy
+class Orc : public Enemy
 // does 50% more damage to goblins.
 {
 public:
-	Orcs(int row, int col);
+	Orc(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
 	// 1 attack override(s).
 	virtual void attack(Goblin &goblin) override;
@@ -76,7 +76,7 @@ public:
 class Dragon : public Enemy
 // always guards a treasure hoard.
 {
-	std::shared_ptr<Gold> drgold;
+	std::shared_ptr<Gold> hoard;
 
 public:
 	Dragon(int row, int col);

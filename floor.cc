@@ -5,37 +5,110 @@
 #include <cstdlib>
 #include <stdexcept>
 
-std::vector<std::pair<int, int>> available_spots(std::vector<std::vector<char>> &text_display)
+std::vector<std::vector<std::pair<int, int>>> Floor::choose_locations(int enemy_num, int potion_num, int gold_num)
 {
-    std::vector<std::pair<int, int>> result;
+    std::vector<std::pair<int, int>> enemies;
+    std::vector<std::pair<int, int>> potions;
+    std::vector<std::pair<int, int>> golds;
+    std::vector<std::vector<std::pair<int, int>>> result{enemies, potions, golds};
+    /* get all locations. */
+    std::vector<std::pair<int, int>> all;
     for (int i = 0; i < text_display.size(); ++i)
     {
         for (int j = 0; j < text_display[i].size(); ++j)
         {
             if (text_display[i][j] == '.')
-                result.emplace_back(i, j);
+                all.emplace_back(i, j);
         }
+    }
+    /* random select. */
+    int remaining = all.size();
+    enemy_num = (enemy_num <= remaining) ? enemy_num : remaining;
+    remaining = remaining - enemy_num;
+    for (int i = 0; i < enemy_num; ++i)
+    {
+        int rest = all.size() - i;
+        int j = rand() % rest + i;
+        std::swap(all[i], all[j]);
+        result[0].push_back(all[i]);
+    }
+    potion_num = (potion_num <= remaining) ? potion_num : remaining;
+    remaining = remaining - potion_num;
+    for (int i = enemy_num; i < enemy_num + potion_num; ++i)
+    {
+        int rest = all.size() - i;
+        int j = rand() % rest + i;
+        std::swap(all[i], all[j]);
+        result[1].push_back(all[i]);
+    }
+    gold_num = (gold_num <= remaining) ? gold_num : remaining;
+    for (int i = enemy_num + potion_num; i < enemy_num + potion_num + gold_num; ++i)
+    {
+        int rest = all.size() - i;
+        int j = rand() % rest + i;
+        std::swap(all[i], all[j]);
+        result[2].push_back(all[i]);
     }
     return result;
 }
 
-Floor::Floor(int enemy_num, int positon_num, int gold_num)
+void Floor::generate_enemies(std::vector<std::pair<int, int>> &locations)
 {
-    std::vector<std::pair<int, int>> availables = available_spots(text_display);
-    /* text_display */
-    /* spawn enemies. */
-    for (int i = 0; i < enemy_num; ++i)
+    for (int i = 0; i < locations.size(); ++i)
     {
-    }
-    /* spawn potions. */
-    for (int i = 0; i < positon_num; ++i)
-    {
-    }
-    /* spawn gold piles. */
-    for (int i = 0; i < gold_num; ++i)
-    {
+        int type = rand() % 18;
+        if (0 <= type && type < 4) // human.
+        {
+            auto e = std::make_shared<Human>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'H';
+        }
+        if (4 <= type && type < 7) // dwarf.
+        {
+            auto e = std::make_shared<Dwarf>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'W';
+        }
+        if (7 <= type && type < 12) // halfling.
+        {
+            auto e = std::make_shared<Halfling>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'L';
+        }
+        if (12 <= type && type < 14) // elf.
+        {
+            auto e = std::make_shared<Elf>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'E';
+        }
+        if (14 <= type && type < 16) // orc.
+        {
+            auto e = std::make_shared<Orc>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'O';
+        }
+        if (16 <= type && type < 18) // merchant.
+        {
+            auto e = std::make_shared<Merchant>(locations[i].first, locations[i].second);
+            enemy_list.push_back(e);
+            text_display[locations[i].first][locations[i].second] = 'M';
+        }
     }
 }
+
+// constructor.
+Floor::Floor(int enemy_num, int potion_num, int gold_num)
+{
+    // text display.
+    // how to generate initial text display???
+    // a note: should place player before placing other things on the floor.
+    auto locations = choose_locations(enemy_num, potion_num, gold_num);
+    generate_enemies(locations[0]);
+    generate_potions(locations[1]);
+    generate_golds(locations[2]);
+}
+
+std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {
@@ -86,7 +159,7 @@ std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vecto
 
 void Floor::tick()
 {
-    /* enemy randome moves. */
+    /* enemy random moves. */
     if (ERM)
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
@@ -98,22 +171,19 @@ void Floor::tick()
     }
     /* enemy attack player. */
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-    {
         player->beAttackedBy(**i);
-    }
 }
 
 void Floor::attack_enemy(Direction direction)
 {
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-    {
         (*i)->beAttackedBy(*player);
-    }
 }
 
 void Floor::consume_potion(Direction direction)
 {
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
+        // what to write here depends on implementation of Potion class.
     }
 }
