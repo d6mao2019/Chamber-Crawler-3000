@@ -26,8 +26,11 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 		double damage = 100 / (100 + def) * atk;
 		if (e.getHP() > damage)
 			e.setHP(e.getHP() - damage);
-		else
+		else // slain.
+		{
 			e.notify();
+			p->setGold(p->getGold() + e.getGold());
+		}
 	}
 	else
 		throw std::runtime_error{"Error: trying to attack non-adjacent target."};
@@ -106,6 +109,7 @@ void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 		else
 		{
 			e.notify();
+			p->setGold(p->getGold() + e.getGold());
 			p->setGold(p->getGold() + 5);
 		}
 	}
