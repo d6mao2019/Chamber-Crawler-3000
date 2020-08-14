@@ -5,12 +5,12 @@
 #include <cstdlib>
 #include <stdexcept>
 
-// helper.
-// determine which spot is still available (empty) and randome select num from them.
-// remain silent if num < availables.size().
-std::vector<std::pair<int, int>> generate_locations(std::vector<std::vector<char>> &text_display, int num)
+std::vector<std::vector<std::pair<int, int>>> Floor::find_locations(int num)
 {
-    std::vector<std::pair<int, int>> result;
+    std::vector<std::pair<int, int>> enemies;
+    std::vector<std::pair<int, int>> potions;
+    std::vector<std::pair<int, int>> golds;
+    std::vector<std::vector<std::pair<int, int>>> result{enemies, potions, golds};
     /* get all locations. */
     std::vector<std::pair<int, int>> all;
     for (int i = 0; i < text_display.size(); ++i)
@@ -32,10 +32,10 @@ std::vector<std::pair<int, int>> generate_locations(std::vector<std::vector<char
     }
     return result;
 }
-// helper.
-std::vector<std::shared_ptr<Enemy>> generate_enemies(std::vector<std::vector<char>> &text_display, int num)
+
+void Floor::generate_enemies(int enemy_num)
 {
-    std::vector<std::pair<int, int>> locations = generate_locations(text_display, num);
+    std::vector<std::pair<int, int>> locations = find_locations(text_display, num);
     std::vector<std::shared_ptr<Enemy>> result;
     for (int i = 0; i < locations.size(); ++i)
     {
@@ -73,19 +73,14 @@ std::vector<std::shared_ptr<Enemy>> generate_enemies(std::vector<std::vector<cha
     }
     return result;
 }
+
+// constructor.
 Floor::Floor(int enemy_num, int positon_num, int gold_num)
 {
-    /* text_display */
-    /* spawn enemies. */
-    enemy_list = generate_enemies(text_display, enemy_num);
-    /* spawn potions. */
-    for (int i = 0; i < positon_num; ++i)
-    {
-    }
-    /* spawn gold piles. */
-    for (int i = 0; i < gold_num; ++i)
-    {
-    }
+    /* text display. */
+    generate_enemies(enemy_num);
+    generate_potions(potion_num);
+    generate_golds(gold_num);
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }

@@ -16,6 +16,17 @@ class Floor
 	std::shared_ptr<Player> player;
 	bool ERM; // enemy random move controller.
 
+	// helper function for constructor.
+	// determine which spot is still available (empty) and randome select num from them.
+	// remain silent if num < availables.size().
+	std::vector<std::vector<std::pair<int, int>>> find_locations(int num);
+	// helper function for constructor.
+	void generate_enemies(int enemy_num);
+	// helper function for constructor.
+	void generate_potions(int potion_num);
+	// helper function for constructor.
+	void generate_golds(int gold_num);
+
 public:
 	// constructor.
 	// responsible for generating enemies, potions, and gold piles.
