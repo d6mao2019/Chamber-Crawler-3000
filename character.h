@@ -24,7 +24,7 @@ class Character
 	// current health point.
 	double HP;
 	// base attack.
-	const double Atk;//感觉这块不要const，之后要改的吧。还是decorator会要这个是const，明天说一下
+	const double Atk; //感觉这块不要const，之后要改的吧。还是decorator会要这个是const，明天说一下
 	// base defense.
 	const double Def;
 	// the amount of gold holding.
@@ -50,7 +50,7 @@ public:
 
 	void setHP(int new_HP);
 	void setGold(int new_gold);
-	void move(Direction direction);
+	virtual void move(Direction direction);
 };
 
 #endif // !CHARACTER_H

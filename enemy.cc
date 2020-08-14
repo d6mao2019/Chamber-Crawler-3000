@@ -113,6 +113,7 @@ void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
 /* Dragon Class */ /* 0 attack override(s) */
 Dragon::Dragon(int row, int col)
 	: Enemy{150, 150, 20, 20, 0, row, col} {}
+
 bool Dragon::adjacent(Player &other)
 {
 	int dist1 = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
@@ -121,6 +122,8 @@ bool Dragon::adjacent(Player &other)
 }
 
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
+
+void move(Direction direction) { return; } // does nothing since Dragons are stationary.
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Halfling Class */ /* 0 attack override(s) */

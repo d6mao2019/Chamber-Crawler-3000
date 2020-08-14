@@ -84,9 +84,10 @@ class Dragon : public Enemy
 
 public:
 	Dragon(int row, int col);
-	virtual void beAttackedBy(Player &p) override;
 	virtual bool adjacent(Player &other) override;
 	// 0 attack override(s).
+	virtual void beAttackedBy(Player &p) override;
+	virtual void move(Direction direction) override;
 };
 
 class Halfling : public Enemy
