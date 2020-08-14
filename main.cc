@@ -7,9 +7,8 @@
 #include <iostream>
 #include <string>
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
-    char cmd;
     std::string cmd;
     Direction direction;
     std::string message;
