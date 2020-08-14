@@ -17,10 +17,6 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
 	if (p->adjacent(e))
 	{
-		int p_row = p->getRow();
-		int p_col = p->getCol();
-		int e_row = e.getRow();
-		int e_col = e.getCol();
 		bool miss = (rand() % 100 < miss_combat_chance);
 		if (miss)
 			return;
