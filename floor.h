@@ -60,7 +60,7 @@ public:
 	void tick();
 
 	// moves the player on the map.
-	bool move_player(int row, int col, int oldRow, int oldCol);
+	bool move_player(int oldRow, int oldCol, int row, int col);
 
 	// let the player attack the enemy indicated by direction.
 	// report an error if no enemy is located at the specified direction.

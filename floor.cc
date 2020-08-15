@@ -237,7 +237,7 @@ void Floor::tick()
         player->beAttackedBy(**i);
 }
 
-bool Floor::move_player(int row, int col, int oldRow, int oldCol)
+bool Floor::move_player(int oldRow, int oldCol, int row, int col)
 {
     char pos = text_display[row][col];
     bool swap = 0;
