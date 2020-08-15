@@ -209,9 +209,9 @@ int main(int argc, char *argv[])
     }
     std::cout << message << std::endl;
 
-    if (argc > 0) // read in map.
+    if (argc > 1) // read in map.
     {
-        ifstream inputMap(argv[0]);
+        ifstream inputMap(argv[1]);
         Floor firFloor = readFloor(inputMap, availables, pl);
         Floor secFloor = readFloor(inputMap, availables, pl);
         Floor thiFloor = readFloor(inputMap, availables, pl);
@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
     while (floorNum < 5)
     {
         Floor curFloor;
-        if (argc > 0)
+        if (argc > 1)
             curFloor = floors[floorNum];
         else
             curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};

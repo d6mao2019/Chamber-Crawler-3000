@@ -97,7 +97,7 @@ void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
 ///////////////////////////////////////////////////////////////////////////////
 /* Vampire Class */ /* 7 attack override(s) */
 Vampire::Vampire(int row, int col)
-	: Player{INT_MAX, 50, 35, 25, 0, row, col, 1.0} {}
+	: Player{INT32_MAX, 50, 35, 25, 0, row, col, 1.0} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>
