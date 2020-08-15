@@ -124,6 +124,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     int chamber = rand() % 5;
     std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
     player->setLocation(location.first, location.second);
+    text_display[location.first][location.second] = '@';
     // place stairway.
     chambers.erase(chambers.begin() + chamber);
     chamber = chambers[rand() % 4];
@@ -259,7 +260,7 @@ bool Floor::move_player(int row, int col, int oldRow, int oldCol)
     if (swap)
     {
         text_display[oldRow][oldCol] = player->getPrev();
-        text_display[row][col] = 'P';
+        text_display[row][col] = '@';
         player->setPrev(pos);
     }
 
