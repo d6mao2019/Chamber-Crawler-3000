@@ -151,13 +151,21 @@ Floor readFloor(ifstream &f,std::vector<std::vector<std::pair<int, int>>> &avail
 
 int main(int argc, char *argv[])
 {
-
+    int floorNum = 0;
     string cmd;
-    shared_ptr<Player> thePlayer;
+    shared_ptr<Player> pl;
     Direction direction;
     std::string message;
-    message = "Please select your race.";
+    vector<Floor> floors;
+    std::vector<std::vector<char>> mainEmptyMap;
+    std::vector<std::vector<std::pair<int, int>>> availables = {prsA,prsB,prsC,prsD,prsE};
     std::shared_ptr<Player> pl;
+
+
+
+    message = "Please select your race.";
+    cout << message << endl;
+    cin >> cmd;
     if (cmd == "s")
     {
         pl=make_shared<Shade>();
@@ -178,21 +186,37 @@ int main(int argc, char *argv[])
     {
         pl=make_shared<Troll>();
     }
-    std::vector<std::vector<char>> mainEmptyMap;
-    for (auto i : charMap)
-    {
-        std::vector<char> vc;
-        for (auto c : i)
+
+    
+    ifstream inputMap (argv[0]);
+    if(argc>0){
+        Floor firFloor = readFloor(inputMap,availables,pl);
+        Floor secFloor = readFloor(inputMap,availables,pl);
+        Floor thiFloor = readFloor(inputMap,availables,pl);
+        Floor forFloor = readFloor(inputMap,availables,pl);
+        Floor fifFloor = readFloor(inputMap,availables,pl);
+        floors = {firFloor,secFloor,thiFloor,forFloor,fifFloor};
+    }else{
+        for (auto i : charMap)
         {
-            vc.push_back(c);
+            std::vector<char> vc;
+            for (auto c : i)
+            {
+                vc.push_back(c);
+            }
+            mainEmptyMap.push_back(vc);
         }
-        mainEmptyMap.push_back(vc);
     }
     
-    vector<vector<pair<int ,int>>> a ={prsA,prsB,prsC,prsD,prsE};
-    for (int i = 0; i < 5; ++i)
+    while(floorNum <= 4)
     {
-        Floor floor{mainEmptyMap,pl,a,20, 10, 10};
+        Floor curFloor;
+        if(argc > 0){
+            curFloor = floors[floorNum];
+        }else{
+            curFloor = Floor{mainEmptyMap,pl,availables,20, 10, 10};
+        }
+        
         while (std::cin >> cmd)
         {
             if (cmd == "no")
@@ -219,17 +243,12 @@ int main(int argc, char *argv[])
             }else if (cmd == "sw")
             {
                 /* code */
-            }
-            
-            
-            
-
-            else if (cmd == "u") // use potion.
+            }else if (cmd == "u") // use potion.
             {
                 try
                 {
                     std::cin >> direction;
-                    floor.consume_potion(direction);
+                    curFloor.consume_potion(direction);
                 }
                 catch (std::runtime_error &e)
                 {
@@ -241,7 +260,7 @@ int main(int argc, char *argv[])
                 try
                 {
                     std::cin >> direction;
-                    floor.attack_enemy(direction);
+                    curFloor.attack_enemy(direction);
                 }
                 catch (std::runtime_error &e)
                 {
@@ -249,7 +268,7 @@ int main(int argc, char *argv[])
                 }
             }
             else if (cmd == "f") // stops enemies from moving until this key is pressed again.
-                floor.ERMSwitch();
+                curFloor.ERMSwitch();
             else if (cmd == "r") // restart game.
             {
             }

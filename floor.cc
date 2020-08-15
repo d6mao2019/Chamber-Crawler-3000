@@ -48,6 +48,10 @@ void Floor::select_enemy(int row, int col)
         text_display[row][col] = 'M';
     }
 }
+
+
+Floor::Floor(){}
+
 Floor::Floor(std::vector<std::vector<char>> &text_display, 
 		  std::shared_ptr<Player> player, 
           std::vector<std::shared_ptr<Enemy>> enemy_list,

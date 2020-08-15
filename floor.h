@@ -29,6 +29,7 @@ class Floor
 public:
 	// constructor.
 	// responsible for generating enemies, potions, and gold piles.
+	Floor();
 	Floor(std::vector<std::vector<char>> &text_display,
 		  std::shared_ptr<Player> player,
 		  std::vector<std::vector<std::pair<int, int>>> &availables,
@@ -55,9 +56,6 @@ public:
 	// 2. enemies attack player if close enough.
 	void tick();
 
-// moves the player on the map.
-void move_player(Direction direction);
-
 	// let the player attack the enemy indicated by direction.
 	// report an error if no enemy is located at the specified direction.
 	void attack_enemy(Direction direction);
@@ -65,6 +63,8 @@ void move_player(Direction direction);
 	// let the player consume the potion indicated by direction.
 	// report an error if no potion is located at the specified direction.
 	void consume_potion(Direction direction);
+
+	void move_player(Direction direction);
 };
 
 #endif // !FLOOR_H
