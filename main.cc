@@ -260,6 +260,8 @@ int main(int argc, char *argv[])
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
+            std::cout << *pl;
+            std::cout << "Action: Player character has spawned."<< std::endl;
 
             while (cin >> cmd)
             {
@@ -374,25 +376,36 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
-
-                curFloor.tick();
-                if (pl->getHP() <= 0)
-                {
-                    message = "Player got killed. Do you want to restart(r) or quit(q)?";
-                    std::cout << message;
-                    while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                if(!(cmd == "f")){
+                    curFloor.tick();
+                    if (pl->getHP() <= 0)
                     {
-                        if (cmd == "q")
-                            return 0;
-                        else if (cmd == "r")
-                            break;
-                        else // invalid command.
-                            std::cout << "Invalid command. Do you want to restart(r) or quit(q)?";
+                        message = "Player got killed. Do you want to restart(r) or quit(q)?";
+                        std::cout << message << endl;
+                        while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                        {
+                            if (cmd == "q")
+                                return 0;
+                            else if (cmd == "r"){
+                                floorNum = 0;
+                                if (argc > 1)
+                                {
+                                    inputMap.clear();
+                                    inputMap.seekg(0, inputMap.beg);
+                                }
+                                break;
+                            }
+                            else // invalid command.
+                                std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << endl;
+                        }
                     }
+                    std::cout << curFloor;
+                    std::cout << *pl;
+                    std::cout << "Action: " << message << std::endl;
                 }
-                std::cout << curFloor;
-                std::cout << *pl;
-                std::cout << message << std::endl;
+                if(cmd == "r"){
+                    break;
+                }
             }
             if (cmd == "r")
             {
@@ -401,7 +414,7 @@ int main(int argc, char *argv[])
         }     // while floors.
 
         // all floors cleared. choose whether to restart or quit.
-        if (cmd != "r")
+        if (cmd != "r" && floorNum == 4)
         {
             while (cin >> cmd && (cmd == "r" || cmd == "q"))
             {
