@@ -472,7 +472,7 @@ int main(int argc, char *argv[])
                 }
                 std::cout << curFloor;
                 std::cout << message << std::endl;
-            } // while
+            } // while command processing.
         }
         if (cmd == "r")
         {
