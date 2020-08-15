@@ -109,7 +109,7 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
         text_display[row][col] = '*';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
         std::pair<int, int> location = availables[rand() % availables.size()];
-        auto dragon = std::make_shared<Dragon>(location.first, location.second);
+        auto dragon = std::make_shared<Dragon>(location.first, location.second, g);
         enemy_list.push_back(dragon);
         text_display[location.first][location.second] = 'D';
         for (auto i = avialables.begin(); i != avialables.end(); ++i)
