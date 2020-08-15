@@ -15,18 +15,16 @@ bool Player::adjacent(const Enemy &e) const
 	return dist_square == 1 || dist_square == 2;
 }
 
+char Player::getPrev() const { return prev; }
+std::string Player::getRace() const { return race; }
+
 void Player::setPrev(char p)
 {
 	if (p != '+' && p != '#')
 	{
 		p = '.';
 	}
-
 	prev = p;
-}
-char Player::getPrev() const
-{
-	return prev;
 }
 
 void Player::restore()
@@ -36,13 +34,7 @@ void Player::restore()
 	setDef(origDef);
 }
 
-std::string Player::getRace() const
-{
-	return race;
-}
-
-std::ostream &
-operator<<(std::ostream &out, const Player &pl)
+std::ostream &operator<<(std::ostream &out, const Player &pl)
 {
 	out << "Race: " << pl.getRace() << " Gold: " << pl.getGold() << std::endl;
 	out << "HP: " << pl.getHP() << std::endl;
