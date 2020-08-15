@@ -17,16 +17,22 @@ void Floor::select_potion(int row, int col)
     {
     case 0:
         e = std::make_shared<HPBoost>(row, col);
+        break;
     case 1:
         e = std::make_shared<AtkBoost>(row, col);
+        break;
     case 2:
         e = std::make_shared<DefBoost>(row, col);
+        break;
     case 3:
         e = std::make_shared<HPWound>(row, col);
+        break;
     case 4:
         e = std::make_shared<AtkWound>(row, col);
+        break;
     case 5:
         e = std::make_shared<DefWound>(row, col);
+        break;
     }
     potion_list.push_back(e);
     text_display[row][col] = 'P';
@@ -39,12 +45,16 @@ void Floor::select_gold(int row, int col)
     {
     case 0:
         g = std::make_shared<SmallHoard>(row, col);
+        break;
     case 1:
         g = std::make_shared<Normal>(row, col);
+        break;
     case 2:
         g = std::make_shared<MerchantHoard>(row, col);
+        break;
     case 3:
         g = std::make_shared<DragonHoard>(row, col);
+        break;
     }
     gold_list.push_back(g);
     text_display[row][col] = 'G';
