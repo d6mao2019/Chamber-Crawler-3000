@@ -119,8 +119,10 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
         text_display[location.first][location.second] = 'D';
         for (auto i = avialables.begin(); i != avialables.end(); ++i)
         {
-            if ((*i).first == location.first && (*i).second == location.second)
+            if ((*i).first == location.first && (*i).second == location.second) {
                 avialables.erase(i);
+                break;
+            }
         }
     }
     gold_list.push_back(g);

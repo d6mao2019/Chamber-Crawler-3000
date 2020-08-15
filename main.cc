@@ -246,7 +246,11 @@ int main(int argc, char *argv[])
                 std::vector<char> vc;
                 for (auto c : i)
                 {
-                    vc.push_back(c);
+                    if (c!='\n')
+                    {
+                        vc.push_back(c);
+
+                    }
                 }
                 mainEmptyMap.push_back(vc);
             }
