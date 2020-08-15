@@ -209,9 +209,9 @@ int main(int argc, char *argv[])
     }
     std::cout << message << std::endl;
 
-    ifstream inputMap(argv[0]);
     if (argc > 0) // read in map.
     {
+        ifstream inputMap(argv[0]);
         Floor firFloor = readFloor(inputMap, availables, pl);
         Floor secFloor = readFloor(inputMap, availables, pl);
         Floor thiFloor = readFloor(inputMap, availables, pl);
@@ -311,6 +311,7 @@ int main(int argc, char *argv[])
             {
                 message = e.what();
             }
+            std::cout << curFloor;
             std::cout << message << std::endl;
         } // while
     }     // while

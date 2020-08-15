@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
+#include <iostream>
 
 void Floor::select_potion(int row, int col)
 {
@@ -153,7 +154,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     }
 }
 
-std::vector<std::vector<char>> Floor::getTextDisplay() { return text_display; }
+std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {
@@ -275,4 +276,18 @@ void Floor::consume_potion(Direction direction)
 {
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
         (*i)->consume(*player);
+}
+
+std::ostream &operator<<(std::ostream &out, const Floor &fl)
+{
+    const std::vector<std::vector<char>> &map = fl.getTextDisplay();
+    for (auto i : map)
+    {
+        for (auto j : i)
+        {
+            out << j;
+        }
+        out << std::endl;
+    }
+    return out;
 }
