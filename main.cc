@@ -488,7 +488,14 @@ int main(int argc, char *argv[])
                 std::cout << message << std::endl;
             } // while command processing.
         }     // while floors.
-        if (cmd == "r")
-            break;
+
+        // all floors cleared. choose whether to restart or quit.
+        while (cin >> cmd && (cmd == "r" || cmd == "q"))
+        {
+            if (cmd == "r")
+                break;
+            else
+                return 0;
+        }
     } //while whole game.
 } // main
