@@ -174,17 +174,6 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
              std::vector<std::vector<std::pair<int, int>>> &availables)
     : text_display{text_display}, enemy_list{enemy_list}, potion_list{potion_list}, gold_list{gold_list}, player{player}
 {
-    // place player.
-    std::vector<int> chambers{0, 1, 2, 3, 4};
-    int chamber = rand() % 5;
-    std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
-    player->setLocation(location.first, location.second);
-    text_display[location.first][location.second] = '@';
-    // place stairway.
-    chambers.erase(chambers.begin() + chamber);
-    chamber = chambers[rand() % 4];
-    location = availables[chamber][rand() % availables[chamber].size()];
-    text_display[location.first][location.second] = '\\';
 }
 
 // constructor: randomly spawn enemies, potions, and golds.

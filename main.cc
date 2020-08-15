@@ -110,6 +110,10 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                     }
                 }
                 break;
+            case '@':
+                newRow.push_back('@');
+                player->setLocation(row, col);
+                break;
             default:
                 newRow.push_back(line[col]);
             } // switch
