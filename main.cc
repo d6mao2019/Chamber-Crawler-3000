@@ -21,8 +21,9 @@ Floor readFloor(ifstream &f,std::vector<std::vector<std::pair<int, int>>> &avail
         newAvailables.push_back(newprs);
     }
     std::string line;
-    getline(f,line);
-    for(int i = 0; i < line.length();++i){
+    getline(f, line);
+    for (int i = 0; i < line.length(); ++i)
+    {
         text_display[0].push_back(line[i]);
     }
     int row = 1;
@@ -96,7 +97,6 @@ Floor readFloor(ifstream &f,std::vector<std::vector<std::pair<int, int>>> &avail
                 default:    
                     text_display[row].push_back(line[col]);
             }
-            
         }
 
     }while(!(line[0] == '|' && line[1] == '-'));
