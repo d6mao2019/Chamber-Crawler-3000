@@ -470,13 +470,12 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
+                curFloor.tick();
                 std::cout << curFloor;
                 std::cout << message << std::endl;
-            } // while
-        }
+            } // while command processing.
+        }     // while floors.
         if (cmd == "r")
-        {
             break;
-        } // while
-    }     //while
+    } //while whole game.
 } // main

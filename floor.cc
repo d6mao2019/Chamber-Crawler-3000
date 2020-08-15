@@ -236,19 +236,20 @@ void Floor::tick()
         player->beAttackedBy(**i);
 }
 
-bool Floor::move_player(int oldRow, int oldCol, int row, int col)
+bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 {
-    char pos = text_display[row][col];
+    // move player.
+    player->setLocation(new_row, new_col);
+    // modify text display.
+    char pos = text_display[new_row][new_col];
     bool swap = 0;
     if (pos == '.' || pos == '+' || pos == '#')
-    {
         swap = 1;
-    }
-    else if (pos == 'G')
+    else if (pos == 'G') // want to step onto a Gold.
     {
         for (int i = 0; i < gold_list.size(); i++)
         {
-            if (gold_list[i]->cmpLoc(row, col))
+            if (gold_list[i]->cmpLoc(new_row, new_col))
             {
                 if (gold_list[i]->canBepickedup())
                 {
@@ -260,7 +261,7 @@ bool Floor::move_player(int oldRow, int oldCol, int row, int col)
             }
         }
     }
-    else if (pos == '\\')
+    else if (pos == '\\') // want to goto next floor.
     {
         player->restore();
         return 1;
@@ -270,11 +271,10 @@ bool Floor::move_player(int oldRow, int oldCol, int row, int col)
 
     if (swap)
     {
-        text_display[oldRow][oldCol] = player->getPrev();
-        text_display[row][col] = '@';
+        text_display[old_row][old_col] = player->getPrev();
+        text_display[new_row][new_col] = '@';
         player->setPrev(pos);
     }
-
     return 0;
 }
 
