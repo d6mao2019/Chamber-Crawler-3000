@@ -28,8 +28,10 @@ std::istream &operator>>(std::istream &in, Direction &direction)
 	return in;
 }
 
-Character::Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
-	: MaxHP{MaxHP}, HP{HP}, Atk{Atk}, Def{Def}, gold{gold}, row{row}, col{col} {}
+Character::Character(double MaxHP, double HP, double Atk, double Def,
+					 int gold, int row, int col, Floor *floor)
+	: MaxHP{MaxHP}, HP{HP}, Atk{Atk}, Def{Def},
+	  gold{gold}, row{row}, col{col}, floor{floor} {}
 
 double Character::getHP() const { return HP; }
 double Character::getAtk() const { return Atk; }
@@ -49,6 +51,8 @@ void Character::setLocation(int new_row, int new_col)
 	row = new_row;
 	col = new_col;
 }
+
+void Character::setFloor(Floor *new_floor) { floor = new_floor; }
 
 void Character::move(Direction direction)
 {

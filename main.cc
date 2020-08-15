@@ -122,7 +122,6 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
         row += 1;
 
     } while (!(line[0] == '|' && line[1] == '-'));
-
     for (int i = 0; i < text_display.size(); ++i)
     {
         for (int j = 0; j < text_display[i].size(); ++j)
@@ -131,23 +130,23 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
             switch (text_display[i][j])
             {
             case 'H':
-                newEnemy = make_shared<Human>(i, j);
+                newEnemy = make_shared<Human>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'W':
-                newEnemy = make_shared<Dwarf>(i, j);
+                newEnemy = make_shared<Dwarf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'E':
-                newEnemy = make_shared<Elf>(i, j);
+                newEnemy = make_shared<Elf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'O':
-                newEnemy = make_shared<Orc>(i, j);
+                newEnemy = make_shared<Orc>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'M':
-                newEnemy = make_shared<Merchant>(i, j);
+                newEnemy = make_shared<Merchant>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'D':
@@ -156,20 +155,22 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                     shared_ptr<Gold> theGold = gold_list[w];
                     if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
-                        newEnemy = make_shared<Dragon>(i, j, theGold);
+                        newEnemy = make_shared<Dragon>(i, j, theGold, nullptr);
                         enemy_list.push_back(newEnemy);
                         break;
                     }
                 }
                 break;
             case 'L':
-                newEnemy = make_shared<Halfling>(i, j);
+                newEnemy = make_shared<Halfling>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             }
         }
     }
     Floor newFloor = Floor(text_display, enemy_list, potion_list, gold_list, player, newAvailables);
+    for (auto i : enemy_list)
+        i->setFloor(&newFloor);
     return newFloor;
 }
 

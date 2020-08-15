@@ -114,13 +114,16 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
         text_display[row][col] = 'G';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
         std::pair<int, int> location = availables[rand() % availables.size()];
-        auto dragon = std::make_shared<Dragon>(location.first, location.second, g);
+        auto dragon = std::make_shared<Dragon>(location.first, location.second, g, this);
         enemy_list.push_back(dragon);
         text_display[location.first][location.second] = 'D';
         for (auto i = avialables.begin(); i != avialables.end(); ++i)
         {
             if ((*i).first == location.first && (*i).second == location.second)
+            {
                 avialables.erase(i);
+                break;
+            }
         }
     }
     gold_list.push_back(g);
@@ -131,37 +134,37 @@ void Floor::select_enemy(int row, int col)
     int type = rand() % 18;
     if (0 <= type && type < 4) // human.
     {
-        auto e = std::make_shared<Human>(row, col);
+        auto e = std::make_shared<Human>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'H';
     }
     if (4 <= type && type < 7) // dwarf.
     {
-        auto e = std::make_shared<Dwarf>(row, col);
+        auto e = std::make_shared<Dwarf>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'W';
     }
     if (7 <= type && type < 12) // halfling.
     {
-        auto e = std::make_shared<Halfling>(row, col);
+        auto e = std::make_shared<Halfling>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'L';
     }
     if (12 <= type && type < 14) // elf.
     {
-        auto e = std::make_shared<Elf>(row, col);
+        auto e = std::make_shared<Elf>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'E';
     }
     if (14 <= type && type < 16) // orc.
     {
-        auto e = std::make_shared<Orc>(row, col);
+        auto e = std::make_shared<Orc>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'O';
     }
     if (16 <= type && type < 18) // merchant.
     {
-        auto e = std::make_shared<Merchant>(row, col);
+        auto e = std::make_shared<Merchant>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'M';
     }

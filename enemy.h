@@ -7,12 +7,14 @@ class Drow;
 class Vampire;
 class Troll;
 class Goblin;
+class Floor;
 
 class Enemy : public Character
 {
 public:
 	// constructor.
-	Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
+	Enemy(double MaxHP, double HP, double Atk, double Def,
+		  int gold, int row, int col, Floor *floor);
 	virtual ~Enemy();
 	virtual bool adjacent(const Player &p) const;
 	virtual void attack(Shade &shade);
@@ -21,8 +23,7 @@ public:
 	virtual void attack(Troll &troll);
 	virtual void attack(Goblin &goblin);
 	virtual void beAttackedBy(Player &p) = 0;
-	void notify(); // notify the floor when slain.
-
+	void notify();				   // notify the floor when slain.
 	bool operator==(Enemy &other); // Enemy comparison by location on floor.
 };
 
@@ -30,7 +31,7 @@ class Human : public Enemy
 // drops 2 normal piles of gold.
 {
 public:
-	Human(int row, int col);
+	Human(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	// 0 attack override(s).
 };
@@ -39,7 +40,7 @@ class Dwarf : public Enemy
 // Vampires are allergic to dwarves and lose 5 HP rather than gain.
 {
 public:
-	Dwarf(int row, int col);
+	Dwarf(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	// 0 attack override(s).
 };
@@ -48,7 +49,7 @@ class Elf : public Enemy
 // gets two attacks against every race except drow.
 {
 public:
-	Elf(int row, int col);
+	Elf(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	// 4 attack override(s).
 	virtual void attack(Shade &shade) override;
@@ -61,7 +62,7 @@ class Orc : public Enemy
 // does 50% more damage to goblins.
 {
 public:
-	Orc(int row, int col);
+	Orc(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	// 1 attack override(s).
 	virtual void attack(Goblin &goblin) override;
@@ -71,7 +72,7 @@ class Merchant : public Enemy
 {
 public:
 	static bool neutral;
-	Merchant(int row, int col);
+	Merchant(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	bool getHostility() const;
 	// 5 attack override(s).
@@ -88,7 +89,7 @@ class Dragon : public Enemy
 	std::shared_ptr<Gold> hoard;
 
 public:
-	Dragon(int row, int col, std::shared_ptr<Gold> hoard);
+	Dragon(int row, int col, std::shared_ptr<Gold> hoard, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	virtual bool adjacent(const Player &other) const override;
 	// 0 attack override(s).
@@ -99,7 +100,7 @@ class Halfling : public Enemy
 // has a 50% chance to cause the player character to miss in combat.
 {
 public:
-	Halfling(int row, int col);
+	Halfling(int row, int col, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	// 0 attack override(s).
 };
