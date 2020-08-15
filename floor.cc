@@ -83,6 +83,7 @@ void Floor::select_potion(int row, int col)
     potion_list.push_back(e);
     text_display[row][col] = 'P';
 }
+
 void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avialables)
 {
     int type = rand() % 4;
@@ -90,18 +91,22 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
     if (type == 0)
     {
         g = std::make_shared<SmallHoard>(row, col);
+        text_display[row][col] = 'G';
     }
     else if (type == 1)
     {
         g = std::make_shared<Normal>(row, col);
+        text_display[row][col] = 'G';
     }
     else if (type == 2)
     {
         g = std::make_shared<MerchantHoard>(row, col);
+        text_display[row][col] = 'G';
     }
     else if (type == 3)
     {
         g = std::make_shared<DragonHoard>(row, col);
+        text_display[row][col] = '*';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
         std::pair<int, int> location = availables[rand() % availables.size()];
         auto dragon = std::make_shared<Dragon>(location.first, location.second);
@@ -114,8 +119,8 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
         }
     }
     gold_list.push_back(g);
-    text_display[row][col] = 'G';
 }
+
 void Floor::select_enemy(int row, int col)
 {
     int type = rand() % 18;
