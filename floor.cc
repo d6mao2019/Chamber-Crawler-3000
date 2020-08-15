@@ -164,7 +164,6 @@ Floor::Floor(std::vector<std::vector<char>> &td,
             ++starts[chamber];
         }
     }
-    std::cout << *this;
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
