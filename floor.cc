@@ -124,13 +124,14 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     text_display[location.first][location.second] = '\\';
 }
 // constructor: randomly spawn enemies, potions, and golds.
-Floor::Floor(std::vector<std::vector<char>> &text_display,
+Floor::Floor(std::vector<std::vector<char>> &td,
              std::shared_ptr<Player> player,
-             std::vector<std::vector<std::pair<int, int>>> &availables,
+             std::vector<std::vector<std::pair<int, int>>> availables,
              int potion_num, int gold_num, int enemy_num)
-    : text_display{text_display}, player{player}
+    : text_display{td}, player{player}
 {
     this->ERM = 1;
+    //place player
     std::vector<int> chambers{0, 1, 2, 3, 4};
     int chamber = rand() % 5;
     std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
@@ -164,6 +165,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
             ++starts[chamber];
         }
     }
+    std::cout << *this;
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
@@ -192,7 +194,7 @@ void Floor::ERMSwitch()
 }
 
 // helper for Floor::tick();
-std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &text_display)
+std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, const std::vector<std::vector<char>> &text_display)
 {
     std::vector<Direction> result;
     int row = e->getRow();
@@ -236,31 +238,29 @@ void Floor::tick()
         player->beAttackedBy(**i);
 }
 
-bool Floor::move_player(int row, int col, int oldRow, int oldCol)
+bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 {
-    char pos = text_display[row][col];
-    bool swap = 0;
-    if (pos == '.' || pos == '+' || pos == '#')
-    {
-        swap = 1;
-    }
-    else if (pos == 'G')
+    char target = text_display[new_row][new_col];
+    bool move = 0;
+    if (target == '.' || target == '+' || target == '#')
+        move = 1;
+    else if (target == 'G') // want to step onto a Gold.
     {
         for (int i = 0; i < gold_list.size(); i++)
         {
-            if (gold_list[i]->cmpLoc(row, col))
+            if (gold_list[i]->cmpLoc(new_row, new_col))
             {
                 if (gold_list[i]->canBepickedup())
                 {
                     player->setGold(player->getGold() + gold_list[i]->getVal());
                     gold_list.erase(gold_list.begin() + i);
-                    swap = 1;
+                    move = 1;
                     break;
                 }
             }
         }
     }
-    else if (pos == '\\')
+    else if (target == '\\') // want to goto next floor.
     {
         player->restore();
         return 1;
@@ -268,13 +268,13 @@ bool Floor::move_player(int row, int col, int oldRow, int oldCol)
     else
         throw std::runtime_error{"Error: trying to move player to an impossible location."};
 
-    if (swap)
+    if (move)
     {
-        text_display[oldRow][oldCol] = player->getPrev();
-        text_display[row][col] = '@';
-        player->setPrev(pos);
+        player->setLocation(new_row, new_col);
+        text_display[old_row][old_col] = player->getPrev();
+        text_display[new_row][new_col] = '@';
+        player->setPrev(target);
     }
-
     return 0;
 }
 

@@ -42,7 +42,7 @@ public:
 	// constructor: randomly spawn enemies, potions, and golds.
 	Floor(std::vector<std::vector<char>> &text_display,
 		  std::shared_ptr<Player> player,
-		  std::vector<std::vector<std::pair<int, int>>> &availables,
+		  std::vector<std::vector<std::pair<int, int>>> availables,
 		  int potion_num, int gold_num, int enemy_num);
 
 	// accessor.
@@ -60,7 +60,7 @@ public:
 	void tick();
 
 	// moves the player on the map.
-	bool move_player(int row, int col, int oldRow, int oldCol);
+	bool move_player(int oldRow, int oldCol, int row, int col);
 
 	// let the player attack the enemy indicated by direction.
 	// report an error if no enemy is located at the specified direction.
