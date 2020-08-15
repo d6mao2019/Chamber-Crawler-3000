@@ -163,7 +163,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
 int main(int argc, char *argv[])
 {
     int floorNum = 0;
-    string cmd;
+    std::string cmd;
     Direction direction = Direction::no;
     std::string message;
     vector<Floor> floors;
@@ -172,25 +172,45 @@ int main(int argc, char *argv[])
     std::shared_ptr<Player> pl;
 
     message = "Please select your race.";
-    cout << message << endl;
-    cin >> cmd;
+    std::cout << message << std::endl;
+    std::cin >> cmd;
     if (cmd == "s")
+    {
         pl = make_shared<Shade>();
+        message = "You have selected Shade.";
+    }
     else if (cmd == "d")
+    {
         pl = make_shared<Drow>();
+        message = "You have selected Drow.";
+    }
     else if (cmd == "v")
+    {
         pl = make_shared<Vampire>();
+        message = "You have selected Vampire.";
+    }
     else if (cmd == "g")
+    {
         pl = make_shared<Goblin>();
+        message = "You have selected Goblin.";
+    }
     else if (cmd == "t")
+    {
         pl = make_shared<Troll>();
+        message = "You have selected Troll.";
+    }
     else if (cmd == "q")
+    {
         return 0;
+    }
     else
+    {
         message = "Error: unrecgonized race.";
+    }
+    std::cout << message << std::endl;
 
     ifstream inputMap(argv[0]);
-    if (argc > 0)
+    if (argc > 0) // read in map.
     {
         Floor firFloor = readFloor(inputMap, availables, pl);
         Floor secFloor = readFloor(inputMap, availables, pl);
@@ -199,7 +219,7 @@ int main(int argc, char *argv[])
         Floor fifFloor = readFloor(inputMap, availables, pl);
         floors = {firFloor, secFloor, thiFloor, forFloor, fifFloor};
     }
-    else
+    else // read in empty map for random generate later.
     {
         for (auto i : charMap)
         {
@@ -212,7 +232,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    while (floorNum <= 4)
+    while (floorNum < 5)
     {
         Floor curFloor;
         if (argc > 0)
@@ -260,11 +280,12 @@ int main(int argc, char *argv[])
                     return 0;
                 else
                     message = "Error: unrecognized command.";
-            } // try
+            }
             catch (std::runtime_error &e)
             {
                 message = e.what();
-            } // catch
-        }     // while
-    }         // for
+            }
+            std::cout << message << std::endl;
+        } // while
+    }     // while
 } // main
