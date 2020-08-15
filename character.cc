@@ -56,23 +56,31 @@ void Character::move(Direction direction)
 	{
 	case Direction::no:
 		--row;
+		break;
 	case Direction::so:
 		++row;
+		break;
 	case Direction::we:
 		--col;
+		break;
 	case Direction::ea:
 		++col;
+		break;
 	case Direction::nw:
 		--row;
 		--col;
+		break;
 	case Direction::ne:
 		--row;
 		++col;
+		break;
 	case Direction::sw:
 		++row;
 		--col;
+		break;
 	case Direction::se:
 		++row;
 		++col;
+		break;
 	}
 }
