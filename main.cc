@@ -170,149 +170,158 @@ int main(int argc, char *argv[])
     std::vector<std::vector<char>> mainEmptyMap;
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
+    ifstream inputMap(argv[1]);
 
-    message = "Please select your race.";
-    std::cout << message << std::endl;
-    std::cin >> cmd;
-    if (cmd == "s")
-    {
-        pl = make_shared<Shade>();
-        message = "You have selected Shade.";
-    }
-    else if (cmd == "d")
-    {
-        pl = make_shared<Drow>();
-        message = "You have selected Drow.";
-    }
-    else if (cmd == "v")
-    {
-        pl = make_shared<Vampire>();
-        message = "You have selected Vampire.";
-    }
-    else if (cmd == "g")
-    {
-        pl = make_shared<Goblin>();
-        message = "You have selected Goblin.";
-    }
-    else if (cmd == "t")
-    {
-        pl = make_shared<Troll>();
-        message = "You have selected Troll.";
-    }
-    else if (cmd == "q")
-    {
-        return 0;
-    }
-    else
-    {
-        message = "Error: unrecgonized race.";
-    }
-    std::cout << message << std::endl;
 
-    if (argc > 1) // read in map.
-    {
-        ifstream inputMap(argv[1]);
-        Floor firFloor = readFloor(inputMap, availables, pl);
-        Floor secFloor = readFloor(inputMap, availables, pl);
-        Floor thiFloor = readFloor(inputMap, availables, pl);
-        Floor forFloor = readFloor(inputMap, availables, pl);
-        Floor fifFloor = readFloor(inputMap, availables, pl);
-        floors = {firFloor, secFloor, thiFloor, forFloor, fifFloor};
-    }
-    else // read in empty map for random generate later.
-    {
-        for (auto i : charMap)
+    while(true){
+        message = "Please select your race.";
+        std::cout << message << std::endl;
+        std::cin >> cmd;
+        if (cmd == "s")
         {
-            std::vector<char> vc;
-            for (auto c : i)
-            {
-                vc.push_back(c);
-            }
-            mainEmptyMap.push_back(vc);
+            pl = make_shared<Shade>();
+            message = "You have selected Shade.";
         }
-    }
-
-    while (floorNum < 5)
-    {
-        Floor curFloor;
-        if (argc > 1)
-            curFloor = floors[floorNum];
-        else
-            curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-        while (std::cin >> cmd)
+        else if (cmd == "d")
         {
-            try
+            pl = make_shared<Drow>();
+            message = "You have selected Drow.";
+        }
+        else if (cmd == "v")
+        {
+            pl = make_shared<Vampire>();
+            message = "You have selected Vampire.";
+        }
+        else if (cmd == "g")
+        {
+            pl = make_shared<Goblin>();
+            message = "You have selected Goblin.";
+        }
+        else if (cmd == "t")
+        {
+            pl = make_shared<Troll>();
+            message = "You have selected Troll.";
+        }
+        else if (cmd == "q")
+        {
+            return 0;
+        }
+        else
+        {
+            message = "Error: unrecgonized race.";
+        }
+        std::cout << message << std::endl;
+
+        if (argc > 1) // read in map.
+        {
+            Floor firFloor = readFloor(inputMap, availables, pl);
+            Floor secFloor = readFloor(inputMap, availables, pl);
+            Floor thiFloor = readFloor(inputMap, availables, pl);
+            Floor forFloor = readFloor(inputMap, availables, pl);
+            Floor fifFloor = readFloor(inputMap, availables, pl);
+            floors = {firFloor, secFloor, thiFloor, forFloor, fifFloor};
+        }
+        else // read in empty map for random generate later.
+        {
+            for (auto i : charMap)
             {
-                if (cmd == "no")
+                std::vector<char> vc;
+                for (auto c : i)
                 {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol());
-                    message = "Player moved to the north.";
+                    vc.push_back(c);
                 }
-                else if (cmd == "so")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol());
-                    message = "Player moved to the south.";
-                }
-                else if (cmd == "we")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1);
-                    message = "Player moved to the west.";
-                }
-                else if (cmd == "ea")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1);
-                    message = "Player moved to the east.";
-                }
-                else if (cmd == "nw")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1);
-                    message = "Player moved to the north west.";
-                }
-                else if (cmd == "ne")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1);
-                    message = "Player moved to the north east.";
-                }
-                else if (cmd == "sw")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1);
-                    message = "Player moved to the south west.";
-                }
-                else if (cmd == "se")
-                {
-                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1);
-                    message = "Player moved to the south east.";
-                }
-                else if (cmd == "u") // use potion.
-                {
-                    std::cin >> direction;
-                    curFloor.consume_potion(direction);
-                }
-                else if (cmd == "a") // attack enemy.
-                {
-                    std::cin >> direction;
-                    curFloor.attack_enemy(direction);
-                }
-                else if (cmd == "f") // stops enemies from moving until this key is pressed again.
-                {
-                    curFloor.ERMSwitch();
-                }
-                else if (cmd == "r") // restart game.
-                {
-                    // shoule "rerun" main.
-                    break;
-                }
-                else if (cmd == "q") // quit game.
-                    return 0;
-                else
-                    message = "Error: unrecognized command.";
+                mainEmptyMap.push_back(vc);
             }
-            catch (std::runtime_error &e)
+        }
+
+        while (floorNum < 5)
+        {
+            Floor curFloor;
+            if (argc > 1)
+                curFloor = floors[floorNum];
+            else
+                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
+            while (std::cin >> cmd)
             {
-                message = e.what();
-            }
-            std::cout << curFloor;
-            std::cout << message << std::endl;
-        } // while
-    }     // while
+                try
+                {
+                    if (cmd == "no")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol());
+                        message = "Player moved to the north.";
+                    }
+                    else if (cmd == "so")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol());
+                        message = "Player moved to the south.";
+                    }
+                    else if (cmd == "we")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1);
+                        message = "Player moved to the west.";
+                    }
+                    else if (cmd == "ea")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1);
+                        message = "Player moved to the east.";
+                    }
+                    else if (cmd == "nw")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1);
+                        message = "Player moved to the north west.";
+                    }
+                    else if (cmd == "ne")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1);
+                        message = "Player moved to the north east.";
+                    }
+                    else if (cmd == "sw")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1);
+                        message = "Player moved to the south west.";
+                    }
+                    else if (cmd == "se")
+                    {
+                        curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1);
+                        message = "Player moved to the south east.";
+                    }
+                    else if (cmd == "u") // use potion.
+                    {
+                        std::cin >> direction;
+                        curFloor.consume_potion(direction);
+                    }
+                    else if (cmd == "a") // attack enemy.
+                    {
+                        std::cin >> direction;
+                        curFloor.attack_enemy(direction);
+                    }
+                    else if (cmd == "f") // stops enemies from moving until this key is pressed again.
+                    {
+                        curFloor.ERMSwitch();
+                    }
+                    else if (cmd == "r") // restart game.
+                    {
+                        floorNum = 0;
+                        inputMap.clear();
+                        inputMap.seekg(0, inputMap.beg);
+                        // shoule "rerun" main.
+                        break;
+                    }
+                    else if (cmd == "q") // quit game.
+                        return 0;
+                    else
+                        message = "Error: unrecognized command.";
+                }
+                catch (std::runtime_error &e)
+                {
+                    message = e.what();
+                }
+                if(cmd == "r"){
+                    continue;
+                }
+                std::cout << curFloor;
+                std::cout << message << std::endl;
+            } // while
+        }     // while
+    }
 } // main
