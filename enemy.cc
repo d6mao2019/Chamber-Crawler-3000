@@ -21,12 +21,7 @@ void common_attack(Enemy *e, PlayerType &p)
 		double atk = e->getAtk();
 		double def = p.getDef();
 		double damage = 100 / (100 + def) * atk;
-		if (p.getHP() > damage)
-			p.setHP(p.getHP() - damage);
-		else
-		{
-			// player got killed. give them the option of playing again or quitting.
-		}
+		p.setHP(p.getHP() - damage);
 	}
 }
 void Enemy::attack(Shade &shade) { common_attack<Shade>(this, shade); }
@@ -69,12 +64,7 @@ void elf_attack(Enemy *e, PlayerType &p)
 		double def = p.getDef();
 		double damage = 100 / (100 + def) * atk;
 		damage *= 2;
-		if (p.getHP() > damage)
-			p.setHP(p.getHP() - damage);
-		else
-		{
-			// player got killed. give them the option of playing again or quitting.
-		}
+		p.setHP(p.getHP() - damage);
 	}
 }
 void Elf::attack(Shade &shade) { elf_attack<Shade>(this, shade); }
@@ -95,12 +85,7 @@ void Orc::attack(Goblin &goblin)
 		double atk = getAtk();
 		double def = goblin.getDef();
 		double damage = 1.5 * (100 / (100 + def) * atk);
-		if (goblin.getHP() > damage)
-			goblin.setHP(goblin.getHP() - damage);
-		else
-		{
-			// player got killed. give them the option of playing again or quitting.
-		}
+		goblin.setHP(goblin.getHP() - damage);
 	}
 }
 

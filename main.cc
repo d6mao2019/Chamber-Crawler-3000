@@ -471,6 +471,19 @@ int main(int argc, char *argv[])
                     message = e.what();
                 }
                 curFloor.tick();
+                if (pl->getHP() <= 0)
+                {
+                    message = "Player got killed. Do you want to restart(r) or quit(q)?";
+                    while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                    {
+                        if (cmd == "q")
+                            return 0;
+                        else
+                        {
+                            // steve.
+                        }
+                    }
+                }
                 std::cout << curFloor;
                 std::cout << message << std::endl;
             } // while command processing.
