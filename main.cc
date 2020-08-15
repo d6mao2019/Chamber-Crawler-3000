@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-
+#define cin ff
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -171,16 +171,17 @@ int main(int argc, char *argv[])
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
     ifstream inputMap;
+    ifstream ff{"1.in"};
     if (argc > 1)
     {
         inputMap.open(argv[1]);
     }
 
-    while (true)
+    while (!cin.fail())
     {
         message = "Please select your race.";
         std::cout << message << std::endl;
-        std::cin >> cmd;
+        cin >> cmd;
         if (cmd == "s")
         {
             pl = make_shared<Shade>();
@@ -238,14 +239,16 @@ int main(int argc, char *argv[])
             }
         }
 
-        while (floorNum < 5)
+        while (floorNum < 5 && !cin.fail())
         {
             Floor curFloor;
             if (argc > 1)
                 curFloor = floors[floorNum];
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-            while (std::cin >> cmd)
+            std::cout << curFloor;
+
+            while (cin >> cmd)
             {
                 try
                 {
@@ -435,12 +438,12 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "u") // use potion.
                     {
-                        std::cin >> direction;
+                        cin >> direction;
                         curFloor.consume_potion(direction);
                     }
                     else if (cmd == "a") // attack enemy.
                     {
-                        std::cin >> direction;
+                        cin >> direction;
                         curFloor.attack_enemy(direction);
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
