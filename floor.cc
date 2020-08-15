@@ -234,16 +234,51 @@ Floor::Floor(std::vector<std::vector<char>> &td,
     }
 }
 
+// copy constructor.
+Floor::Floor(const Floor &other)
+{
+    text_display = other.text_display;
+    enemy_list = other.enemy_list;
+    for (auto i : enemy_list)
+    {
+        i->setFloor(this);
+    }
+    potion_list = other.potion_list;
+    gold_list = other.gold_list;
+    player = other.player;
+    ERM = other.ERM;
+}
+
+// copy assign.
+void Floor::operator=(const Floor &other)
+{
+    text_display = other.text_display;
+    enemy_list = other.enemy_list;
+    for (auto i : enemy_list)
+    {
+        i->setFloor(this);
+    }
+    potion_list = other.potion_list;
+    gold_list = other.gold_list;
+    player = other.player;
+    ERM = other.ERM;
+}
+
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {
     int original_size = enemy_list.size(); // debugging purpose.
     /* modify vector. */
+    std::cout << original_size << std::endl;
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
         if (**i == e)
+        {
             enemy_list.erase(i);
+            std::cout << "jian shao le";
+            break;
+        }
     }
     if (enemy_list.size() != original_size - 1) // debugging purpose.
         throw std::logic_error{"Bug: something wrong with the enemy list. added or removed improperly sometime."};
