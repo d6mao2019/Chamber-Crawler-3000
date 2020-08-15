@@ -48,7 +48,7 @@ public:
 
 class HPBoost : public Potion
 {
-	const int hp = 5;
+	const int hp = 10;
 
 public:
 	HPBoost(int row = 0, int col = 0);
@@ -57,7 +57,7 @@ public:
 
 class HPWound : public Potion
 {
-	const int hp = 5;
+	const int hp = 10;
 
 public:
 	HPWound(int row = 0, int col = 0);
