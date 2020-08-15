@@ -26,13 +26,17 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     }
     std::string line;
     getline(f, line);
+    vector<char> firstRow;
     for (int i = 0; i < line.length(); ++i)
     {
-        text_display[0].push_back(line[i]);
+
+        firstRow.push_back(line[i]);
     }
+    text_display.push_back(firstRow);
     int row = 1;
     do
     {
+        vector<char> newRow;
         getline(f, line);
         for (int col = 0; col < line.length(); ++col)
         {
@@ -42,61 +46,62 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
             switch (line[col])
             {
             case '0':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<HPBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '1':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<AtkBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '2':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<DefBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '3':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<HPWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '4':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<AtkWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '5':
-                text_display[row].push_back('P');
+                newRow.push_back('P');
                 newPotion = make_shared<DefWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '6':
-                text_display[row].push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newRow.push_back('G');
+                newGold = make_shared<Normal>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '7':
-                text_display[row].push_back('G');
+                newRow.push_back('G');
                 newGold = make_shared<SmallHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '8':
-                text_display[row].push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newRow.push_back('G');
+                newGold = make_shared<MerchantHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '9':
-                text_display[row].push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newRow.push_back('G');
+                newGold = make_shared<DragonHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '.':
-                text_display[row].push_back('.');
+                newRow.push_back('.');
                 for (int i = 0; i != availables.size(); ++i)
                 {
                     for (int j = 0; j < availables[i].size(); ++j)
                     {
+
                         if (availables[i][j].first == row && availables[i][j].second == col)
                         {
                             newPair = {row, col};
@@ -104,10 +109,13 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                         }
                     }
                 }
+                break;
             default:
-                text_display[row].push_back(line[col]);
+                newRow.push_back(line[col]);
             } // switch
-        }     // do
+        }
+        text_display.push_back(newRow); // do
+        row += 1;
 
     } while (!(line[0] == '|' && line[1] == '-'));
 
@@ -142,10 +150,11 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 for (int w = 0; w < gold_list.size(); ++w)
                 {
                     shared_ptr<Gold> theGold = gold_list[w];
-                    if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1)
+                    if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
                         newEnemy = make_shared<Dragon>(i, j, theGold);
                         enemy_list.push_back(newEnemy);
+                        break;
                     }
                 }
                 break;
@@ -156,7 +165,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
             }
         }
     }
-    Floor newFloor = Floor{text_display, enemy_list, potion_list, gold_list, player, newAvailables};
+    Floor newFloor = Floor(text_display, enemy_list, potion_list, gold_list, player, newAvailables);
     return newFloor;
 }
 
