@@ -162,13 +162,19 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
 
 int main(int argc, char *argv[])
 {
+    int floorNum = 0;
     string cmd;
-    shared_ptr<Player> thePlayer;
+    shared_ptr<Player> pl;
     Direction direction;
     std::string message;
-    message = "Please select your race.";
+    vector<Floor> floors;
+    std::vector<std::vector<char>> mainEmptyMap;
+    std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
-    std::cin >> cmd;
+
+    message = "Please select your race.";
+    cout << message << endl;
+    cin >> cmd;
     if (cmd == "s")
     {
         pl = make_shared<Shade>();
@@ -194,53 +200,73 @@ int main(int argc, char *argv[])
     else
         message = "Error: unrecgonized race.";
 
-    std::vector<std::vector<char>> mainEmptyMap;
-    for (auto i : charMap)
+    ifstream inputMap(argv[0]);
+    if (argc > 0)
     {
-        std::vector<char> vc;
-        for (auto c : i)
-        {
-            vc.push_back(c);
-        }
-        mainEmptyMap.push_back(vc);
+        Floor firFloor = readFloor(inputMap, availables, pl);
+        Floor secFloor = readFloor(inputMap, availables, pl);
+        Floor thiFloor = readFloor(inputMap, availables, pl);
+        Floor forFloor = readFloor(inputMap, availables, pl);
+        Floor fifFloor = readFloor(inputMap, availables, pl);
+        floors = {firFloor, secFloor, thiFloor, forFloor, fifFloor};
     }
-    vector<vector<pair<int, int>>> a = {prsA, prsB, prsC, prsD, prsE};
-
-    for (int i = 0; i < 5; ++i)
+    else
     {
-        Floor floor{mainEmptyMap, pl, a, 20, 10, 10};
+        for (auto i : charMap)
+        {
+            std::vector<char> vc;
+            for (auto c : i)
+            {
+                vc.push_back(c);
+            }
+            mainEmptyMap.push_back(vc);
+        }
+    }
+
+    while (floorNum <= 4)
+    {
+        Floor curFloor;
+        if (argc > 0)
+        {
+            curFloor = floors[floorNum];
+        }
+        else
+        {
+            curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
+        }
+
         while (std::cin >> cmd)
         {
             try
             {
                 if (cmd == "no")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol());
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol());
                 else if (cmd == "so")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol());
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol());
                 else if (cmd == "we")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1);
                 else if (cmd == "ea")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1);
                 else if (cmd == "nw")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1);
                 else if (cmd == "ne")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1);
                 else if (cmd == "sw")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1);
                 else if (cmd == "se")
-                    floor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1);
+                    curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1);
                 else if (cmd == "u") // use potion.
                 {
                     std::cin >> direction;
-                    floor.consume_potion(direction);
+                    curFloor.consume_potion(direction);
                 }
                 else if (cmd == "a") // attack enemy.
                 {
                     std::cin >> direction;
-                    floor.attack_enemy(direction);
+                    curFloor.attack_enemy(direction);
                 }
                 else if (cmd == "f") // stops enemies from moving until this key is pressed again.
-                    floor.ERMSwitch();
+                    curFloor.ERMSwitch();
                 else if (cmd == "r") // restart game.
                 {
                     // shoule "rerun" main.

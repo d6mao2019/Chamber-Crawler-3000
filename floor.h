@@ -32,6 +32,7 @@ class Floor
 public:
 	// constructor.
 	// responsible for generating enemies, potions, and gold piles.
+	Floor();
 	Floor(std::vector<std::vector<char>> &text_display,
 		  std::shared_ptr<Player> player,
 		  std::vector<std::vector<std::pair<int, int>>> &availables,
