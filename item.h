@@ -3,9 +3,9 @@
 class Item
 {
 private:
+    const char type;
     int row;
     int col;
-    const char type;
 
 public:
     Item(char type, int row = 0, int col = 0);
@@ -16,4 +16,4 @@ public:
     void setCol(int c);
 };
 
-#endif
+#endif // !ITEM_H
