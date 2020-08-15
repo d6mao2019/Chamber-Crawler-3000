@@ -239,9 +239,6 @@ void Floor::tick()
 
 bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 {
-    // move player.
-    player->setLocation(new_row, new_col);
-    // modify text display.
     char pos = text_display[new_row][new_col];
     bool swap = 0;
     if (pos == '.' || pos == '+' || pos == '#')
@@ -272,6 +269,7 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 
     if (swap)
     {
+        player->setLocation(new_row, new_col);
         text_display[old_row][old_col] = player->getPrev();
         text_display[new_row][new_col] = '@';
         player->setPrev(pos);
