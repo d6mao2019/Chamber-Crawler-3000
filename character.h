@@ -3,7 +3,6 @@
 #include "floor.h"
 #include <memory>
 #include <iostream>
-
 enum class Direction
 {
 	no,
@@ -15,7 +14,7 @@ enum class Direction
 	sw,
 	se
 };
-std::istream &operator>>(std::istream &in, Direction direction);
+std::istream &operator>>(std::istream &in, Direction &direction);
 
 class Character
 // invariants: all integer data fields are all non-negative.
@@ -54,6 +53,6 @@ public:
 	void setGold(int new_gold);
 	void setLocation(int row, int col);
 	virtual void move(Direction direction);
+	std::pair<int, int> GetLocAfterMove(Direction d, int row, int col);
 };
-
 #endif // !CHARACTER_H

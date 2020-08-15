@@ -336,11 +336,14 @@ int main(int argc, char *argv[])
                     {
                         cin >> direction;
                         curFloor.consume_potion(direction);
+                        message = "Player consume potion.";
+                        // need to determine whether cosumption is successful.
                     }
                     else if (cmd == "a") // attack enemy.
                     {
                         cin >> direction;
                         curFloor.attack_enemy(direction);
+                        message = "Player atk.";
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {

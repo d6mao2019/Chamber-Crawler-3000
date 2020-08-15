@@ -3,7 +3,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
-
+#include "item.h"
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling}, origAtk{Atk}, origDef{Def} {}
@@ -12,6 +12,12 @@ Player::~Player() {}
 bool Player::adjacent(const Enemy &e) const
 {
 	int dist_square = pow(this->getRow() - e.getRow(), 2) + pow(this->getCol() - e.getCol(), 2);
+	return dist_square == 1 || dist_square == 2;
+}
+
+bool Player::adjacent(const Item &i) const
+{
+	int dist_square = pow(this->getRow() - i.getRow(), 2) + pow(this->getCol() - i.getCol(), 2);
 	return dist_square == 1 || dist_square == 2;
 }
 
@@ -77,7 +83,7 @@ double Player::getScal() const { return scaling; }
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
-	: Player{125, 125, 25, 25, 0, row, col, 1.0} {}
+	: Player{10000, 10000, 25, 10000, 0, row, col, 1.0} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////

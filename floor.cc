@@ -63,25 +63,30 @@ void Floor::select_potion(int row, int col)
     {
     case 0:
         e = std::make_shared<HPBoost>(row, col);
+        text_display[row][col] = '0';
         break;
     case 1:
         e = std::make_shared<AtkBoost>(row, col);
+        text_display[row][col] = '1';
         break;
     case 2:
         e = std::make_shared<DefBoost>(row, col);
+        text_display[row][col] = '2';
         break;
     case 3:
         e = std::make_shared<HPWound>(row, col);
+        text_display[row][col] = '3';
         break;
     case 4:
         e = std::make_shared<AtkWound>(row, col);
+        text_display[row][col] = '4';
         break;
     case 5:
         e = std::make_shared<DefWound>(row, col);
+        text_display[row][col] = '5';
         break;
     }
     potion_list.push_back(e);
-    text_display[row][col] = 'P';
 }
 
 void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avialables)
@@ -106,7 +111,7 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
     else if (type == 3)
     {
         g = std::make_shared<DragonHoard>(row, col);
-        text_display[row][col] = '*';
+        text_display[row][col] = 'G';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
         std::pair<int, int> location = availables[rand() % availables.size()];
         auto dragon = std::make_shared<Dragon>(location.first, location.second, g);
@@ -325,13 +330,26 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 void Floor::attack_enemy(Direction direction)
 {
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-        (*i)->beAttackedBy(*player);
+    {
+        std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
+        if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
+        {
+            (*i)->beAttackedBy(*player);
+        }
+    }
 }
 
 void Floor::consume_potion(Direction direction)
 {
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
-        (*i)->consume(*player);
+    {
+        std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
+        if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
+        {
+            (*i)->consume(*player);
+            text_display[location.first][location.second] = '.';
+        }
+    }
 }
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl)

@@ -3,7 +3,7 @@
 #include <string>
 #include <math.h>
 
-std::istream &operator>>(std::istream &in, Direction direction)
+std::istream &operator>>(std::istream &in, Direction &direction)
 {
 	std::string s;
 	in >> s;
@@ -81,6 +81,53 @@ void Character::move(Direction direction)
 	case Direction::se:
 		++row;
 		++col;
+		break;
+	}
+}
+
+std::pair<int, int> Character::GetLocAfterMove(Direction d, int row, int col)
+{
+	switch (d)
+	{
+	case Direction::no:
+		return {
+			row - 1,
+			col};
+		break;
+	case Direction::so:
+		return {
+			row + 1,
+			col};
+		break;
+	case Direction::ne:
+		return {
+			row - 1,
+			col + 1};
+		break;
+	case Direction::nw:
+		return {
+			row - 1,
+			col - 1};
+		break;
+	case Direction::se:
+		return {
+			row + 1,
+			col + 1};
+		break;
+	case Direction::sw:
+		return {
+			row + 1,
+			col - 1};
+		break;
+	case Direction::ea:
+		return {
+			row,
+			col + 1};
+		break;
+	case Direction::we:
+		return {
+			row,
+			col - 1};
 		break;
 	}
 }

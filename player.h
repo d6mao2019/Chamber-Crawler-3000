@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "character.h"
+class Item;
 class Enemy;
 class Human;
 class Dwarf;
@@ -25,6 +26,7 @@ public:
 		   int gold, int row, int col, double scaling);
 	virtual ~Player();
 	bool adjacent(const Enemy &e) const;
+	bool adjacent(const Item &i) const;
 	double getScal() const;
 	char getPrev() const;
 	std::string getRace() const;
