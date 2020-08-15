@@ -244,21 +244,45 @@ int main(int argc, char *argv[])
             try
             {
                 if (cmd == "no")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol());
+                    message = "Player moved to the north.";
+                }
                 else if (cmd == "so")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol());
+                    message = "Player moved to the south.";
+                }
                 else if (cmd == "we")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1);
+                    message = "Player moved to the west.";
+                }
                 else if (cmd == "ea")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1);
+                    message = "Player moved to the east.";
+                }
                 else if (cmd == "nw")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1);
+                    message = "Player moved to the north west.";
+                }
                 else if (cmd == "ne")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1);
+                    message = "Player moved to the north east.";
+                }
                 else if (cmd == "sw")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1);
+                    message = "Player moved to the south west.";
+                }
                 else if (cmd == "se")
+                {
                     curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1);
+                    message = "Player moved to the south east.";
+                }
                 else if (cmd == "u") // use potion.
                 {
                     std::cin >> direction;
@@ -270,7 +294,9 @@ int main(int argc, char *argv[])
                     curFloor.attack_enemy(direction);
                 }
                 else if (cmd == "f") // stops enemies from moving until this key is pressed again.
+                {
                     curFloor.ERMSwitch();
+                }
                 else if (cmd == "r") // restart game.
                 {
                     // shoule "rerun" main.
