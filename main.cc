@@ -470,6 +470,7 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
+                curFloor.tick();
                 std::cout << curFloor;
                 std::cout << message << std::endl;
             } // while command processing.
