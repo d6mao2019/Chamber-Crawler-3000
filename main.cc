@@ -253,7 +253,8 @@ int main(int argc, char *argv[])
                 {
                     if (cmd == "no")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol())){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol()))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -261,7 +262,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "so")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol())){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol()))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -269,7 +271,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "we")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -277,7 +280,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "ea")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -285,7 +289,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "nw")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -293,7 +298,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "ne")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -301,7 +307,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "sw")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -309,7 +316,8 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "se")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1)){
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1))
+                        {
                             floorNum += 1;
                             break;
                         }
@@ -349,31 +357,35 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
+
                 curFloor.tick();
                 if (pl->getHP() <= 0)
                 {
                     message = "Player got killed. Do you want to restart(r) or quit(q)?";
+                    std::cout << message;
                     while (cin >> cmd && (cmd == "r" || cmd == "q"))
                     {
                         if (cmd == "q")
                             return 0;
-                        else
-                        {
-                            // steve.
-                        }
+                        else if (cmd == "r")
+                            break;
+                        else // invalid command.
+                            std::cout << "Invalid command. Do you want to restart(r) or quit(q)?";
                     }
                 }
                 std::cout << curFloor;
                 std::cout << *pl;
                 std::cout << message << std::endl;
             }
-            if(cmd == "r"){
+            if (cmd == "r")
+            {
                 break;
             } // while command processing.
         }     // while floors.
 
         // all floors cleared. choose whether to restart or quit.
-        if(cmd != "r"){
+        if (cmd != "r")
+        {
             while (cin >> cmd && (cmd == "r" || cmd == "q"))
             {
                 if (cmd == "r")

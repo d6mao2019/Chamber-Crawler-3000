@@ -83,32 +83,44 @@ void Floor::select_potion(int row, int col)
     potion_list.push_back(e);
     text_display[row][col] = 'P';
 }
-void Floor::select_gold(int row, int col, std::vector<std::vector<std::pair<int, int>>> &avialables)
+
+void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avialables)
 {
     int type = rand() % 4;
     std::shared_ptr<Gold> g;
-    switch (type)
+    if (type == 0)
     {
-    case 0:
         g = std::make_shared<SmallHoard>(row, col);
-        break;
-    case 1:
+        text_display[row][col] = 'G';
+    }
+    else if (type == 1)
+    {
         g = std::make_shared<Normal>(row, col);
-        break;
-    case 2:
+        text_display[row][col] = 'G';
+    }
+    else if (type == 2)
+    {
         g = std::make_shared<MerchantHoard>(row, col);
-        break;
-    case 3:
+        text_display[row][col] = 'G';
+    }
+    else if (type == 3)
+    {
         g = std::make_shared<DragonHoard>(row, col);
+        text_display[row][col] = '*';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
-        std::pair<int, int> dragon_location = availables[rand() % availables.size()];
-        int dragon_row = dragon_location.first;
-        int dragon_col = dragon_location.second;
-        break;
+        std::pair<int, int> location = availables[rand() % availables.size()];
+        auto dragon = std::make_shared<Dragon>(location.first, location.second, g);
+        enemy_list.push_back(dragon);
+        text_display[location.first][location.second] = 'D';
+        for (auto i = avialables.begin(); i != avialables.end(); ++i)
+        {
+            if ((*i).first == location.first && (*i).second == location.second)
+                avialables.erase(i);
+        }
     }
     gold_list.push_back(g);
-    text_display[row][col] = 'G';
 }
+
 void Floor::select_enemy(int row, int col)
 {
     int type = rand() % 18;
@@ -185,39 +197,44 @@ Floor::Floor(std::vector<std::vector<char>> &td,
     this->ERM = 1;
     //place player
     std::vector<int> chambers{0, 1, 2, 3, 4};
-    int chamber = rand() % 5;
-    std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
+    int chamber = rand() % chambers.size();
+    int index = rand() % availables[chamber].size();
+    std::pair<int, int> location = availables[chamber][index];
+    availables[chamber].erase(availables[chamber].begin() + index);
     player->setLocation(location.first, location.second);
     text_display[location.first][location.second] = '@';
     // place stairway.
     chambers.erase(chambers.begin() + chamber);
-    chamber = chambers[rand() % 4];
-    location = availables[chamber][rand() % availables[chamber].size()];
+    chamber = chambers[rand() % chambers.size()];
+    index = rand() % availables[chamber].size();
+    location = availables[chamber][index];
+    availables[chamber].erase(availables[chamber].begin() + index);
     text_display[location.first][location.second] = '\\';
     // spawn potion, gold, and enemy.
-
-    // std::vector<int> starts{0, 0, 0, 0, 0};
-    // std::vector<int> nums{potion_num, gold_num, enemy_num};
-    // for (int i = 0; i < 3; ++i)
-    // {
-    //     for (int j = 0; j < nums[i]; ++j)
-    //     {
-    //         chamber = rand() % 5;
-    //         int start = starts[chamber];
-    //         int rest_len = availables[chamber].size() - start;
-    //         int end = rand() % rest_len + start;
-    //         std::swap(availables[chamber][start], availables[chamber][end]);
-    //         int row = availables[chamber][start].first;
-    //         int col = availables[chamber][start].second;
-    //         if (i == 0)
-    //             select_potion(row, col);
-    //         if (i == 1)
-    //             select_gold(row, col);
-    //         if (i == 2)
-    //             select_enemy(row, col);
-    //         ++starts[chamber];
-    //     }
-    // }
+    for (int i = 0; i < potion_num; ++i)
+    {
+        int chamber = rand() % 5;
+        int index = rand() % availables[chamber].size();
+        std::pair<int, int> location = availables[chamber][index];
+        select_potion(location.first, location.second);
+        availables[chamber].erase(availables[chamber].begin() + index);
+    }
+    for (int i = 0; i < gold_num; ++i)
+    {
+        int chamber = rand() % 5;
+        int index = rand() % availables[chamber].size();
+        std::pair<int, int> location = availables[chamber][index];
+        select_gold(location.first, location.second, availables[chamber]);
+        availables[chamber].erase(availables[chamber].begin() + index);
+    }
+    for (int i = 0; i < enemy_num; ++i)
+    {
+        int chamber = rand() % 5;
+        int index = rand() % availables[chamber].size();
+        std::pair<int, int> location = availables[chamber][index];
+        select_enemy(location.first, location.second);
+        availables[chamber].erase(availables[chamber].begin() + index);
+    }
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }

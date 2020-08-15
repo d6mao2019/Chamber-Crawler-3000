@@ -22,12 +22,11 @@ class Floor
 	// modify potion_list and text_display.
 	void select_potion(int row, int col);
 	// helper function for constructor.
-	// modify gold_list and text_display.
-	void select_gold(int row, int col, std::vector<std::vector<std::pair<int, int>>> &avialables);
+	// modify gold_list and possibly enemy_list. modify text_display.
+	void select_gold(int row, int col, std::vector<std::pair<int, int>> &avialables);
 	// helper function for constructor.
 	// modify enemy_list and text_display.
 	void select_enemy(int row, int col);
-	bool moveTheplayerHelper(int row, int col, int oldRow, int oldCol);
 
 public:
 	// constructor: does nothing.
@@ -72,4 +71,5 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl);
+
 #endif // !FLOOR_H
