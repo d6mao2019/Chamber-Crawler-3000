@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-#define cin ff
+#define cin cin
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -238,10 +238,9 @@ int main(int argc, char *argv[])
                 mainEmptyMap.push_back(vc);
             }
         }
-
+        Floor curFloor;
         while (floorNum < 5 && !cin.fail())
         {
-            Floor curFloor;
             if (argc > 1)
                 curFloor = floors[floorNum];
             else
@@ -256,22 +255,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol()))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the north.";
                     }
@@ -279,22 +264,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol()))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the south.";
                     }
@@ -302,22 +273,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the west.";
                     }
@@ -325,22 +282,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the east.";
                     }
@@ -348,22 +291,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the north west.";
                     }
@@ -371,22 +300,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the north east.";
                     }
@@ -394,22 +309,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the south west.";
                     }
@@ -417,22 +318,8 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1))
                         {
-                            if (argc > 1 && floorNum < 4)
-                            {
-                                curFloor = floors[floorNum + 1];
-                                floorNum += 1;
-                            }
-                            else if (argc > 1)
-                            {
-                                floorNum += 1;
-                                break;
-                            }
-                            else
-                            {
-                                floorNum += 1;
-                                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-                                break;
-                            }
+                            floorNum += 1;
+                            break;
                         }
                         message = "Player moved to the south east.";
                     }
@@ -487,17 +374,25 @@ int main(int argc, char *argv[])
                     }
                 }
                 std::cout << curFloor;
+                std::cout << *pl;
                 std::cout << message << std::endl;
-            } // while (cin >> cmd)
-        }     // while (floorNum < 5 && !cin.fail()).
+            }
+            if (cmd == "r")
+            {
+                break;
+            } // while command processing.
+        }     // while floors.
 
         // all floors cleared. choose whether to restart or quit.
-        while (cin >> cmd && (cmd == "r" || cmd == "q"))
+        if (cmd != "r")
         {
-            if (cmd == "r")
-                break;
-            else
-                return 0;
+            while (cin >> cmd && (cmd == "r" || cmd == "q"))
+            {
+                if (cmd == "r")
+                    break;
+                else
+                    return 0;
+            }
         }
     } //while whole game.
 } // main
