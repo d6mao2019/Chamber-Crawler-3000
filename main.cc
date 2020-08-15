@@ -472,6 +472,7 @@ int main(int argc, char *argv[])
                 }
                 curFloor.tick();
                 std::cout << curFloor;
+                std::cout << *pl;
                 std::cout << message << std::endl;
             } // while command processing.
         }     // while floors.
