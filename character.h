@@ -37,7 +37,8 @@ protected:
 
 public:
 	// constructor.
-	Character(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
+	Character(double MaxHP, double HP, double Atk, double Def,
+			  int gold, int row, int col, Floor *floor);
 
 	virtual double getHP() const;  // needs to be overrided by Potion objects.
 	virtual double getAtk() const; // needs to be overrided by Potion objects.
@@ -52,6 +53,7 @@ public:
 	void setDef(double new_def);
 	void setGold(int new_gold);
 	void setLocation(int row, int col);
+	void setFloor(Floor *floor);
 	virtual void move(Direction direction);
 	std::pair<int, int> GetLocAfterMove(Direction d, int row, int col);
 };

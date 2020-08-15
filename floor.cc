@@ -114,12 +114,13 @@ void Floor::select_gold(int row, int col, std::vector<std::pair<int, int>> &avia
         text_display[row][col] = 'G';
         std::vector<std::pair<int, int>> availables = available_neighbors(row, col, text_display);
         std::pair<int, int> location = availables[rand() % availables.size()];
-        auto dragon = std::make_shared<Dragon>(location.first, location.second, g);
+        auto dragon = std::make_shared<Dragon>(location.first, location.second, g, this);
         enemy_list.push_back(dragon);
         text_display[location.first][location.second] = 'D';
         for (auto i = avialables.begin(); i != avialables.end(); ++i)
         {
-            if ((*i).first == location.first && (*i).second == location.second) {
+            if ((*i).first == location.first && (*i).second == location.second)
+            {
                 avialables.erase(i);
                 break;
             }
@@ -133,37 +134,37 @@ void Floor::select_enemy(int row, int col)
     int type = rand() % 18;
     if (0 <= type && type < 4) // human.
     {
-        auto e = std::make_shared<Human>(row, col);
+        auto e = std::make_shared<Human>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'H';
     }
     if (4 <= type && type < 7) // dwarf.
     {
-        auto e = std::make_shared<Dwarf>(row, col);
+        auto e = std::make_shared<Dwarf>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'W';
     }
     if (7 <= type && type < 12) // halfling.
     {
-        auto e = std::make_shared<Halfling>(row, col);
+        auto e = std::make_shared<Halfling>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'L';
     }
     if (12 <= type && type < 14) // elf.
     {
-        auto e = std::make_shared<Elf>(row, col);
+        auto e = std::make_shared<Elf>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'E';
     }
     if (14 <= type && type < 16) // orc.
     {
-        auto e = std::make_shared<Orc>(row, col);
+        auto e = std::make_shared<Orc>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'O';
     }
     if (16 <= type && type < 18) // merchant.
     {
-        auto e = std::make_shared<Merchant>(row, col);
+        auto e = std::make_shared<Merchant>(row, col, this);
         enemy_list.push_back(e);
         text_display[row][col] = 'M';
     }
@@ -233,16 +234,51 @@ Floor::Floor(std::vector<std::vector<char>> &td,
     }
 }
 
+// copy constructor.
+Floor::Floor(const Floor &other)
+{
+    text_display = other.text_display;
+    enemy_list = other.enemy_list;
+    for (auto i : enemy_list)
+    {
+        i->setFloor(this);
+    }
+    potion_list = other.potion_list;
+    gold_list = other.gold_list;
+    player = other.player;
+    ERM = other.ERM;
+}
+
+// copy assign.
+void Floor::operator=(const Floor &other)
+{
+    text_display = other.text_display;
+    enemy_list = other.enemy_list;
+    for (auto i : enemy_list)
+    {
+        i->setFloor(this);
+    }
+    potion_list = other.potion_list;
+    gold_list = other.gold_list;
+    player = other.player;
+    ERM = other.ERM;
+}
+
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {
     int original_size = enemy_list.size(); // debugging purpose.
     /* modify vector. */
+    std::cout << original_size << std::endl;
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
         if (**i == e)
+        {
             enemy_list.erase(i);
+            std::cout << "jian shao le";
+            break;
+        }
     }
     if (enemy_list.size() != original_size - 1) // debugging purpose.
         throw std::logic_error{"Bug: something wrong with the enemy list. added or removed improperly sometime."};

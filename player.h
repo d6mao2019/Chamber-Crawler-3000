@@ -10,6 +10,7 @@ class Orc;
 class Merchant;
 class Dragon;
 class Halfling;
+class Floor;
 
 class Player : public Character
 {
@@ -23,7 +24,7 @@ private:
 public:
 	// Player constructor.
 	Player(double MaxHP, double HP, double Atk, double Def,
-		   int gold, int row, int col, double scaling);
+		   int gold, int row, int col, double scaling, Floor *floor);
 	virtual ~Player();
 	bool adjacent(const Enemy &e) const;
 	bool adjacent(const Item &i) const;

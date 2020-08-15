@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-#define cin cin
+#define cin ff
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -122,7 +122,6 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
         row += 1;
 
     } while (!(line[0] == '|' && line[1] == '-'));
-
     for (int i = 0; i < text_display.size(); ++i)
     {
         for (int j = 0; j < text_display[i].size(); ++j)
@@ -131,23 +130,23 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
             switch (text_display[i][j])
             {
             case 'H':
-                newEnemy = make_shared<Human>(i, j);
+                newEnemy = make_shared<Human>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'W':
-                newEnemy = make_shared<Dwarf>(i, j);
+                newEnemy = make_shared<Dwarf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'E':
-                newEnemy = make_shared<Elf>(i, j);
+                newEnemy = make_shared<Elf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'O':
-                newEnemy = make_shared<Orc>(i, j);
+                newEnemy = make_shared<Orc>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'M':
-                newEnemy = make_shared<Merchant>(i, j);
+                newEnemy = make_shared<Merchant>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'D':
@@ -156,20 +155,23 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                     shared_ptr<Gold> theGold = gold_list[w];
                     if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
-                        newEnemy = make_shared<Dragon>(i, j, theGold);
+                        newEnemy = make_shared<Dragon>(i, j, theGold, nullptr);
                         enemy_list.push_back(newEnemy);
                         break;
                     }
                 }
                 break;
             case 'L':
-                newEnemy = make_shared<Halfling>(i, j);
+                newEnemy = make_shared<Halfling>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             }
         }
     }
     Floor newFloor = Floor(text_display, enemy_list, potion_list, gold_list, player, newAvailables);
+    // for (auto i : enemy_list)
+    //     i->setFloor(&newFloor);
+    //need to take outside
     return newFloor;
 }
 
@@ -263,6 +265,8 @@ int main(int argc, char *argv[])
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
+            std::cout << *pl;
+            std::cout << "Action: Player character has spawned."<< std::endl;
 
             while (cin >> cmd)
             {
@@ -377,25 +381,36 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
-
-                curFloor.tick();
-                if (pl->getHP() <= 0)
-                {
-                    message = "Player got killed. Do you want to restart(r) or quit(q)?";
-                    std::cout << message;
-                    while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                if(!(cmd == "f")){
+                    curFloor.tick();
+                    if (pl->getHP() <= 0)
                     {
-                        if (cmd == "q")
-                            return 0;
-                        else if (cmd == "r")
-                            break;
-                        else // invalid command.
-                            std::cout << "Invalid command. Do you want to restart(r) or quit(q)?";
+                        message = "Player got killed. Do you want to restart(r) or quit(q)?";
+                        std::cout << message << endl;
+                        while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                        {
+                            if (cmd == "q")
+                                return 0;
+                            else if (cmd == "r"){
+                                floorNum = 0;
+                                if (argc > 1)
+                                {
+                                    inputMap.clear();
+                                    inputMap.seekg(0, inputMap.beg);
+                                }
+                                break;
+                            }
+                            else // invalid command.
+                                std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << endl;
+                        }
                     }
+                    std::cout << curFloor;
+                    std::cout << *pl;
+                    std::cout << "Action: " << message << std::endl;
                 }
-                std::cout << curFloor;
-                std::cout << *pl;
-                std::cout << message << std::endl;
+                if(cmd == "r"){
+                    break;
+                }
             }
             if (cmd == "r")
             {
@@ -404,7 +419,7 @@ int main(int argc, char *argv[])
         }     // while floors.
 
         // all floors cleared. choose whether to restart or quit.
-        if (cmd != "r")
+        if (cmd != "r" && floorNum == 4)
         {
             while (cin >> cmd && (cmd == "r" || cmd == "q"))
             {

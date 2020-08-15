@@ -3,8 +3,9 @@
 #include "gold.h"
 #include <cmath>
 
-Enemy::Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
-	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
+Enemy::Enemy(double MaxHP, double HP, double Atk, double Def,
+			 int gold, int row, int col, Floor *floor)
+	: Character{MaxHP, HP, Atk, Def, gold, row, col, floor} {}
 Enemy::~Enemy() {}
 
 bool Enemy::adjacent(const Player &p) const
@@ -31,7 +32,6 @@ void Enemy::attack(Troll &troll) { common_attack<Troll>(this, troll); }
 void Enemy::attack(Goblin &goblin) { common_attack<Goblin>(this, goblin); }
 
 void Enemy::notify() { floor->beNotifiedBy(*this); }
-
 bool Enemy::operator==(Enemy &other)
 {
 	return this->getRow() == other.getRow() && this->getCol() == other.getCol();
@@ -39,20 +39,20 @@ bool Enemy::operator==(Enemy &other)
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Human Class */ /* 0 attack override(s) */
-Human::Human(int row, int col)
-	: Enemy{140, 140, 20, 20, 4, row, col} {}
+Human::Human(int row, int col, Floor *floor)
+	: Enemy{140, 140, 20, 20, 4, row, col, floor} {}
 void Human::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dwarf Class */ /* 0 attack override(s) */
-Dwarf::Dwarf(int row, int col)
-	: Enemy{100, 100, 20, 30, 0, row, col} {}
+Dwarf::Dwarf(int row, int col, Floor *floor)
+	: Enemy{100, 100, 20, 30, 0, row, col, floor} {}
 void Dwarf::beAttackedBy(Player &p) { p.attack(*this); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Elf Class */ /* 4 attack override(s). */
-Elf::Elf(int row, int col)
-	: Enemy{140, 140, 30, 10, 0, row, col} {}
+Elf::Elf(int row, int col, Floor *floor)
+	: Enemy{140, 140, 30, 10, 0, row, col, floor} {}
 void Elf::beAttackedBy(Player &p) { p.attack(*this); }
 
 template <typename PlayerType>
@@ -74,8 +74,8 @@ void Elf::attack(Goblin &goblin) { elf_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Orc Class */ /* 1 attack override(s). */
-Orc::Orc(int row, int col)
-	: Enemy{180, 180, 30, 25, 0, row, col} {}
+Orc::Orc(int row, int col, Floor *floor)
+	: Enemy{180, 180, 30, 25, 0, row, col, floor} {}
 void Orc::beAttackedBy(Player &p) { p.attack(*this); }
 
 void Orc::attack(Goblin &goblin)
@@ -92,8 +92,8 @@ void Orc::attack(Goblin &goblin)
 ///////////////////////////////////////////////////////////////////////////////
 /* Merchant Class */ /* 5 attack override(s) */
 bool Merchant::neutral = true;
-Merchant::Merchant(int row, int col)
-	: Enemy{30, 30, 70, 5, 0, row, col} {}
+Merchant::Merchant(int row, int col, Floor *floor)
+	: Enemy{30, 30, 70, 5, 0, row, col, floor} {}
 void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
 
 bool Merchant::getHostility() const { return neutral; }
@@ -112,8 +112,8 @@ void Merchant::attack(Goblin &goblin) { merchant_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dragon Class */ /* 0 attack override(s) */
-Dragon::Dragon(int row, int col, std::shared_ptr<Gold> hoard)
-	: Enemy{150, 150, 20, 20, 0, row, col}, hoard{hoard} {}
+Dragon::Dragon(int row, int col, std::shared_ptr<Gold> hoard, Floor *floor)
+	: Enemy{150, 150, 20, 20, 0, row, col, floor}, hoard{hoard} {}
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
 bool Dragon::adjacent(const Player &other) const
@@ -127,6 +127,6 @@ void Dragon::move(Direction direction) { return; } // does nothing since Dragons
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Halfling Class */ /* 0 attack override(s) */
-Halfling::Halfling(int row, int col)
-	: Enemy{100, 100, 15, 20, 0, row, col} {}
+Halfling::Halfling(int row, int col, Floor *floor)
+	: Enemy{100, 100, 15, 20, 0, row, col, floor} {}
 void Halfling::beAttackedBy(Player &p) { p.attack(*this); }
