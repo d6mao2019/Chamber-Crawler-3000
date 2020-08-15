@@ -46,7 +46,7 @@ public:
 		  int potion_num, int gold_num, int enemy_num);
 
 	// accessor.
-	std::vector<std::vector<char>> getTextDisplay();
+	std::vector<std::vector<char>> getTextDisplay() const;
 
 	// enemies notify floor when they are slain.
 	void beNotifiedBy(Enemy &e);
@@ -71,4 +71,5 @@ public:
 	void consume_potion(Direction direction);
 };
 
+std::ostream &operator<<(std::ostream &out, const Floor &fl);
 #endif // !FLOOR_H

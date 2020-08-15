@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling)
@@ -33,6 +34,21 @@ void Player::restore()
 	prev = '.';
 	setAtk(origAtk);
 	setDef(origDef);
+}
+
+std::string Player::getRace() const
+{
+	return race;
+}
+
+std::ostream &
+operator<<(std::ostream &out, const Player &pl)
+{
+	out << "Race: " << pl.getRace() << " Gold: " << pl.getGold() << std::endl;
+	out << "HP: " << pl.getHP() << std::endl;
+	out << "Atk " << pl.getAtk() << std::endl;
+	out << "Def " << pl.getDef() << std::endl;
+	return out;
 }
 
 template <typename EnemyType>
@@ -81,7 +97,7 @@ void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
 ///////////////////////////////////////////////////////////////////////////////
 /* Vampire Class */ /* 7 attack override(s) */
 Vampire::Vampire(int row, int col)
-	: Player{INT_MAX, 50, 35, 25, 0, row, col, 1.0} {}
+	: Player{INT32_MAX, 50, 35, 25, 0, row, col, 1.0} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
 
 template <typename EnemyType>
