@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-#define cin ff
+#define cin cin
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
