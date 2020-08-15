@@ -23,7 +23,7 @@ class Floor
 	void select_potion(int row, int col);
 	// helper function for constructor.
 	// modify gold_list and text_display.
-	void select_gold(int row, int col);
+	void select_gold(int row, int col, std::vector<std::vector<std::pair<int, int>>> &avialables);
 	// helper function for constructor.
 	// modify enemy_list and text_display.
 	void select_enemy(int row, int col);
