@@ -13,7 +13,7 @@ class Enemy : public Character
 public:
 	// constructor.
 	Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
-
+	virtual ~Enemy();
 	virtual bool adjacent(Player &other);
 	virtual void attack(Shade &shade);
 	virtual void attack(Drow &drow);

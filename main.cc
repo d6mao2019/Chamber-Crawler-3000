@@ -164,8 +164,7 @@ int main(int argc, char *argv[])
 {
     int floorNum = 0;
     string cmd;
-    shared_ptr<Player> pl;
-    Direction direction;
+    Direction direction = Direction::no;
     std::string message;
     vector<Floor> floors;
     std::vector<std::vector<char>> mainEmptyMap;

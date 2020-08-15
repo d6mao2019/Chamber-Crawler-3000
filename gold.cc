@@ -1,7 +1,9 @@
 #include "gold.h"
 
 Gold::Gold(int value, int row, int col)
-    : value{value}, Item{'G', row, col} {}
+    : Item{'G', row, col}, value{value} {}
+Gold::~Gold() {}
+
 int Gold::getVal() const { return value; }
 bool Gold::canBepickedup() const { return true; }
 

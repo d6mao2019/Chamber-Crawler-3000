@@ -6,10 +6,10 @@
 class Gold : public Item
 {
     const int value;
-    int row, col;
 
 public:
     Gold(int value, int row, int col);
+    virtual ~Gold();
     virtual bool canBepickedup() const;
     int getVal() const;
 };

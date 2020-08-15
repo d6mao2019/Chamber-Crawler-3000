@@ -5,6 +5,7 @@
 
 Enemy::Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
+Enemy::~Enemy() {}
 
 bool Enemy::adjacent(Player &other)
 {

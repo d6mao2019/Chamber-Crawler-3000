@@ -1,6 +1,6 @@
 #include "item.h"
 Item::Item(const char type, int row, int col)
-    : row{row}, col{col}, type{type} {}
+    : type{type}, row{row}, col{col} {}
 
 char Item::getType() const { return type; }
 int Item::getRow() const { return row; }

@@ -8,6 +8,7 @@ class Potion : public Item
 {
 public:
 	Potion(int row = 0, int col = 0);
+	virtual ~Potion();
 	virtual void consume(Player &pl) = 0;
 };
 

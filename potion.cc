@@ -3,6 +3,7 @@
 
 Potion::Potion(int row, int col)
     : Item{'P', row, col} {}
+Potion::~Potion() {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* AtkBoost Class */

@@ -6,6 +6,7 @@
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling}, origAtk{Atk}, origDef{Def} {}
+Player::~Player() {}
 
 void Player::setPrev(char p)
 {
