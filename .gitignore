@@ -1,9 +1,6 @@
 .DS_Store
 .vscode
-<<<<<<< HEAD
 .vs
-=======
->>>>>>> 8a4dba6c3d64e77a0f24bfba2cb27c7404347ba9
 cc3k
 character.d
 character.o
@@ -21,11 +18,8 @@ player.d
 player.o
 potion.d
 potion.o
-<<<<<<< HEAD
 x64
 Project1.sln
 Project1.vcxproj
 Project1.vcxproj.filters
 Project1.vcxproj.user
-=======
->>>>>>> 8a4dba6c3d64e77a0f24bfba2cb27c7404347ba9
