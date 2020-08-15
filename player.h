@@ -35,7 +35,7 @@ public:
 class Shade : public Player
 {
 public:
-	Shade(int row, int col);
+	Shade(int row=0, int col=0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -44,7 +44,7 @@ class Drow : public Player
 // all potions have their effect magnified by 1.5.
 {
 public:
-	Drow(int row, int col);
+	Drow(int row=0, int col=0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -55,7 +55,7 @@ class Vampire : public Player
 // loses 5 HP every successful attack on dwarfs.
 {
 public:
-	Vampire(int row, int col);
+	Vampire(int row=0, int col=0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
@@ -71,7 +71,7 @@ class Troll : public Player
 // regains 5 HP every turn (capped at 120).
 {
 public:
-	Troll(int row, int col);
+	Troll(int row=0, int col=0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -80,7 +80,7 @@ class Goblin : public Player
 // steals 5 gold from every slain enemy.
 {
 public:
-	Goblin(int row, int col);
+	Goblin(int row=0, int col=0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;

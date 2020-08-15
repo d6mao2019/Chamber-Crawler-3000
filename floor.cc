@@ -77,8 +77,6 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     : text_display{text_display}, player{player}
 {
     this->ERM = 1;
-    // note: generator of Gold should take care of spawning Dragons.
-    // place player.
     std::vector<int> chambers{0, 1, 2, 3, 4};
     int chamber = rand() % 5;
     std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
@@ -183,6 +181,18 @@ void Floor::tick()
         player->beAttackedBy(**i);
 }
 
+void Floor::move_player(Direction direction)
+{
+    switch (direction)
+    {
+    case Direction::no:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
+}
 void Floor::attack_enemy(Direction direction)
 {
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)

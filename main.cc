@@ -9,6 +9,7 @@
 #include <fstream>
 using namespace std;
 
+#include "output.h"
 Floor readFloor(ifstream &f)
 {
     std::vector<std::vector<char>> text_display;
@@ -64,28 +65,74 @@ int main(int argc, char *argv[])
     Direction direction;
     std::string message;
     message = "Please select your race.";
+    std::shared_ptr<Player> pl;
     if (cmd == "s")
     {
+        pl=make_shared<Shade>();
     }
     else if (cmd == "d")
     {
+        pl=make_shared<Drow>();
     }
     else if (cmd == "v")
     {
+        pl=make_shared<Vampire>();
     }
     else if (cmd == "g")
     {
+        pl=make_shared<Goblin>();
     }
     else if (cmd == "t")
     {
+        pl=make_shared<Troll>();
     }
-
+    std::vector<std::vector<char>> mainEmptyMap;
+    for (auto i : charMap)
+    {
+        std::vector<char> vc;
+        for (auto c : i)
+        {
+            vc.push_back(c);
+        }
+        mainEmptyMap.push_back(vc);
+    }
+    
+    vector<vector<pair<int ,int>>> a ={prsA,prsB,prsC,prsD,prsE};
     for (int i = 0; i < 5; ++i)
     {
-        Floor floor{20, 10, 10};
+        Floor floor{mainEmptyMap,pl,a,20, 10, 10};
         while (std::cin >> cmd)
         {
-            if (cmd == "u") // use potion.
+            if (cmd == "no")
+            {
+                
+            }else if (cmd == "so")
+            {
+                /* code */
+            }else if (cmd == "we")
+            {
+                /* code */
+            }else if (cmd == "ea")
+            {
+                /* code */
+            }else if (cmd == "ne")
+            {
+                /* code */
+            }else if (cmd == "se")
+            {
+                /* code */
+            }else if (cmd == "nw")
+            {
+                /* code */
+            }else if (cmd == "sw")
+            {
+                /* code */
+            }
+            
+            
+            
+
+            else if (cmd == "u") // use potion.
             {
                 try
                 {
