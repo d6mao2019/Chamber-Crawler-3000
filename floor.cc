@@ -123,13 +123,14 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     text_display[location.first][location.second] = '\\';
 }
 // constructor: randomly spawn enemies, potions, and golds.
-Floor::Floor(std::vector<std::vector<char>> &text_display,
+Floor::Floor(std::vector<std::vector<char>> &td,
              std::shared_ptr<Player> player,
-             std::vector<std::vector<std::pair<int, int>>> &availables,
+             std::vector<std::vector<std::pair<int, int>>> availables,
              int potion_num, int gold_num, int enemy_num)
-    : text_display{text_display}, player{player}
+    : text_display{td}, player{player}
 {
     this->ERM = 1;
+    //place player
     std::vector<int> chambers{0, 1, 2, 3, 4};
     int chamber = rand() % 5;
     std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
@@ -163,6 +164,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
             ++starts[chamber];
         }
     }
+    std::cout << *this;
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
@@ -191,7 +193,7 @@ void Floor::ERMSwitch()
 }
 
 // helper for Floor::tick();
-std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &text_display)
+std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, const std::vector<std::vector<char>> &text_display)
 {
     std::vector<Direction> result;
     int row = e->getRow();

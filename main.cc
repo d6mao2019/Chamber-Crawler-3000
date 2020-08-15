@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-
+#define cin ff
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -171,14 +171,17 @@ int main(int argc, char *argv[])
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
     ifstream inputMap;
-    if(argc>1){
+    ifstream ff{"1.in"};
+    if (argc > 1)
+    {
         inputMap.open(argv[1]);
     }
 
-    while(true){
+    while (!cin.fail())
+    {
         message = "Please select your race.";
         std::cout << message << std::endl;
-        std::cin >> cmd;
+        cin >> cmd;
         if (cmd == "s")
         {
             pl = make_shared<Shade>();
@@ -236,27 +239,35 @@ int main(int argc, char *argv[])
             }
         }
 
-        while (floorNum < 5)
+        while (floorNum < 5 && !cin.fail())
         {
             Floor curFloor;
             if (argc > 1)
                 curFloor = floors[floorNum];
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-            while (std::cin >> cmd)
+            std::cout << curFloor;
+
+            while (cin >> cmd)
             {
                 try
                 {
                     if (cmd == "no")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol())){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol()))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -266,14 +277,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "so")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol())){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol()))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -283,14 +300,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "we")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -300,14 +323,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "ea")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -317,14 +346,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "nw")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -334,14 +369,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "ne")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -351,14 +392,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "sw")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -368,14 +415,20 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "se")
                     {
-                        if(curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1)){
-                            if(argc > 1 && floorNum <4){
-                                curFloor = floors[floorNum+1];
+                        if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1))
+                        {
+                            if (argc > 1 && floorNum < 4)
+                            {
+                                curFloor = floors[floorNum + 1];
                                 floorNum += 1;
-                            }else if(argc>1){
+                            }
+                            else if (argc > 1)
+                            {
                                 floorNum += 1;
                                 break;
-                            }else{
+                            }
+                            else
+                            {
                                 floorNum += 1;
                                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
                                 break;
@@ -385,12 +438,12 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "u") // use potion.
                     {
-                        std::cin >> direction;
+                        cin >> direction;
                         curFloor.consume_potion(direction);
                     }
                     else if (cmd == "a") // attack enemy.
                     {
-                        std::cin >> direction;
+                        cin >> direction;
                         curFloor.attack_enemy(direction);
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
@@ -400,10 +453,10 @@ int main(int argc, char *argv[])
                     else if (cmd == "r") // restart game.
                     {
                         floorNum = 0;
-                        if (argc>1)
+                        if (argc > 1)
                         {
-                        inputMap.clear();
-                        inputMap.seekg(0, inputMap.beg);
+                            inputMap.clear();
+                            inputMap.seekg(0, inputMap.beg);
                         }
                         // shoule "rerun" main.
                         break;
@@ -421,8 +474,9 @@ int main(int argc, char *argv[])
                 std::cout << message << std::endl;
             } // while
         }
-        if(cmd == "r"){
+        if (cmd == "r")
+        {
             break;
-        }     // while
-    }//while
+        } // while
+    }     //while
 } // main

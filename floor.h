@@ -42,7 +42,7 @@ public:
 	// constructor: randomly spawn enemies, potions, and golds.
 	Floor(std::vector<std::vector<char>> &text_display,
 		  std::shared_ptr<Player> player,
-		  std::vector<std::vector<std::pair<int, int>>> &availables,
+		  std::vector<std::vector<std::pair<int, int>>> availables,
 		  int potion_num, int gold_num, int enemy_num);
 
 	// accessor.
