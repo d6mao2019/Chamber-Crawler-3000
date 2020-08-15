@@ -5,7 +5,28 @@
 
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling)
-	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling} {}
+	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling}, origAtk{Atk}, origDef{Def} {}
+
+void Player::setPrev(char p)
+{
+	if (p != '+' && p != '#')
+	{
+		p = '.';
+	}
+
+	prev = p;
+}
+char Player::getPrev() const
+{
+	return prev;
+}
+
+void Player::restore()
+{
+	prev = '.';
+	setAtk(origAtk);
+	setDef(origDef);
+}
 
 bool Player::adjacent(Enemy &other)
 {
@@ -43,6 +64,7 @@ void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
 double Player::getScal() const { return scaling; }
+
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)

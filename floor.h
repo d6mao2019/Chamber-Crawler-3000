@@ -2,10 +2,12 @@
 #define FLOOR_H
 #include <memory>
 #include <vector>
+
+enum class Direction;
+class Player;
 class Enemy;
 class Potion;
 class Gold;
-class Player;
 
 class Floor
 {
@@ -25,6 +27,7 @@ class Floor
 	// helper function for constructor.
 	// modify enemy_list and text_display.
 	void select_enemy(int row, int col);
+	bool moveTheplayerHelper(int row, int col, int oldRow, int oldCol);
 
 public:
 	// constructor.
@@ -55,8 +58,8 @@ public:
 	// 2. enemies attack player if close enough.
 	void tick();
 
-// moves the player on the map.
-void move_player(Direction direction);
+	// moves the player on the map.
+	bool move_player(int row, int col, int oldRow, int oldCol);
 
 	// let the player attack the enemy indicated by direction.
 	// report an error if no enemy is located at the specified direction.

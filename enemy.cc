@@ -105,6 +105,7 @@ void Orc::attack(Goblin &goblin)
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Merchant Class */ /* 5 attack override(s) */
+bool Merchant::neutral = true;
 Merchant::Merchant(int row, int col)
 	: Enemy{30, 30, 70, 5, 0, row, col} {}
 void Merchant::beAttackedBy(Player &p) { p.attack(*this); }
@@ -136,7 +137,7 @@ bool Dragon::adjacent(Player &other)
 	return dist1 == 1 || dist1 == 2 || dist2 == 1 || dist2 == 2;
 }
 
-void move(Direction direction) { return; } // does nothing since Dragons are stationary.
+void Dragon::move(Direction direction) { return; } // does nothing since Dragons are stationary.
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Halfling Class */ /* 0 attack override(s) */

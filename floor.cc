@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
+#include "gold.h"
 
 void Floor::select_potion(int row, int col) {}
 void Floor::select_gold(int row, int col) {}
@@ -48,13 +49,13 @@ void Floor::select_enemy(int row, int col)
         text_display[row][col] = 'M';
     }
 }
-Floor::Floor(std::vector<std::vector<char>> &text_display, 
-		  std::shared_ptr<Player> player, 
-          std::vector<std::shared_ptr<Enemy>> enemy_list,
-		  std::vector<std::shared_ptr<Potion>> potion_list,
-		  std::vector<std::shared_ptr<Gold>> gold_list,
-          std::vector<std::vector<std::pair<int, int>>> &availables)
-    : text_display{text_display}, player{player}, enemy_list{enemy_list},potion_list{potion_list}, gold_list{gold_list}
+Floor::Floor(std::vector<std::vector<char>> &text_display,
+             std::shared_ptr<Player> player,
+             std::vector<std::shared_ptr<Enemy>> enemy_list,
+             std::vector<std::shared_ptr<Potion>> potion_list,
+             std::vector<std::shared_ptr<Gold>> gold_list,
+             std::vector<std::vector<std::pair<int, int>>> &availables)
+    : text_display{text_display}, player{player}, enemy_list{enemy_list}, potion_list{potion_list}, gold_list{gold_list}
 {
     // place player.
     std::vector<int> chambers{0, 1, 2, 3, 4};
@@ -179,18 +180,50 @@ void Floor::tick()
         player->beAttackedBy(**i);
 }
 
-void Floor::move_player(Direction direction)
+bool Floor::move_player(int row, int col, int oldRow, int oldCol)
 {
-    switch (direction)
+    char pos = text_display[row][col];
+    bool swap = 0;
+    if (pos == '.' || pos == '+' || pos == '#')
     {
-    case Direction::no:
-        /* code */
-        break;
-    
-    default:
-        break;
+        swap = 1;
     }
+    else if (pos == 'G')
+    {
+        for (int i = 0; i < gold_list.size(); i++)
+        {
+            if (gold_list[i]->cmpLoc(row, col))
+            {
+                if (gold_list[i]->canBepickedup())
+                {
+                    player->setGold(player->getGold() + gold_list[i]->getVal());
+                    gold_list.erase(gold_list.begin() + i);
+                    swap = 1;
+                    break;
+                }
+            }
+        }
+    }
+    else if (pos == '\\')
+    {
+        player->restore();
+        return 1;
+    }
+    else
+    {
+        throw std::runtime_error{"Error: trying to move player to an impossible location."};
+    }
+
+    if (swap)
+    {
+        text_display[oldRow][oldCol] = player->getPrev();
+        text_display[row][col] = 'P';
+        player->setPrev(pos);
+    }
+
+    return 0;
 }
+
 void Floor::attack_enemy(Direction direction)
 {
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)

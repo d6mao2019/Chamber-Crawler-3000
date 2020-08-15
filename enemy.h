@@ -69,9 +69,8 @@ public:
 
 class Merchant : public Enemy
 {
-	static bool neutral;
-
 public:
+	static bool neutral;
 	Merchant(int row, int col);
 	virtual void beAttackedBy(Player &p) override;
 	bool getHostility() const;

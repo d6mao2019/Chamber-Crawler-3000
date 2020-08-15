@@ -14,14 +14,19 @@ class Player : public Character
 {
 private:
 	double scaling;
+	char prev = '.';
+	double origAtk;
+	double origDef;
 
 public:
 	// Player constructor.
 	Player(double MaxHP, double HP, double Atk, double Def,
 		   int gold, int row, int col, double scaling);
-
 	bool adjacent(Enemy &other);
 	double getScal() const;
+	void setPrev(char p);
+
+	char getPrev() const;
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
@@ -30,12 +35,13 @@ public:
 	virtual void attack(Dragon &dragon);
 	virtual void attack(Halfling &halfling);
 	virtual void beAttackedBy(Enemy &e) = 0;
+	void restore();
 };
 
 class Shade : public Player
 {
 public:
-	Shade(int row=0, int col=0);
+	Shade(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -44,7 +50,7 @@ class Drow : public Player
 // all potions have their effect magnified by 1.5.
 {
 public:
-	Drow(int row=0, int col=0);
+	Drow(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -55,7 +61,7 @@ class Vampire : public Player
 // loses 5 HP every successful attack on dwarfs.
 {
 public:
-	Vampire(int row=0, int col=0);
+	Vampire(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
@@ -71,7 +77,7 @@ class Troll : public Player
 // regains 5 HP every turn (capped at 120).
 {
 public:
-	Troll(int row=0, int col=0);
+	Troll(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 0 attack override(s).
 };
@@ -80,7 +86,7 @@ class Goblin : public Player
 // steals 5 gold from every slain enemy.
 {
 public:
-	Goblin(int row=0, int col=0);
+	Goblin(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;

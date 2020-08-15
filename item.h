@@ -14,6 +14,7 @@ public:
     int getCol() const;
     void setRow(int r);
     void setCol(int c);
+    bool cmpLoc(int r, int c);
 };
 
 #endif // !ITEM_H
