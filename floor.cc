@@ -116,6 +116,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     int chamber = rand() % 5;
     std::pair<int, int> location = availables[chamber][rand() % availables[chamber].size()];
     player->setLocation(location.first, location.second);
+    text_display[location.first][location.second] = '@';
     // place stairway.
     chambers.erase(chambers.begin() + chamber);
     chamber = chambers[rand() % 4];
@@ -238,11 +239,11 @@ void Floor::tick()
 
 bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 {
-    char pos = text_display[new_row][new_col];
-    bool swap = 0;
-    if (pos == '.' || pos == '+' || pos == '#')
-        swap = 1;
-    else if (pos == 'G') // want to step onto a Gold.
+    char target = text_display[new_row][new_col];
+    bool move = 0;
+    if (target == '.' || target == '+' || target == '#')
+        move = 1;
+    else if (target == 'G') // want to step onto a Gold.
     {
         for (int i = 0; i < gold_list.size(); i++)
         {
@@ -252,13 +253,13 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
                 {
                     player->setGold(player->getGold() + gold_list[i]->getVal());
                     gold_list.erase(gold_list.begin() + i);
-                    swap = 1;
+                    move = 1;
                     break;
                 }
             }
         }
     }
-    else if (pos == '\\') // want to goto next floor.
+    else if (target == '\\') // want to goto next floor.
     {
         player->restore();
         return 1;
@@ -266,12 +267,12 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
     else
         throw std::runtime_error{"Error: trying to move player to an impossible location."};
 
-    if (swap)
+    if (move)
     {
         player->setLocation(new_row, new_col);
         text_display[old_row][old_col] = player->getPrev();
         text_display[new_row][new_col] = '@';
-        player->setPrev(pos);
+        player->setPrev(target);
     }
     return 0;
 }
