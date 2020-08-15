@@ -29,9 +29,8 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     vector<char> firstRow;
     for (int i = 0; i < line.length(); ++i)
     {
-        
+
         firstRow.push_back(line[i]);
-        
     }
     text_display.push_back(firstRow);
     int row = 1;
@@ -78,7 +77,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 break;
             case '6':
                 newRow.push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newGold = make_shared<Normal>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '7':
@@ -88,12 +87,12 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 break;
             case '8':
                 newRow.push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newGold = make_shared<MerchantHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '9':
                 newRow.push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newGold = make_shared<DragonHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '.':
@@ -102,7 +101,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 {
                     for (int j = 0; j < availables[i].size(); ++j)
                     {
-                        
+
                         if (availables[i][j].first == row && availables[i][j].second == col)
                         {
                             newPair = {row, col};
@@ -110,15 +109,15 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                         }
                     }
                 }
+                break;
             default:
                 newRow.push_back(line[col]);
             } // switch
         }
-        text_display.push_back(newRow);     // do
+        text_display.push_back(newRow); // do
         row += 1;
 
     } while (!(line[0] == '|' && line[1] == '-'));
-
 
     for (int i = 0; i < text_display.size(); ++i)
     {
@@ -151,10 +150,11 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 for (int w = 0; w < gold_list.size(); ++w)
                 {
                     shared_ptr<Gold> theGold = gold_list[w];
-                    if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1)
+                    if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
                         newEnemy = make_shared<Dragon>(i, j, theGold);
                         enemy_list.push_back(newEnemy);
+                        break;
                     }
                 }
                 break;
@@ -169,14 +169,13 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     return newFloor;
 }
 
-
-
-
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
     ifstream inputMap;
-    if(argc>1){
+    if (argc > 1)
+    {
         inputMap.open(argv[1]);
     }
     pl = make_shared<Shade>();
@@ -186,4 +185,8 @@ int main(int argc, char *argv[]){
     Floor forFloor = readFloor(inputMap, availables, pl);
     Floor fifFloor = readFloor(inputMap, availables, pl);
     cout << firFloor << endl;
+    cout << secFloor << endl;
+    cout << thiFloor << endl;
+    cout << forFloor << endl;
+    cout << fifFloor << endl;
 }
