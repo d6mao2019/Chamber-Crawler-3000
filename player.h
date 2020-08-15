@@ -26,9 +26,9 @@ public:
 	virtual ~Player();
 	bool adjacent(const Enemy &e) const;
 	double getScal() const;
-	void setPrev(char p);
 	char getPrev() const;
 	std::string getRace() const;
+	void setPrev(char p);
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
