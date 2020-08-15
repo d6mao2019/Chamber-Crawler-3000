@@ -14,7 +14,7 @@ public:
 	// constructor.
 	Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row, int col);
 	virtual ~Enemy();
-	virtual bool adjacent(Player &other);
+	virtual bool adjacent(const Player &p) const;
 	virtual void attack(Shade &shade);
 	virtual void attack(Drow &drow);
 	virtual void attack(Vampire &vampire);
@@ -90,7 +90,7 @@ class Dragon : public Enemy
 public:
 	Dragon(int row, int col, std::shared_ptr<Gold> hoard);
 	virtual void beAttackedBy(Player &p) override;
-	virtual bool adjacent(Player &other) override;
+	virtual bool adjacent(const Player &other) const override;
 	// 0 attack override(s).
 	virtual void move(Direction direction) override;
 };

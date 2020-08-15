@@ -23,7 +23,7 @@ public:
 	Player(double MaxHP, double HP, double Atk, double Def,
 		   int gold, int row, int col, double scaling);
 	virtual ~Player();
-	bool adjacent(Enemy &other);
+	bool adjacent(const Enemy &e) const;
 	double getScal() const;
 	void setPrev(char p);
 

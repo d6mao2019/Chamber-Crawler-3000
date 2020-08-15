@@ -30,20 +30,20 @@ class Floor
 	bool moveTheplayerHelper(int row, int col, int oldRow, int oldCol);
 
 public:
-	// constructor.
-	// responsible for generating enemies, potions, and gold piles.
+	// constructor: does nothing.
 	Floor();
+	// constructor: read in locations of characters and items from input.
+	Floor(std::vector<std::vector<char>> &text_display,
+		  std::vector<std::shared_ptr<Enemy>> enemy_list,
+		  std::vector<std::shared_ptr<Potion>> potion_list,
+		  std::vector<std::shared_ptr<Gold>> gold_list,
+		  std::shared_ptr<Player> player,
+		  std::vector<std::vector<std::pair<int, int>>> &availables);
+	// constructor: randomly spawn enemies, potions, and golds.
 	Floor(std::vector<std::vector<char>> &text_display,
 		  std::shared_ptr<Player> player,
 		  std::vector<std::vector<std::pair<int, int>>> &availables,
 		  int potion_num, int gold_num, int enemy_num);
-
-	Floor(std::vector<std::vector<char>> &text_display,
-		  std::shared_ptr<Player> player,
-		  std::vector<std::shared_ptr<Enemy>> enemy_list,
-		  std::vector<std::shared_ptr<Potion>> potion_list,
-		  std::vector<std::shared_ptr<Gold>> gold_list,
-		  std::vector<std::vector<std::pair<int, int>>> &availables);
 
 	// accessor.
 	std::vector<std::vector<char>> getTextDisplay();

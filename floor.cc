@@ -2,13 +2,52 @@
 #include "character.h"
 #include "player.h"
 #include "enemy.h"
+#include "potion.h"
+#include "gold.h"
 #include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
-#include "gold.h"
 
-void Floor::select_potion(int row, int col) {}
-void Floor::select_gold(int row, int col) {}
+void Floor::select_potion(int row, int col)
+{
+    int type = rand() % 6;
+    std::shared_ptr<Potion> e;
+    switch (type)
+    {
+    case 0:
+        e = std::make_shared<HPBoost>(row, col);
+    case 1:
+        e = std::make_shared<AtkBoost>(row, col);
+    case 2:
+        e = std::make_shared<DefBoost>(row, col);
+    case 3:
+        e = std::make_shared<HPWound>(row, col);
+    case 4:
+        e = std::make_shared<AtkWound>(row, col);
+    case 5:
+        e = std::make_shared<DefWound>(row, col);
+    }
+    potion_list.push_back(e);
+    text_display[row][col] = 'P';
+}
+void Floor::select_gold(int row, int col)
+{
+    int type = rand() % 4;
+    std::shared_ptr<Gold> g;
+    switch (type)
+    {
+    case 0:
+        g = std::make_shared<SmallHoard>(row, col);
+    case 1:
+        g = std::make_shared<Normal>(row, col);
+    case 2:
+        g = std::make_shared<MerchantHoard>(row, col);
+    case 3:
+        g = std::make_shared<DragonHoard>(row, col);
+    }
+    gold_list.push_back(g);
+    text_display[row][col] = 'G';
+}
 void Floor::select_enemy(int row, int col)
 {
     int type = rand() % 18;
@@ -50,13 +89,14 @@ void Floor::select_enemy(int row, int col)
     }
 }
 
+// constructor: does nothing.
 Floor::Floor() {}
-
+// constructor: read in locations of characters and items from input.
 Floor::Floor(std::vector<std::vector<char>> &text_display,
-             std::shared_ptr<Player> player,
              std::vector<std::shared_ptr<Enemy>> enemy_list,
              std::vector<std::shared_ptr<Potion>> potion_list,
              std::vector<std::shared_ptr<Gold>> gold_list,
+             std::shared_ptr<Player> player,
              std::vector<std::vector<std::pair<int, int>>> &availables)
     : text_display{text_display}, enemy_list{enemy_list}, potion_list{potion_list}, gold_list{gold_list}, player{player}
 {
@@ -71,7 +111,7 @@ Floor::Floor(std::vector<std::vector<char>> &text_display,
     location = availables[chamber][rand() % availables[chamber].size()];
     text_display[location.first][location.second] = '\\';
 }
-// constructor.
+// constructor: randomly spawn enemies, potions, and golds.
 Floor::Floor(std::vector<std::vector<char>> &text_display,
              std::shared_ptr<Player> player,
              std::vector<std::vector<std::pair<int, int>>> &availables,
@@ -138,7 +178,7 @@ void Floor::ERMSwitch()
         ERM = true;
 }
 
-// helper.
+// helper for Floor::tick();
 std::vector<Direction> available_directions(std::shared_ptr<Enemy> e, std::vector<std::vector<char>> &text_display)
 {
     std::vector<Direction> result;
@@ -213,9 +253,7 @@ bool Floor::move_player(int row, int col, int oldRow, int oldCol)
         return 1;
     }
     else
-    {
         throw std::runtime_error{"Error: trying to move player to an impossible location."};
-    }
 
     if (swap)
     {
@@ -236,7 +274,5 @@ void Floor::attack_enemy(Direction direction)
 void Floor::consume_potion(Direction direction)
 {
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
-    {
-        // what to write here depends on implementation of Potion class.
-    }
+        (*i)->consume(*player);
 }

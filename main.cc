@@ -106,8 +106,8 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                 }
             default:
                 text_display[row].push_back(line[col]);
-            }
-        }
+            } // switch
+        }     // do
 
     } while (!(line[0] == '|' && line[1] == '-'));
 
@@ -156,7 +156,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
             }
         }
     }
-    Floor newFloor = Floor{text_display, player, enemy_list, potion_list, gold_list, newAvailables};
+    Floor newFloor = Floor{text_display, enemy_list, potion_list, gold_list, player, newAvailables};
     return newFloor;
 }
 
@@ -175,25 +175,15 @@ int main(int argc, char *argv[])
     cout << message << endl;
     cin >> cmd;
     if (cmd == "s")
-    {
         pl = make_shared<Shade>();
-    }
     else if (cmd == "d")
-    {
         pl = make_shared<Drow>();
-    }
     else if (cmd == "v")
-    {
         pl = make_shared<Vampire>();
-    }
     else if (cmd == "g")
-    {
         pl = make_shared<Goblin>();
-    }
     else if (cmd == "t")
-    {
         pl = make_shared<Troll>();
-    }
     else if (cmd == "q")
         return 0;
     else
@@ -226,14 +216,9 @@ int main(int argc, char *argv[])
     {
         Floor curFloor;
         if (argc > 0)
-        {
             curFloor = floors[floorNum];
-        }
         else
-        {
             curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-        }
-
         while (std::cin >> cmd)
         {
             try

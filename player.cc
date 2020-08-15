@@ -8,6 +8,12 @@ Player::Player(double MaxHP, double HP, double Atk, double Def,
 	: Character{MaxHP, HP, Atk, Def, gold, row, col}, scaling{scaling}, origAtk{Atk}, origDef{Def} {}
 Player::~Player() {}
 
+bool Player::adjacent(const Enemy &e) const
+{
+	int dist_square = pow(this->getRow() - e.getRow(), 2) + pow(this->getCol() - e.getCol(), 2);
+	return dist_square == 1 || dist_square == 2;
+}
+
 void Player::setPrev(char p)
 {
 	if (p != '+' && p != '#')
@@ -27,12 +33,6 @@ void Player::restore()
 	prev = '.';
 	setAtk(origAtk);
 	setDef(origDef);
-}
-
-bool Player::adjacent(Enemy &other)
-{
-	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
-	return dist_square == 1 || dist_square == 2;
 }
 
 template <typename EnemyType>

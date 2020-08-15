@@ -7,9 +7,9 @@ Enemy::Enemy(double MaxHP, double HP, double Atk, double Def, int gold, int row,
 	: Character{MaxHP, HP, Atk, Def, gold, row, col} {}
 Enemy::~Enemy() {}
 
-bool Enemy::adjacent(Player &other)
+bool Enemy::adjacent(const Player &p) const
 {
-	int dist_square = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
+	int dist_square = pow(this->getRow() - p.getRow(), 2) + pow(this->getCol() - p.getCol(), 2);
 	return dist_square == 1 || dist_square == 2;
 }
 
@@ -131,7 +131,7 @@ Dragon::Dragon(int row, int col, std::shared_ptr<Gold> hoard)
 	: Enemy{150, 150, 20, 20, 0, row, col}, hoard{hoard} {}
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
-bool Dragon::adjacent(Player &other)
+bool Dragon::adjacent(const Player &other) const
 {
 	int dist1 = pow(this->getRow() - other.getRow(), 2) + pow(this->getCol() - other.getCol(), 2);
 	int dist2 = pow(hoard->getRow() - other.getRow(), 2) + pow(hoard->getCol() - other.getCol(), 2);
