@@ -44,7 +44,7 @@ public:
 	virtual double getAtk() const; // needs to be overrided by Potion objects.
 	virtual double getDef() const; // needs to be overrided by Potion objects.
 	double getMaxHP() const;
-	int getGold() const;
+	virtual int getGold() const;
 	int getRow() const;
 	int getCol() const;
 

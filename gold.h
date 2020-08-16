@@ -12,6 +12,7 @@ public:
     virtual ~Gold();
     virtual bool canBepickedup() const;
     int getVal() const;
+    void setPickUp(bool new_val);
 };
 
 class SmallHoard : public Gold
@@ -39,6 +40,7 @@ class DragonHoard : public Gold
 public:
     DragonHoard(int row, int col);
     virtual bool canBepickedup() const override;
+    void setPickUp(bool new_val);
 };
 
 #endif // !GOLD_H

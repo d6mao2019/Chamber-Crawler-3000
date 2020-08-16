@@ -156,7 +156,8 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                     shared_ptr<Gold> theGold = gold_list[w];
                     if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
-                        newEnemy = make_shared<Dragon>(i, j, theGold, nullptr);
+                        shared_ptr<DragonHoard> theGoldDr = dynamic_pointer_cast<DragonHoard>(gold_list[w]);
+                        newEnemy = make_shared<Dragon>(i, j, theGoldDr, nullptr);
                         enemy_list.push_back(newEnemy);
                         break;
                     }
@@ -235,22 +236,22 @@ int main(int argc, char *argv[])
 
         for (auto i : charMap)
         {
-                std::vector<char> vc;
-                for (auto c : i)
+            std::vector<char> vc;
+            for (auto c : i)
+            {
+                if (c != '\n')
                 {
-                    if (c != '\n')
-                    {
-                        vc.push_back(c);
-
-                    }
+                    vc.push_back(c);
                 }
-                mainEmptyMap.push_back(vc);
+            }
+            mainEmptyMap.push_back(vc);
         }
         Floor curFloor;
         bool tempERM = 1;
         while (floorNum < 5 && !cin.fail())
         {
-            if (argc > 1){
+            if (argc > 1)
+            {
                 curFloor = readFloor(inputMap, availables, pl);
             }
             else
@@ -390,10 +391,13 @@ int main(int argc, char *argv[])
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
                         curFloor.ERMSwitch();
-                        if(curFloor.getERM()==0){
-                            cout<< "Enemy stops moving!" << endl;
-                        }else{
-                            cout<< "Enemy starts moving!" << endl;
+                        if (curFloor.getERM() == 0)
+                        {
+                            cout << "Enemy stops moving!" << endl;
+                        }
+                        else
+                        {
+                            cout << "Enemy starts moving!" << endl;
                         }
                     }
                     else if (cmd == "r") // restart game.
@@ -416,7 +420,8 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
-                if(!(cmd == "f")){
+                if (!(cmd == "f"))
+                {
                     curFloor.tick();
                     if (pl->getHP() <= 0)
                     {
@@ -426,7 +431,8 @@ int main(int argc, char *argv[])
                         {
                             if (cmd == "q")
                                 return 0;
-                            else if (cmd == "r"){
+                            else if (cmd == "r")
+                            {
                                 floorNum = 0;
                                 if (argc > 1)
                                 {
@@ -440,11 +446,12 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
-                    cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size())<<"Floor : "<< floorNum+1 << std::endl;
+                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size())<<"Floor : "<< floorNum+1 << std::endl;
                     std::cout << *pl;
                     std::cout << "Action: " << message << std::endl;
                 }
-                if(cmd == "r"){
+                if (cmd == "r")
+                {
                     break;
                 }
             }
