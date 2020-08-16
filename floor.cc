@@ -64,27 +64,27 @@ void Floor::select_potion(int row, int col)
     {
     case 0:
         e = std::make_shared<HPBoost>(row, col);
-        text_display[row][col] = '0';
+        text_display[row][col] = 'P';
         break;
     case 1:
         e = std::make_shared<AtkBoost>(row, col);
-        text_display[row][col] = '1';
+        text_display[row][col] = 'P';
         break;
     case 2:
         e = std::make_shared<DefBoost>(row, col);
-        text_display[row][col] = '2';
+        text_display[row][col] = 'P';
         break;
     case 3:
         e = std::make_shared<HPWound>(row, col);
-        text_display[row][col] = '3';
+        text_display[row][col] = 'P';
         break;
     case 4:
         e = std::make_shared<AtkWound>(row, col);
-        text_display[row][col] = '4';
+        text_display[row][col] = 'P';
         break;
     case 5:
         e = std::make_shared<DefWound>(row, col);
-        text_display[row][col] = '5';
+        text_display[row][col] = 'P';
         break;
     }
     potion_list.push_back(e);

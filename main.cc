@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iomanip>
 using namespace std;
-#define cin cin
+#define cin ff
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -181,7 +181,6 @@ int main(int argc, char *argv[])
     Direction direction = Direction::no;
     std::string message;
     vector<Floor> floors;
-    std::vector<std::vector<char>> mainEmptyMap;
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
     ifstream inputMap;
@@ -230,6 +229,7 @@ int main(int argc, char *argv[])
             message = "Error: Unrecgonized race.";
         }
         std::cout << message << std::endl;
+        std::vector<std::vector<char>> mainEmptyMap;
 
         for (auto i : charMap)
         {
@@ -251,7 +251,8 @@ int main(int argc, char *argv[])
             {
                 curFloor = readFloor(inputMap, availables, pl);
             }
-            else{
+            else
+            {
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             }
             std::cout << curFloor;
@@ -414,7 +415,6 @@ int main(int argc, char *argv[])
                             inputMap.seekg(0, inputMap.beg);
                         }
                         cout << "Game restarts!" << endl;
-                        // shoule "rerun" main.
                         break;
                     }
                     else if (cmd == "q") // quit game.
@@ -452,7 +452,7 @@ int main(int argc, char *argv[])
                                 {
                                     inputMap.clear();
 
-                                                                        inputMap.seekg(0, inputMap.beg);
+                                    inputMap.seekg(0, inputMap.beg);
                                 }
                                 break;
                             }
@@ -486,7 +486,8 @@ int main(int argc, char *argv[])
             {
                 if (cmd == "q")
                     return 0;
-                else if (cmd == "r"){
+                else if (cmd == "r")
+                {
                     cout << "Game restarts!" << endl;
                     floorNum = 0;
                     if (argc > 1)
