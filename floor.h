@@ -47,7 +47,7 @@ public:
 	Floor(const Floor &other);
 	// copy assignment operator.
 	void operator=(const Floor &other);
-	// accessor.
+
 	std::vector<std::vector<char>> getTextDisplay() const;
 	bool getERM() const;
 	std::shared_ptr<Player> getPlayer() const;
@@ -65,6 +65,7 @@ public:
 
 	// moves the player on the map.
 	bool move_player(int oldRow, int oldCol, int row, int col);
+	bool move_player(Direction direction);
 
 	// let the player attack the enemy indicated by direction.
 	// report an error if no enemy is located at the specified direction.
@@ -73,8 +74,12 @@ public:
 	// let the player consume the potion indicated by direction.
 	// report an error if no potion is located at the specified direction.
 	void consume_potion(Direction direction);
+
+	// let the player pick up the gold indicated by direction.
+	// report an error if the gold is a dragon hoard whose dragon has not been slain yet.
+	void pick_up_gold(Direction direction);
 };
 
-std::ostream &operator<<(std::ostream &out, const Floor &fl);
+std::ostream &operator<<(std::ostream &out, const Floor &f);
 
 #endif // !FLOOR_H

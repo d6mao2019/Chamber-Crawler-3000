@@ -4,6 +4,7 @@
 #include "enemy.h"
 #include "potion.h"
 #include "gold.h"
+#include "util.h"
 #include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
@@ -269,7 +270,6 @@ void Floor::beNotifiedBy(Enemy &e)
 {
     int original_size = enemy_list.size(); // debugging purpose.
     /* modify vector. */
-    std::cout << original_size << std::endl;
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
         if (**i == e)
@@ -294,7 +294,7 @@ void Floor::ERMSwitch()
 
 void Floor::tick()
 {
-    /* enemy random moves. */
+    /* enemies random move. */
     if (ERM)
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
@@ -307,11 +307,56 @@ void Floor::tick()
             text_display[(*i)->getRow()][(*i)->getCol()] = symbol;
         }
     }
-    /* enemy attack player. */
+    /* enemies attack player. */
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
         player->beAttackedBy(**i);
 }
 
+bool Floor::move_player(Direction direction)
+{
+    bool success = 0;
+    int old_row = player->getRow();
+    int old_col = player->getCol();
+    std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
+    char target = text_display[new_loc.first][new_loc.second];
+    switch (target)
+    {
+    case '.':
+        success = 1;
+        break;
+    case '+':
+        success = 1;
+        break;
+    case '#':
+        success = 1;
+        break;
+    case 'G':
+        try
+        {
+            pick_up_gold(direction);
+            success = 1;
+        }
+        catch (...)
+        {
+            throw;
+        }
+        break;
+    case '\\':
+        player->restore();
+        return 1;
+    }
+    if (success = 0)
+        throw std::invalid_argument{"Error: Can not move to specified direction."};
+    else
+    {
+        player->setLocation(new_loc.first, new_loc.second);
+        text_display[old_row][old_col] = player->getPrev();
+        player->setPrev(target);
+        text_display[new_loc.first][new_loc.second] = '@';
+    }
+}
+
+/*
 bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 {
     char target = text_display[new_row][new_col];
@@ -351,17 +396,21 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
     }
     return 0;
 }
+*/
 
 void Floor::attack_enemy(Direction direction)
 {
     bool success = 0;
-    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
+    int old_row = player->getRow();
+    int old_col = player->getCol();
+    std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
+    for (auto i : enemy_list)
     {
-        std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
-        if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
+        if (i->getRow() == new_loc.first && i->getCol() == new_loc.second)
         {
-            (*i)->beAttackedBy(*player);
+            i->beAttackedBy(*player);
             success = 1;
+            break;
         }
     }
     if (success == 0)
@@ -371,24 +420,52 @@ void Floor::attack_enemy(Direction direction)
 void Floor::consume_potion(Direction direction)
 {
     bool success = 0;
+    int old_row = player->getRow();
+    int old_col = player->getCol();
+    std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
-        std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
-        if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
+        if ((*i)->getRow() == new_loc.first && (*i)->getCol() == new_loc.second)
         {
             (*i)->consume(*player);
             potion_list.erase(i);
-            text_display[location.first][location.second] = '.';
+            text_display[new_loc.first][new_loc.second] = '.';
             success = 1;
+            break;
         }
     }
     if (success == 0)
         throw std::runtime_error{"Error: Specified direction is not a potion object."};
 }
 
-std::ostream &operator<<(std::ostream &out, const Floor &fl)
+void Floor::pick_up_gold(Direction direction)
 {
-    const std::vector<std::vector<char>> &map = fl.getTextDisplay();
+    bool success = 0;
+    int old_row = player->getRow();
+    int old_col = player->getCol();
+    std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
+    for (auto i = gold_list.begin(); i != gold_list.end(); ++i)
+    {
+        if ((*i)->getRow() == new_loc.first &&
+            (*i)->getCol() == new_loc.second &&
+            (*i)->canBepickedup())
+        {
+            player->setGold(player->getGold() + (*i)->getVal());
+            gold_list.erase(i);
+            text_display[new_loc.first][new_loc.second] = '.';
+            success = 1;
+            break;
+        }
+    }
+    // since this function will only be called by move_player, we don't need to
+    // consider the case where the indicated location is not a Gold.
+    if (success = 0)
+        throw std::invalid_argument{"Error: The treasure at the specified direction is a dragon hoard. You need to kill its guarding dragon first!"};
+}
+
+std::ostream &operator<<(std::ostream &out, const Floor &f)
+{
+    std::vector<std::vector<char>> map = f.getTextDisplay();
     for (auto i : map)
     {
         for (auto j : i)

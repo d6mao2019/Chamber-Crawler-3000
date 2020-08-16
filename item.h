@@ -12,9 +12,9 @@ public:
     char getType() const;
     int getRow() const;
     int getCol() const;
+    void setLocation(int row, int col);
     void setRow(int r);
     void setCol(int c);
-    bool cmpLoc(int r, int c);
 };
 
 #endif // !ITEM_H

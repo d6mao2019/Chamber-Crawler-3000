@@ -17,7 +17,7 @@ public:
 	Enemy(double MaxHP, double HP, double Atk, double Def,
 		  int gold, int row, int col, Floor *floor);
 	virtual ~Enemy();
-	virtual bool adjacent(const Player &p) const;
+	virtual bool adjacent(const Player &p) const; // overrided by Dragon class.
 	virtual void attack(Shade &shade);
 	virtual void attack(Drow &drow);
 	virtual void attack(Vampire &vampire);
