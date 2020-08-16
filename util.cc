@@ -60,9 +60,7 @@ std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction)
     return std::pair<int, int>{new_row, new_col};
 }
 
-std::pair<int, int> getNewLoc(std::pair<int, int> old_location, Direction direction)
+std::pair<int, int> getNewLoc(std::pair<int, int> old_loc, Direction direction)
 {
-    int old_row = old_location.first;
-    int old_col = old_location.second;
-    return getNewLoc(old_row, old_col, direction);
+    return getNewLoc(old_loc.first, old_loc.second, direction);
 }

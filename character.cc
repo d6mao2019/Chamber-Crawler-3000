@@ -20,15 +20,12 @@ void Character::setHP(double new_hp) { new_hp < 0 ? HP = 0 : (new_hp > MaxHP ? H
 void Character::setAtk(double new_atk) { new_atk < 0 ? Atk = 0 : Atk = new_atk; }
 void Character::setDef(double new_def) { Def < 0 ? Def = 0 : Def = new_def; }
 void Character::setGold(int new_gold) { gold = new_gold; }
-
 void Character::setLocation(int new_row, int new_col)
 {
 	row = new_row;
 	col = new_col;
 }
-
 void Character::setFloor(Floor *new_floor) { floor = new_floor; }
-
 void Character::move(Direction direction)
 {
 	int old_row = row;
