@@ -9,7 +9,6 @@ class Potion : public Item
 public:
 	Potion(int row = 0, int col = 0);
 	virtual ~Potion();
-	bool adjacent(const Player &p) const;
 	virtual void consume(Player &pl) = 0;
 };
 
@@ -50,7 +49,7 @@ public:
 
 class HPBoost : public Potion
 {
-	const int hp = 10;
+	const int restore = 10;
 
 public:
 	HPBoost(int row = 0, int col = 0);
@@ -59,7 +58,7 @@ public:
 
 class HPWound : public Potion
 {
-	const int hp = 10;
+	const int poison = 10;
 
 public:
 	HPWound(int row = 0, int col = 0);
