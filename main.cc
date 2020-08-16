@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 #define cin cin
 #include "output.h"
@@ -246,7 +247,7 @@ int main(int argc, char *argv[])
             mainEmptyMap.push_back(vc);
         }
         Floor curFloor;
-        bool tempERM = 0;
+        bool tempERM = 1;
         while (floorNum < 5 && !cin.fail())
         {
             if (argc > 1)
@@ -256,9 +257,16 @@ int main(int argc, char *argv[])
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
-            std::cout << "                                          Floor: 1";
+            cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(64 - pl->getRace().size() - to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
             std::cout << *pl;
-            std::cout << "Action: Player character has spawned." << std::endl;
+            if (floorNum == 0)
+            {
+                std::cout << "Action: Player character has spawned." << std::endl;
+            }
+            else
+            {
+                std::cout << "Action: Player is on new floor" << std::endl;
+            }
             if (curFloor.getERM() != tempERM)
             {
                 curFloor.ERMSwitch();
@@ -272,8 +280,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol()))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the north.";
@@ -283,8 +294,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol()))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the south.";
@@ -294,8 +308,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the west.";
@@ -305,8 +322,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the east.";
@@ -316,8 +336,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the north west.";
@@ -327,8 +350,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the north east.";
@@ -338,8 +364,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the south west.";
@@ -349,8 +378,11 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1))
                         {
                             floorNum += 1;
-                            cout << "Next Floor!" << endl;
-                            tempERM = curFloor.getERM();
+                            if (floorNum < 4)
+                            {
+                                cout << "Next Floor!" << endl;
+                                tempERM = curFloor.getERM();
+                            }
                             break;
                         }
                         message = "Action: Player moved to the south east.";
@@ -392,19 +424,20 @@ int main(int argc, char *argv[])
                     }
                     else
                         message = "Error: unrecognized command.";
+                    cout << message << endl;
                 }
                 catch (std::runtime_error &e)
                 {
                     message = e.what();
                 }
-                if (!(cmd == "f"))
+                if (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we" || cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw" || cmd == "a" || cmd == "u")
                 {
                     curFloor.tick();
                     if (pl->getHP() <= 0)
                     {
                         message = "Player got killed. Do you want to restart(r) or quit(q)?";
                         std::cout << message << endl;
-                        while (cin >> cmd && (cmd == "r" || cmd == "q"))
+                        while (cin >> cmd)
                         {
                             if (cmd == "q")
                             {
@@ -426,7 +459,7 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
-                    std::cout << "                                                Floor " << floorNum + 1 << std::endl;
+                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
                     std::cout << *pl;
                     std::cout << message << std::endl;
                 }
@@ -442,14 +475,27 @@ int main(int argc, char *argv[])
         }     // while floors.
 
         // all floors cleared. choose whether to restart or quit.
-        if (cmd != "r" && floorNum == 4)
+        if (cmd != "r" && floorNum == 5)
         {
-            while (cin >> cmd && (cmd == "r" || cmd == "q"))
+            cout << "You made it through the Dungeon!" << endl;
+            cout << "The treasures are all yours! " << endl;
+            cout << "Do you want to try another dungeon(r) or quit(q)?" << endl;
+            while (cin >> cmd)
             {
-                if (cmd == "r")
-                    break;
-                else
+                if (cmd == "q")
                     return 0;
+                else if (cmd == "r")
+                {
+                    floorNum = 0;
+                    if (argc > 1)
+                    {
+                        inputMap.clear();
+                        inputMap.seekg(0, inputMap.beg);
+                    }
+                    break;
+                }
+                else // invalid command.
+                    std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << endl;
             }
         }
     } //while whole game.
