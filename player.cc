@@ -11,20 +11,6 @@ Player::Player(double MaxHP, double HP, double Atk, double Def,
 	  scaling{scaling}, origAtk{Atk}, origDef{Def} {}
 Player::~Player() {}
 
-/*
-bool Player::adjacent(const Enemy &e) const
-{
-	int dist_square = pow(this->getRow() - e.getRow(), 2) + pow(this->getCol() - e.getCol(), 2);
-	return dist_square == 1 || dist_square == 2;
-}
-
-bool Player::adjacent(const Item &i) const
-{
-	int dist_square = pow(this->getRow() - i.getRow(), 2) + pow(this->getCol() - i.getCol(), 2);
-	return dist_square == 1 || dist_square == 2;
-}
-*/
-
 char Player::getPrev() const { return prev; }
 double Player::getScal() const { return scaling; }
 
@@ -80,7 +66,7 @@ void Player::restore()
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
-	: Player{10000, 10000, 10000, 10000, 0, row, col, 1.0, nullptr} {}
+	: Player{125, 125, 25, 25, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
 std::string Shade::getRace() const { return "Shade"; }
 

@@ -26,6 +26,38 @@ std::istream &operator>>(std::istream &in, Direction &direction)
     return in;
 }
 
+std::ostream &operator<<(std::ostream &out, const Direction &direction)
+{
+    switch (direction)
+    {
+    case Direction::no:
+        out << "north";
+        break;
+    case Direction::so:
+        out << "south";
+        break;
+    case Direction::we:
+        out << "west";
+        break;
+    case Direction::ea:
+        out << "east";
+        break;
+    case Direction::nw:
+        out << "north west";
+        break;
+    case Direction::ne:
+        out << "north east";
+        break;
+    case Direction::sw:
+        out << "south west";
+        break;
+    case Direction::se:
+        out << "south east";
+        break;
+    }
+    return out;
+}
+
 std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction)
 {
     int new_row;

@@ -25,10 +25,6 @@ public:
 	Player(double MaxHP, double HP, double Atk, double Def,
 		   int gold, int row, int col, double scaling, Floor *floor);
 	virtual ~Player();
-	/* useless.
-	bool adjacent(const Enemy &e) const;
-	bool adjacent(const Item &i) const;
-	*/
 	double getScal() const;
 	char getPrev() const;
 	void setPrev(char p);

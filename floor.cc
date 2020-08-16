@@ -354,49 +354,8 @@ bool Floor::move_player(Direction direction)
         player->setPrev(target);
         text_display[new_loc.first][new_loc.second] = '@';
     }
-}
-
-/*
-bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
-{
-    char target = text_display[new_row][new_col];
-    bool move = 0;
-    if (target == '.' || target == '+' || target == '#')
-        move = 1;
-    else if (target == 'G') // want to step onto a Gold.
-    {
-        for (int i = 0; i < gold_list.size(); i++)
-        {
-            if (gold_list[i]->cmpLoc(new_row, new_col))
-            {
-                if (gold_list[i]->canBepickedup())
-                {
-                    player->setGold(player->getGold() + gold_list[i]->getVal());
-                    gold_list.erase(gold_list.begin() + i);
-                    move = 1;
-                    break;
-                }
-            }
-        }
-    }
-    else if (target == '\\') // want to goto next floor.
-    {
-        player->restore();
-        return 1;
-    }
-    else
-        throw std::runtime_error{"Error: Trying to move player to an impossible location."};
-
-    if (move)
-    {
-        player->setLocation(new_row, new_col);
-        text_display[old_row][old_col] = player->getPrev();
-        text_display[new_row][new_col] = '@';
-        player->setPrev(target);
-    }
     return 0;
 }
-*/
 
 void Floor::attack_enemy(Direction direction)
 {

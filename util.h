@@ -15,7 +15,7 @@ enum class Direction
 };
 
 std::istream &operator>>(std::istream &in, Direction &direction);
-
+std::ostream &operator<<(std::ostream &out, const Direction &direction);
 std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction);
 std::pair<int, int> getNewLoc(std::pair<int, int> old_location, Direction direction);
 
