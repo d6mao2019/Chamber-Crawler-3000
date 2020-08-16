@@ -2,6 +2,7 @@
 .vscode
 .vs
 cc3k
+cc3k.exe
 character.d
 character.o
 enemy.d
