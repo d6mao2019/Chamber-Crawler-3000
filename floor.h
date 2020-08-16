@@ -49,6 +49,8 @@ public:
 	void operator=(const Floor &other);
 	// accessor.
 	std::vector<std::vector<char>> getTextDisplay() const;
+	bool getERM() const;
+	std::shared_ptr<Player> getPlayer() const;
 
 	// enemies notify floor when they are slain.
 	void beNotifiedBy(Enemy &e);
@@ -71,9 +73,6 @@ public:
 	// let the player consume the potion indicated by direction.
 	// report an error if no potion is located at the specified direction.
 	void consume_potion(Direction direction);
-
-	bool getERM();
-	std::shared_ptr<Player> getPlayer();
 };
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl);

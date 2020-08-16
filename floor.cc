@@ -262,6 +262,8 @@ void Floor::operator=(const Floor &other)
 }
 
 std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_display; }
+bool Floor::getERM() const { return ERM; }
+std::shared_ptr<Player> Floor::getPlayer() const { return player; }
 
 void Floor::beNotifiedBy(Enemy &e)
 {
@@ -273,7 +275,6 @@ void Floor::beNotifiedBy(Enemy &e)
         if (**i == e)
         {
             enemy_list.erase(i);
-            std::cout << "jian shao le";
             break;
         }
     }
@@ -339,7 +340,7 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
         return 1;
     }
     else
-        throw std::runtime_error{"Error: trying to move player to an impossible location."};
+        throw std::runtime_error{"Error: Trying to move player to an impossible location."};
 
     if (move)
     {
@@ -353,27 +354,36 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
 
 void Floor::attack_enemy(Direction direction)
 {
+    bool success = 0;
     for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
         std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
         if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
         {
             (*i)->beAttackedBy(*player);
+            success = 1;
         }
     }
+    if (success == 0)
+        throw std::runtime_error{"Error: Specified direction is not an enemy object."};
 }
 
 void Floor::consume_potion(Direction direction)
 {
+    bool success = 0;
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
         std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
         if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
         {
             (*i)->consume(*player);
+            potion_list.erase(i);
             text_display[location.first][location.second] = '.';
+            success = 1;
         }
     }
+    if (success == 0)
+        throw std::runtime_error{"Error: Specified direction is not a potion object."};
 }
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl)
@@ -388,13 +398,4 @@ std::ostream &operator<<(std::ostream &out, const Floor &fl)
         out << std::endl;
     }
     return out;
-}
-
-bool Floor::getERM()
-{
-    return ERM;
-}
-
-std::shared_ptr<Player> Floor::getPlayer(){
-    return player;
 }

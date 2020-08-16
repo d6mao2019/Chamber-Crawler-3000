@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "item.h"
+
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling, Floor *floor)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col, floor},
@@ -23,7 +24,7 @@ bool Player::adjacent(const Item &i) const
 }
 
 char Player::getPrev() const { return prev; }
-
+double Player::getScal() const { return scaling; }
 
 void Player::setPrev(char p)
 {
@@ -32,13 +33,6 @@ void Player::setPrev(char p)
 		p = '.';
 	}
 	prev = p;
-}
-
-void Player::restore()
-{
-	prev = '.';
-	setAtk(origAtk);
-	setDef(origDef);
 }
 
 std::ostream &operator<<(std::ostream &out, const Player &pl)
@@ -78,14 +72,21 @@ void Player::attack(Orc &orc) { common_attack<Orc>(this, orc, 0); }
 void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
-double Player::getScal() const { return scaling; }
+
+void Player::restore()
+{
+	prev = '.';
+	setAtk(origAtk);
+	setDef(origDef);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
 	: Player{10000, 10000, 10000, 10000, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Shade::getRace(){
+std::string Shade::getRace()
+{
 	return "Shade";
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,8 @@ std::string Shade::getRace(){
 Drow::Drow(int row, int col)
 	: Player{150, 150, 25, 15, 0, row, col, 1.5, nullptr} {}
 void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Drow::getRace(){
+std::string Drow::getRace()
+{
 	return "Drow";
 }
 
@@ -102,7 +104,8 @@ std::string Drow::getRace(){
 Vampire::Vampire(int row, int col)
 	: Player{INT32_MAX, 50, 35, 25, 0, row, col, 1.0, nullptr} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Vampire::getRace(){
+std::string Vampire::getRace()
+{
 	return "Vampire";
 }
 
@@ -131,7 +134,8 @@ void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this
 Troll::Troll(int row, int col)
 	: Player{120, 120, 25, 15, 0, row, col, 1.0, nullptr} {}
 void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Troll::getRace(){
+std::string Troll::getRace()
+{
 	return "Troll";
 }
 
@@ -140,7 +144,8 @@ std::string Troll::getRace(){
 Goblin::Goblin(int row, int col)
 	: Player{110, 110, 15, 20, 0, row, col, 1.0, nullptr} {}
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Goblin ::getRace(){
+std::string Goblin ::getRace()
+{
 	return "Goblin";
 }
 template <typename EnemyType>
