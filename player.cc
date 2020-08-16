@@ -23,7 +23,7 @@ bool Player::adjacent(const Item &i) const
 }
 
 char Player::getPrev() const { return prev; }
-std::string Player::getRace() const { return race; }
+
 
 void Player::setPrev(char p)
 {
@@ -85,18 +85,26 @@ double Player::getScal() const { return scaling; }
 Shade::Shade(int row, int col)
 	: Player{10000, 10000, 25, 10000, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
-
+std::string Shade::getRace(){
+	return "Shade";
+}
 ///////////////////////////////////////////////////////////////////////////////
 /* Drow Class */ /* 0 attack override(s) */
 Drow::Drow(int row, int col)
 	: Player{150, 150, 25, 15, 0, row, col, 1.5, nullptr} {}
 void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
+std::string Drow::getRace(){
+	return "Drow";
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Vampire Class */ /* 7 attack override(s) */
 Vampire::Vampire(int row, int col)
 	: Player{INT32_MAX, 50, 35, 25, 0, row, col, 1.0, nullptr} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
+std::string Vampire::getRace(){
+	return "Vampire";
+}
 
 template <typename EnemyType>
 void vampire_attack_gain_HP(Player *p, EnemyType &e, int miss_combat_chance)
@@ -123,13 +131,18 @@ void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this
 Troll::Troll(int row, int col)
 	: Player{120, 120, 25, 15, 0, row, col, 1.0, nullptr} {}
 void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
+std::string Troll::getRace(){
+	return "Troll";
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Goblin Class */ /* 7 attack override(s) */
 Goblin::Goblin(int row, int col)
 	: Player{110, 110, 15, 20, 0, row, col, 1.0, nullptr} {}
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
-
+std::string Goblin ::getRace(){
+	return "Goblin";
+}
 template <typename EnemyType>
 void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {

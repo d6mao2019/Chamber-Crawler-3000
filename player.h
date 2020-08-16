@@ -19,7 +19,6 @@ private:
 	char prev = '.';
 	double origAtk;
 	double origDef;
-	const std::string race;
 
 public:
 	// Player constructor.
@@ -30,8 +29,8 @@ public:
 	bool adjacent(const Item &i) const;
 	double getScal() const;
 	char getPrev() const;
-	std::string getRace() const;
 	void setPrev(char p);
+	virtual std::string getRace() = 0;
 	virtual void attack(Human &human);
 	virtual void attack(Dwarf &dwarf);
 	virtual void attack(Elf &elf);
@@ -51,6 +50,7 @@ class Shade : public Player
 public:
 	Shade(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
+	std::string getRace() override;
 	// 0 attack override(s).
 };
 
@@ -62,6 +62,7 @@ class Drow : public Player
 public:
 	Drow(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
+	std::string getRace() override;
 	// 0 attack override(s).
 };
 
@@ -74,6 +75,7 @@ class Vampire : public Player
 
 public:
 	Vampire(int row = 0, int col = 0);
+	std::string getRace() override;
 	virtual void beAttackedBy(Enemy &e) override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
@@ -93,6 +95,7 @@ class Troll : public Player
 public:
 	Troll(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
+	std::string getRace() override;
 	// 0 attack override(s).
 };
 
@@ -104,6 +107,7 @@ class Goblin : public Player
 public:
 	Goblin(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
+	std::string getRace() override;
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
 	virtual void attack(Dwarf &dwarf) override;
