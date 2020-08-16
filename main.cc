@@ -1,19 +1,18 @@
-#include "character.h"
 #include "player.h"
 #include "enemy.h"
-#include "gold.h"
 #include "potion.h"
+#include "gold.h"
 #include "floor.h"
+#include "util.h"
 #include "output.h"
-#include <iostream>
-#include <string>
 #include <fstream>
 #include <iomanip>
-using namespace std;
+#include <iostream>
+#include <string>
 #define cin ff
 #include "output.h"
 
-Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
+Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
 {
     std::vector<std::vector<char>> text_display;
     std::vector<std::shared_ptr<Enemy>> enemy_list;
@@ -27,7 +26,7 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     }
     std::string line;
     getline(f, line);
-    vector<char> firstRow;
+    std::vector<char> firstRow;
     for (int i = 0; i < line.length(); ++i)
     {
 
@@ -37,63 +36,63 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     int row = 1;
     do
     {
-        vector<char> newRow;
+        std::vector<char> newRow;
         getline(f, line);
         for (int col = 0; col < line.length(); ++col)
         {
-            shared_ptr<Potion> newPotion;
-            shared_ptr<Gold> newGold;
+            std::shared_ptr<Potion> newPotion;
+            std::shared_ptr<Gold> newGold;
             std::pair<int, int> newPair;
             switch (line[col])
             {
             case '0':
                 newRow.push_back('P');
-                newPotion = make_shared<HPBoost>(row, col);
+                newPotion = std::make_shared<HPBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '1':
                 newRow.push_back('P');
-                newPotion = make_shared<AtkBoost>(row, col);
+                newPotion = std::make_shared<AtkBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '2':
                 newRow.push_back('P');
-                newPotion = make_shared<DefBoost>(row, col);
+                newPotion = std::make_shared<DefBoost>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '3':
                 newRow.push_back('P');
-                newPotion = make_shared<HPWound>(row, col);
+                newPotion = std::make_shared<HPWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '4':
                 newRow.push_back('P');
-                newPotion = make_shared<AtkWound>(row, col);
+                newPotion = std::make_shared<AtkWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '5':
                 newRow.push_back('P');
-                newPotion = make_shared<DefWound>(row, col);
+                newPotion = std::make_shared<DefWound>(row, col);
                 potion_list.push_back(newPotion);
                 break;
             case '6':
                 newRow.push_back('G');
-                newGold = make_shared<Normal>(row, col);
+                newGold = std::make_shared<Normal>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '7':
                 newRow.push_back('G');
-                newGold = make_shared<SmallHoard>(row, col);
+                newGold = std::make_shared<SmallHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '8':
                 newRow.push_back('G');
-                newGold = make_shared<MerchantHoard>(row, col);
+                newGold = std::make_shared<MerchantHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '9':
                 newRow.push_back('G');
-                newGold = make_shared<DragonHoard>(row, col);
+                newGold = std::make_shared<DragonHoard>(row, col);
                 gold_list.push_back(newGold);
                 break;
             case '.':
@@ -127,44 +126,44 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
     {
         for (int j = 0; j < text_display[i].size(); ++j)
         {
-            shared_ptr<Enemy> newEnemy;
+            std::shared_ptr<Enemy> newEnemy;
             switch (text_display[i][j])
             {
             case 'H':
-                newEnemy = make_shared<Human>(i, j, nullptr);
+                newEnemy = std::make_shared<Human>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'W':
-                newEnemy = make_shared<Dwarf>(i, j, nullptr);
+                newEnemy = std::make_shared<Dwarf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'E':
-                newEnemy = make_shared<Elf>(i, j, nullptr);
+                newEnemy = std::make_shared<Elf>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'O':
-                newEnemy = make_shared<Orc>(i, j, nullptr);
+                newEnemy = std::make_shared<Orc>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'M':
-                newEnemy = make_shared<Merchant>(i, j, nullptr);
+                newEnemy = std::make_shared<Merchant>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             case 'D':
                 for (int w = 0; w < gold_list.size(); ++w)
                 {
-                    shared_ptr<Gold> theGold = gold_list[w];
+                    std::shared_ptr<Gold> theGold = gold_list[w];
                     if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
-                        shared_ptr<DragonHoard> theGoldDr = dynamic_pointer_cast<DragonHoard>(gold_list[w]);
-                        newEnemy = make_shared<Dragon>(i, j, theGoldDr, nullptr);
+                        std::shared_ptr<DragonHoard> theGoldDr = std::dynamic_pointer_cast<DragonHoard>(gold_list[w]);
+                        newEnemy = std::make_shared<Dragon>(i, j, theGoldDr, nullptr);
                         enemy_list.push_back(newEnemy);
                         break;
                     }
                 }
                 break;
             case 'L':
-                newEnemy = make_shared<Halfling>(i, j, nullptr);
+                newEnemy = std::make_shared<Halfling>(i, j, nullptr);
                 enemy_list.push_back(newEnemy);
                 break;
             }
@@ -180,11 +179,11 @@ int main(int argc, char *argv[])
     std::string cmd;
     Direction direction = Direction::no;
     std::string message;
-    vector<Floor> floors;
+    std::vector<Floor> floors;
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
     std::shared_ptr<Player> pl;
-    ifstream inputMap;
-    ifstream ff{"1.in"};
+    std::ifstream inputMap;
+    std::ifstream ff{"1.in"};
     if (argc > 1)
     {
         inputMap.open(argv[1]);
@@ -197,27 +196,27 @@ int main(int argc, char *argv[])
         cin >> cmd;
         if (cmd == "s")
         {
-            pl = make_shared<Shade>();
+            pl = std::make_shared<Shade>();
             message = "You have selected Shade.";
         }
         else if (cmd == "d")
         {
-            pl = make_shared<Drow>();
+            pl = std::make_shared<Drow>();
             message = "You have selected Drow.";
         }
         else if (cmd == "v")
         {
-            pl = make_shared<Vampire>();
+            pl = std::make_shared<Vampire>();
             message = "You have selected Vampire.";
         }
         else if (cmd == "g")
         {
-            pl = make_shared<Goblin>();
+            pl = std::make_shared<Goblin>();
             message = "You have selected Goblin.";
         }
         else if (cmd == "t")
         {
-            pl = make_shared<Troll>();
+            pl = std::make_shared<Troll>();
             message = "You have selected Troll.";
         }
         else if (cmd == "q")
@@ -256,7 +255,7 @@ int main(int argc, char *argv[])
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             }
             std::cout << curFloor;
-            cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(64 - pl->getRace().size() - to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
+            std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(64 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
             std::cout << *pl;
             if (floorNum == 0)
             {
@@ -281,7 +280,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -295,7 +294,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -309,7 +308,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -323,7 +322,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -337,7 +336,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -351,7 +350,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -365,7 +364,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -379,7 +378,7 @@ int main(int argc, char *argv[])
                             floorNum += 1;
                             if (floorNum < 4)
                             {
-                                cout << "Next Floor!" << endl;
+                                std::cout << "Next Floor!" << std::endl;
                                 tempERM = curFloor.getERM();
                             }
                             break;
@@ -414,7 +413,7 @@ int main(int argc, char *argv[])
                             inputMap.clear();
                             inputMap.seekg(0, inputMap.beg);
                         }
-                        cout << "Game restarts!" << endl;
+                        std::cout << "Game restarts!" << std::endl;
                         break;
                     }
                     else if (cmd == "q") // quit game.
@@ -424,7 +423,7 @@ int main(int argc, char *argv[])
                     }
                     else
                         message = "Error: Unrecognized command.";
-                    cout << message << endl;
+                    std::cout << message << std::endl;
                 }
                 catch (std::runtime_error &e)
                 {
@@ -436,7 +435,7 @@ int main(int argc, char *argv[])
                     if (pl->getHP() <= 0)
                     {
                         message = "Player got killed. Do you want to restart(r) or quit(q)?";
-                        std::cout << message << endl;
+                        std::cout << message << std::endl;
                         while (cin >> cmd)
                         {
                             if (cmd == "q")
@@ -446,7 +445,7 @@ int main(int argc, char *argv[])
                             }
                             else if (cmd == "r")
                             {
-                                cout << "Game restarts!" << endl;
+                                std::cout << "Game restarts!" << std::endl;
                                 floorNum = 0;
                                 if (argc > 1)
                                 {
@@ -457,11 +456,11 @@ int main(int argc, char *argv[])
                                 break;
                             }
                             else // invalid command.
-                                std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << endl;
+                                std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << std::endl;
                         }
                     }
                     std::cout << curFloor;
-                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
+                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(60 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
                     std::cout << *pl;
                     std::cout << message << std::endl;
                 }
@@ -479,16 +478,16 @@ int main(int argc, char *argv[])
         // all floors cleared. choose whether to restart or quit.
         if (cmd != "r" && floorNum == 5)
         {
-            cout << "You made it through the Dungeon!" << endl;
-            cout << "The treasures are all yours! " << endl;
-            cout << "Do you want to try another dungeon(r) or quit(q)?" << endl;
+            std::cout << "You made it through the Dungeon!" << std::endl;
+            std::cout << "The treasures are all yours! " << std::endl;
+            std::cout << "Do you want to try another dungeon(r) or quit(q)?" << std::endl;
             while (cin >> cmd)
             {
                 if (cmd == "q")
                     return 0;
                 else if (cmd == "r")
                 {
-                    cout << "Game restarts!" << endl;
+                    std::cout << "Game restarts!" << std::endl;
                     floorNum = 0;
                     if (argc > 1)
                     {
@@ -498,7 +497,7 @@ int main(int argc, char *argv[])
                     break;
                 }
                 else // invalid command.
-                    std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << endl;
+                    std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << std::endl;
             }
         }
     } //while whole game.

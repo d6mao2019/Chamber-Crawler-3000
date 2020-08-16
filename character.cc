@@ -1,32 +1,7 @@
 #include "character.h"
 #include <stdexcept>
 #include <string>
-#include <math.h>
-
-std::istream &operator>>(std::istream &in, Direction &direction)
-{
-	std::string s;
-	in >> s;
-	if (s == "no")
-		direction = Direction::no;
-	else if (s == "so")
-		direction = Direction::so;
-	else if (s == "we")
-		direction = Direction::we;
-	else if (s == "ea")
-		direction = Direction::ea;
-	else if (s == "nw")
-		direction = Direction::nw;
-	else if (s == "ne")
-		direction = Direction::ne;
-	else if (s == "sw")
-		direction = Direction::sw;
-	else if (s == "se")
-		direction = Direction::se;
-	else
-		throw std::runtime_error{"Error: invalid direction."};
-	return in;
-}
+#include "util.h"
 
 Character::Character(double MaxHP, double HP, double Atk, double Def,
 					 int gold, int row, int col, Floor *floor)
@@ -41,7 +16,7 @@ int Character::getGold() const { return gold; }
 int Character::getRow() const { return row; }
 int Character::getCol() const { return col; }
 
-void Character::setHP(double new_HP) { new_HP < 0 ? HP = 0 : (new_HP > MaxHP ? HP = MaxHP : HP = new_HP); }
+void Character::setHP(double new_hp) { new_hp < 0 ? HP = 0 : (new_hp > MaxHP ? HP = MaxHP : HP = new_hp); }
 void Character::setAtk(double new_atk) { new_atk < 0 ? Atk = 0 : Atk = new_atk; }
 void Character::setDef(double new_def) { Def < 0 ? Def = 0 : Def = new_def; }
 void Character::setGold(int new_gold) { gold = new_gold; }
@@ -56,82 +31,9 @@ void Character::setFloor(Floor *new_floor) { floor = new_floor; }
 
 void Character::move(Direction direction)
 {
-	switch (direction)
-	{
-	case Direction::no:
-		--row;
-		break;
-	case Direction::so:
-		++row;
-		break;
-	case Direction::we:
-		--col;
-		break;
-	case Direction::ea:
-		++col;
-		break;
-	case Direction::nw:
-		--row;
-		--col;
-		break;
-	case Direction::ne:
-		--row;
-		++col;
-		break;
-	case Direction::sw:
-		++row;
-		--col;
-		break;
-	case Direction::se:
-		++row;
-		++col;
-		break;
-	}
-}
-
-std::pair<int, int> Character::GetLocAfterMove(Direction d, int row, int col)
-{
-	switch (d)
-	{
-	case Direction::no:
-		return {
-			row - 1,
-			col};
-		break;
-	case Direction::so:
-		return {
-			row + 1,
-			col};
-		break;
-	case Direction::ne:
-		return {
-			row - 1,
-			col + 1};
-		break;
-	case Direction::nw:
-		return {
-			row - 1,
-			col - 1};
-		break;
-	case Direction::se:
-		return {
-			row + 1,
-			col + 1};
-		break;
-	case Direction::sw:
-		return {
-			row + 1,
-			col - 1};
-		break;
-	case Direction::ea:
-		return {
-			row,
-			col + 1};
-		break;
-	case Direction::we:
-		return {
-			row,
-			col - 1};
-		break;
-	}
+	int old_row = row;
+	int old_col = col;
+	int new_row = getNewLoc(old_row, old_col, direction);
+	int new_col = getNewLoc(old_row, old_col, direction);
+	this->setLocation(new_row, new_col);
 }

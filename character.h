@@ -1,20 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 #include "floor.h"
+enum class Direction;
 #include <memory>
 #include <iostream>
-enum class Direction
-{
-	no,
-	so,
-	we,
-	ea,
-	nw,
-	ne,
-	sw,
-	se
-};
-std::istream &operator>>(std::istream &in, Direction &direction);
 
 class Character
 // invariants: all integer data fields are all non-negative.
@@ -55,6 +44,5 @@ public:
 	void setLocation(int row, int col);
 	void setFloor(Floor *floor);
 	virtual void move(Direction direction);
-	std::pair<int, int> GetLocAfterMove(Direction d, int row, int col);
 };
 #endif // !CHARACTER_H

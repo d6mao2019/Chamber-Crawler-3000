@@ -45,24 +45,22 @@ std::ostream &operator<<(std::ostream &out, const Player &pl);
 
 class Shade : public Player
 {
-	const std::string race = "Shade";
-
 public:
 	Shade(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
-	std::string getRace() override;
+	virtual std::string getRace() override;
+
 	// 0 attack override(s).
 };
 
 class Drow : public Player
 // all potions have their effect magnified by 1.5.
 {
-	const std::string race = "Drow";
-
 public:
 	Drow(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
-	std::string getRace() override;
+	virtual std::string getRace() override;
+
 	// 0 attack override(s).
 };
 
@@ -71,12 +69,11 @@ class Vampire : public Player
 // gains 5 HP every successful attack except for dwarfs.
 // loses 5 HP every successful attack on dwarfs.
 {
-	const std::string race = "Vampire";
-
 public:
 	Vampire(int row = 0, int col = 0);
-	std::string getRace() override;
 	virtual void beAttackedBy(Enemy &e) override;
+	virtual std::string getRace() override;
+
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
 	virtual void attack(Dwarf &dwarf) override;
@@ -90,24 +87,22 @@ public:
 class Troll : public Player
 // regains 5 HP every turn (capped at 120).
 {
-	const std::string race = "Troll";
-
 public:
 	Troll(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
-	std::string getRace() override;
+	virtual std::string getRace() override;
+
 	// 0 attack override(s).
 };
 
 class Goblin : public Player
 // steals 5 gold from every slain enemy.
 {
-	const std::string race = "Goblin";
-
 public:
 	Goblin(int row = 0, int col = 0);
 	virtual void beAttackedBy(Enemy &e) override;
-	std::string getRace() override;
+	virtual std::string getRace() override;
+
 	// 7 attack override(s).
 	virtual void attack(Human &human) override;
 	virtual void attack(Dwarf &dwarf) override;

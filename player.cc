@@ -35,11 +35,11 @@ void Player::setPrev(char p)
 	prev = p;
 }
 
-std::ostream &operator<<(std::ostream &out, const Player &pl)
+std::ostream &operator<<(std::ostream &out, const Player &p)
 {
-	out << "HP: " << pl.getHP() << std::endl;
-	out << "Atk " << pl.getAtk() << std::endl;
-	out << "Def " << pl.getDef() << std::endl;
+	out << "HP: " << p.getHP() << std::endl;
+	out << "Atk: " << p.getAtk() << std::endl;
+	out << "Def: " << p.getDef() << std::endl;
 	return out;
 }
 
@@ -85,29 +85,21 @@ void Player::restore()
 Shade::Shade(int row, int col)
 	: Player{10000, 10000, 10000, 10000, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Shade::getRace()
-{
-	return "Shade";
-}
+std::string Shade::getRace() { return "Shade"; }
+
 ///////////////////////////////////////////////////////////////////////////////
 /* Drow Class */ /* 0 attack override(s) */
 Drow::Drow(int row, int col)
 	: Player{150, 150, 25, 15, 0, row, col, 1.5, nullptr} {}
 void Drow::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Drow::getRace()
-{
-	return "Drow";
-}
+std::string Drow::getRace() { return "Drow"; }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Vampire Class */ /* 7 attack override(s) */
 Vampire::Vampire(int row, int col)
 	: Player{INT32_MAX, 50, 35, 25, 0, row, col, 1.0, nullptr} {}
 void Vampire::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Vampire::getRace()
-{
-	return "Vampire";
-}
+std::string Vampire::getRace() { return "Vampire"; }
 
 template <typename EnemyType>
 void vampire_attack_gain_HP(Player *p, EnemyType &e, int miss_combat_chance)
@@ -134,20 +126,15 @@ void Vampire::attack(Halfling &halfling) { vampire_attack_gain_HP<Halfling>(this
 Troll::Troll(int row, int col)
 	: Player{120, 120, 25, 15, 0, row, col, 1.0, nullptr} {}
 void Troll::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Troll::getRace()
-{
-	return "Troll";
-}
+std::string Troll::getRace() { return "Troll"; }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Goblin Class */ /* 7 attack override(s) */
 Goblin::Goblin(int row, int col)
 	: Player{110, 110, 15, 20, 0, row, col, 1.0, nullptr} {}
 void Goblin::beAttackedBy(Enemy &e) { e.attack(*this); }
-std::string Goblin ::getRace()
-{
-	return "Goblin";
-}
+std::string Goblin ::getRace() { return "Goblin"; }
+
 template <typename EnemyType>
 void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 {
