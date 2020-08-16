@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            message = "Error: unrecgonized race.";
+            message = "Error: Unrecgonized race.";
         }
         std::cout << message << std::endl;
 
@@ -423,7 +423,7 @@ int main(int argc, char *argv[])
                         return 0;
                     }
                     else
-                        message = "Error: unrecognized command.";
+                        message = "Error: Unrecognized command.";
                     cout << message << endl;
                 }
                 catch (std::runtime_error &e)

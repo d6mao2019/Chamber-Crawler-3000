@@ -340,7 +340,7 @@ bool Floor::move_player(int old_row, int old_col, int new_row, int new_col)
         return 1;
     }
     else
-        throw std::runtime_error{"Error: trying to move player to an impossible location."};
+        throw std::runtime_error{"Error: Trying to move player to an impossible location."};
 
     if (move)
     {
@@ -365,20 +365,25 @@ void Floor::attack_enemy(Direction direction)
         }
     }
     if (success == 0)
-        throw std::runtime_error{"Error: Specified direction is not an enemy."};
+        throw std::runtime_error{"Error: Specified direction is not an enemy object."};
 }
 
 void Floor::consume_potion(Direction direction)
 {
+    bool success = 0;
     for (auto i = potion_list.begin(); i != potion_list.end(); ++i)
     {
         std::pair<int, int> location = player->GetLocAfterMove(direction, player->getRow(), player->getCol());
         if (location.first == (*i)->getRow() && location.second == (*i)->getCol())
         {
             (*i)->consume(*player);
+            potion_list.erase(i);
             text_display[location.first][location.second] = '.';
+            success = 1;
         }
     }
+    if (success == 0)
+        throw std::runtime_error{"Error: Specified direction is not a potion object."};
 }
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl)
