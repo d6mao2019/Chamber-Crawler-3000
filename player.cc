@@ -43,7 +43,6 @@ void Player::restore()
 
 std::ostream &operator<<(std::ostream &out, const Player &pl)
 {
-	out << "Race: " << pl.getRace() << " Gold: " << pl.getGold() << std::endl;
 	out << "HP: " << pl.getHP() << std::endl;
 	out << "Atk " << pl.getAtk() << std::endl;
 	out << "Def " << pl.getDef() << std::endl;

@@ -8,8 +8,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 using namespace std;
-#define cin ff
+#define cin cin
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -255,6 +256,7 @@ int main(int argc, char *argv[])
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
+            cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size())<<"Floor : "<< floorNum+1 << std::endl;
             std::cout << *pl;
             std::cout << "Action: Player character has spawned."<< std::endl;
             if(curFloor.getERM() != tempERM){
@@ -418,6 +420,7 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
+                    cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(60 - pl->getRace().size() - to_string(pl->getGold()).size())<<"Floor : "<< floorNum+1 << std::endl;
                     std::cout << *pl;
                     std::cout << "Action: " << message << std::endl;
                 }
