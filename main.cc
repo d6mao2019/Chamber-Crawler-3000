@@ -234,21 +234,16 @@ int main(int argc, char *argv[])
 
         for (auto i : charMap)
         {
-            std::vector<char> vc;
-            for (auto c : i)
-            {
                 std::vector<char> vc;
                 for (auto c : i)
                 {
-                    if (c!='\n')
+                    if (c != '\n')
                     {
                         vc.push_back(c);
 
                     }
                 }
                 mainEmptyMap.push_back(vc);
-            }
-            mainEmptyMap.push_back(vc);
         }
         Floor curFloor;
         bool tempERM = 0;
