@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-#define cin ff
+#define cin cin
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -256,6 +256,7 @@ int main(int argc, char *argv[])
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
+            std::cout << "                                          Floor: 1";
             std::cout << *pl;
             std::cout << "Action: Player character has spawned." << std::endl;
             if (curFloor.getERM() != tempERM)
@@ -275,7 +276,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the north.";
+                        message = "Action: Player moved to the north.";
                     }
                     else if (cmd == "so")
                     {
@@ -286,7 +287,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the south.";
+                        message = "Action: Player moved to the south.";
                     }
                     else if (cmd == "we")
                     {
@@ -297,7 +298,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the west.";
+                        message = "Action: Player moved to the west.";
                     }
                     else if (cmd == "ea")
                     {
@@ -308,7 +309,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the east.";
+                        message = "Action: Player moved to the east.";
                     }
                     else if (cmd == "nw")
                     {
@@ -319,7 +320,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the north west.";
+                        message = "Action: Player moved to the north west.";
                     }
                     else if (cmd == "ne")
                     {
@@ -330,7 +331,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the north east.";
+                        message = "Action: Player moved to the north east.";
                     }
                     else if (cmd == "sw")
                     {
@@ -341,7 +342,7 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the south west.";
+                        message = "Action: Player moved to the south west.";
                     }
                     else if (cmd == "se")
                     {
@@ -352,32 +353,27 @@ int main(int argc, char *argv[])
                             tempERM = curFloor.getERM();
                             break;
                         }
-                        message = "Player moved to the south east.";
+                        message = "Action: Player moved to the south east.";
                     }
                     else if (cmd == "u") // use potion.
                     {
                         cin >> direction;
                         curFloor.consume_potion(direction);
-                        message = "Player consume potion.";
-                        // need to determine whether cosumption is successful.
+                        message = "Action: Player consumed potion.";
                     }
                     else if (cmd == "a") // attack enemy.
                     {
                         cin >> direction;
                         curFloor.attack_enemy(direction);
-                        message = "Player atk.";
+                        message = "Action: Player attacked an enemy.";
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
                         curFloor.ERMSwitch();
                         if (curFloor.getERM() == 0)
-                        {
-                            cout << "Enemy stops moving!" << endl;
-                        }
+                            message = "Enemy random move disabled.";
                         else
-                        {
-                            cout << "Enemy starts moving!" << endl;
-                        }
+                            message = "Enemy random move enabled.";
                     }
                     else if (cmd == "r") // restart game.
                     {
@@ -387,11 +383,13 @@ int main(int argc, char *argv[])
                             inputMap.clear();
                             inputMap.seekg(0, inputMap.beg);
                         }
-                        // shoule "rerun" main.
                         break;
                     }
                     else if (cmd == "q") // quit game.
+                    {
+                        std::cout << "Quiting game." << std::endl;
                         return 0;
+                    }
                     else
                         message = "Error: unrecognized command.";
                 }
@@ -409,7 +407,10 @@ int main(int argc, char *argv[])
                         while (cin >> cmd && (cmd == "r" || cmd == "q"))
                         {
                             if (cmd == "q")
+                            {
+                                std::cout << "Quiting gmae." << std::endl;
                                 return 0;
+                            }
                             else if (cmd == "r")
                             {
                                 floorNum = 0;
@@ -425,9 +426,9 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
-                    std::cout << "                                    Floor " << floorNum << std::endl;
+                    std::cout << "                                                Floor " << floorNum + 1 << std::endl;
                     std::cout << *pl;
-                    std::cout << "Action: " << message << std::endl;
+                    std::cout << message << std::endl;
                 }
                 if (cmd == "r")
                 {

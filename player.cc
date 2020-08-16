@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "item.h"
+
 Player::Player(double MaxHP, double HP, double Atk, double Def,
 			   int gold, int row, int col, double scaling, Floor *floor)
 	: Character{MaxHP, HP, Atk, Def, gold, row, col, floor},
@@ -24,6 +25,7 @@ bool Player::adjacent(const Item &i) const
 
 char Player::getPrev() const { return prev; }
 std::string Player::getRace() const { return race; }
+double Player::getScal() const { return scaling; }
 
 void Player::setPrev(char p)
 {
@@ -32,13 +34,6 @@ void Player::setPrev(char p)
 		p = '.';
 	}
 	prev = p;
-}
-
-void Player::restore()
-{
-	prev = '.';
-	setAtk(origAtk);
-	setDef(origDef);
 }
 
 std::ostream &operator<<(std::ostream &out, const Player &pl)
@@ -79,7 +74,13 @@ void Player::attack(Orc &orc) { common_attack<Orc>(this, orc, 0); }
 void Player::attack(Merchant &merchant) { common_attack<Merchant>(this, merchant, 0); }
 void Player::attack(Dragon &dragon) { common_attack<Dragon>(this, dragon, 0); }
 void Player::attack(Halfling &halfling) { common_attack<Halfling>(this, halfling, 50); }
-double Player::getScal() const { return scaling; }
+
+void Player::restore()
+{
+	prev = '.';
+	setAtk(origAtk);
+	setDef(origDef);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
