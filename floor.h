@@ -43,7 +43,10 @@ public:
 		  std::shared_ptr<Player> player,
 		  std::vector<std::vector<std::pair<int, int>>> availables,
 		  int potion_num, int gold_num, int enemy_num);
-
+	// copy constructor.
+	Floor(const Floor &other);
+	// copy assignment operator.
+	void operator=(const Floor &other);
 	// accessor.
 	std::vector<std::vector<char>> getTextDisplay() const;
 

@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-#define cin cin
+#define cin ff
 #include "output.h"
 
 Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -169,8 +169,9 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
         }
     }
     Floor newFloor = Floor(text_display, enemy_list, potion_list, gold_list, player, newAvailables);
-    for (auto i : enemy_list)
-        i->setFloor(&newFloor);
+    // for (auto i : enemy_list)
+    //     i->setFloor(&newFloor);
+    //need to take outside
     return newFloor;
 }
 
@@ -236,7 +237,16 @@ int main(int argc, char *argv[])
             std::vector<char> vc;
             for (auto c : i)
             {
-                vc.push_back(c);
+                std::vector<char> vc;
+                for (auto c : i)
+                {
+                    if (c!='\n')
+                    {
+                        vc.push_back(c);
+
+                    }
+                }
+                mainEmptyMap.push_back(vc);
             }
             mainEmptyMap.push_back(vc);
         }
