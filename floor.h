@@ -68,6 +68,9 @@ public:
 	// let the player consume the potion indicated by direction.
 	// report an error if no potion is located at the specified direction.
 	void consume_potion(Direction direction);
+
+	bool getERM();
+	std::shared_ptr<Player> getPlayer();
 };
 
 std::ostream &operator<<(std::ostream &out, const Floor &fl);

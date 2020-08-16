@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <iostream>
+#include <memory>
 
 std::vector<std::pair<int, int>> available_neighbors(int row, int col, std::vector<std::vector<char>> &text_display)
 {
@@ -356,4 +357,13 @@ std::ostream &operator<<(std::ostream &out, const Floor &fl)
         out << std::endl;
     }
     return out;
+}
+
+bool Floor::getERM()
+{
+    return ERM;
+}
+
+std::shared_ptr<Player> Floor::getPlayer(){
+    return player;
 }

@@ -231,38 +231,30 @@ int main(int argc, char *argv[])
         }
         std::cout << message << std::endl;
 
-        if (argc > 1) // read in map.
+        for (auto i : charMap)
         {
-            Floor firFloor = readFloor(inputMap, availables, pl);
-            Floor secFloor = readFloor(inputMap, availables, pl);
-            Floor thiFloor = readFloor(inputMap, availables, pl);
-            Floor forFloor = readFloor(inputMap, availables, pl);
-            Floor fifFloor = readFloor(inputMap, availables, pl);
-            floors = {firFloor, secFloor, thiFloor, forFloor, fifFloor};
-        }
-        else // read in empty map for random generate later.
-        {
-            for (auto i : charMap)
+            std::vector<char> vc;
+            for (auto c : i)
             {
-                std::vector<char> vc;
-                for (auto c : i)
-                {
-                    vc.push_back(c);
-                }
-                mainEmptyMap.push_back(vc);
+                vc.push_back(c);
             }
+            mainEmptyMap.push_back(vc);
         }
         Floor curFloor;
+        bool tempERM = 0;
         while (floorNum < 5 && !cin.fail())
         {
-            if (argc > 1)
-                curFloor = floors[floorNum];
+            if (argc > 1){
+                curFloor = readFloor(inputMap, availables, pl);
+            }
             else
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
             std::cout << *pl;
             std::cout << "Action: Player character has spawned."<< std::endl;
-
+            if(curFloor.getERM() != tempERM){
+                curFloor.ERMSwitch();
+            }
             while (cin >> cmd)
             {
                 try
@@ -272,6 +264,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol()))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the north.";
@@ -281,6 +275,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol()))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the south.";
@@ -290,6 +286,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() - 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the west.";
@@ -299,6 +297,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow(), pl->getCol() + 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the east.";
@@ -308,6 +308,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() - 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the north west.";
@@ -317,6 +319,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() - 1, pl->getCol() + 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the north east.";
@@ -326,6 +330,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() - 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the south west.";
@@ -335,6 +341,8 @@ int main(int argc, char *argv[])
                         if (curFloor.move_player(pl->getRow(), pl->getCol(), pl->getRow() + 1, pl->getCol() + 1))
                         {
                             floorNum += 1;
+                            cout<<"Next Floor!"<<endl;
+                            tempERM = curFloor.getERM();
                             break;
                         }
                         message = "Player moved to the south east.";
@@ -355,6 +363,11 @@ int main(int argc, char *argv[])
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
                         curFloor.ERMSwitch();
+                        if(curFloor.getERM()==0){
+                            cout<< "Enemy stops moving!" << endl;
+                        }else{
+                            cout<< "Enemy starts moving!" << endl;
+                        }
                     }
                     else if (cmd == "r") // restart game.
                     {
