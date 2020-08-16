@@ -254,8 +254,9 @@ int main(int argc, char *argv[])
             {
                 curFloor = readFloor(inputMap, availables, pl);
             }
-            else
+            else{
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
+            }
             std::cout << curFloor;
             cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << setw(64 - pl->getRace().size() - to_string(pl->getGold()).size())<<"Floor : "<< floorNum+1 << std::endl;
             std::cout << *pl;
@@ -408,6 +409,7 @@ int main(int argc, char *argv[])
                             inputMap.clear();
                             inputMap.seekg(0, inputMap.beg);
                         }
+                        cout << "Game restarts!" << endl;
                         // shoule "rerun" main.
                         break;
                     }
@@ -434,6 +436,7 @@ int main(int argc, char *argv[])
                                 return 0;
                             else if (cmd == "r")
                             {
+                                cout << "Game restarts!" << endl;
                                 floorNum = 0;
                                 if (argc > 1)
                                 {
@@ -473,6 +476,7 @@ int main(int argc, char *argv[])
                 if (cmd == "q")
                     return 0;
                 else if (cmd == "r"){
+                    cout << "Game restarts!" << endl;
                     floorNum = 0;
                     if (argc > 1)
                     {
