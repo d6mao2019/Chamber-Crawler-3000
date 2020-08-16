@@ -8,6 +8,7 @@ class Vampire;
 class Troll;
 class Goblin;
 class Floor;
+class DragonHoard;
 
 class Enemy : public Character
 {
@@ -86,13 +87,14 @@ public:
 class Dragon : public Enemy
 // always guards a treasure hoard.
 {
-	std::shared_ptr<Gold> hoard;
+	std::shared_ptr<DragonHoard> hoard;
 
 public:
-	Dragon(int row, int col, std::shared_ptr<Gold> hoard, Floor *floor);
+	Dragon(int row, int col, std::shared_ptr<DragonHoard> hoard, Floor *floor);
 	virtual void beAttackedBy(Player &p) override;
 	virtual bool adjacent(const Player &other) const override;
 	// 0 attack override(s).
+	virtual int getGold() const override;
 	virtual void move(Direction direction) override;
 };
 

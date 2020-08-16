@@ -26,4 +26,7 @@ MerchantHoard::MerchantHoard(int row, int col)
 /* DragonHoard Class */
 DragonHoard::DragonHoard(int row, int col)
     : Gold{6, row, col} {}
+
+void DragonHoard::setPickUp(bool new_val) { canPickUp = new_val; }
+
 bool DragonHoard::canBepickedup() const { return canPickUp; }

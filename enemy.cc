@@ -112,7 +112,7 @@ void Merchant::attack(Goblin &goblin) { merchant_attack<Goblin>(this, goblin); }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Dragon Class */ /* 0 attack override(s) */
-Dragon::Dragon(int row, int col, std::shared_ptr<Gold> hoard, Floor *floor)
+Dragon::Dragon(int row, int col, std::shared_ptr<DragonHoard> hoard, Floor *floor)
 	: Enemy{150, 150, 20, 20, 0, row, col, floor}, hoard{hoard} {}
 void Dragon::beAttackedBy(Player &p) { p.attack(*this); }
 
@@ -124,6 +124,12 @@ bool Dragon::adjacent(const Player &other) const
 }
 
 void Dragon::move(Direction direction) { return; } // does nothing since Dragons are stationary.
+
+int Dragon::getGold() const
+{
+	hoard->setPickUp(true);
+	return 0;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* Halfling Class */ /* 0 attack override(s) */

@@ -155,7 +155,8 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
                     shared_ptr<Gold> theGold = gold_list[w];
                     if (theGold->getRow() <= i + 1 && theGold->getRow() >= i - 1 && theGold->getCol() <= j + 1 && theGold->getCol() >= j - 1 && theGold->canBepickedup() == 0)
                     {
-                        newEnemy = make_shared<Dragon>(i, j, theGold, nullptr);
+                        shared_ptr<DragonHoard> theGoldDr = dynamic_pointer_cast<DragonHoard>(gold_list[w]);
+                        newEnemy = make_shared<Dragon>(i, j, theGoldDr, nullptr);
                         enemy_list.push_back(newEnemy);
                         break;
                     }
@@ -248,10 +249,9 @@ int main(int argc, char *argv[])
                 std::vector<char> vc;
                 for (auto c : i)
                 {
-                    if (c!='\n')
+                    if (c != '\n')
                     {
                         vc.push_back(c);
-
                     }
                 }
                 mainEmptyMap.push_back(vc);
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
             std::cout << curFloor;
             std::cout << *pl;
-            std::cout << "Action: Player character has spawned."<< std::endl;
+            std::cout << "Action: Player character has spawned." << std::endl;
 
             while (cin >> cmd)
             {
@@ -381,7 +381,8 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
-                if(!(cmd == "f")){
+                if (!(cmd == "f"))
+                {
                     curFloor.tick();
                     if (pl->getHP() <= 0)
                     {
@@ -391,7 +392,8 @@ int main(int argc, char *argv[])
                         {
                             if (cmd == "q")
                                 return 0;
-                            else if (cmd == "r"){
+                            else if (cmd == "r")
+                            {
                                 floorNum = 0;
                                 if (argc > 1)
                                 {
@@ -405,10 +407,12 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
+                    std::cout << "                                    Floor " << floorNum << std::endl;
                     std::cout << *pl;
                     std::cout << "Action: " << message << std::endl;
                 }
-                if(cmd == "r"){
+                if (cmd == "r")
+                {
                     break;
                 }
             }
