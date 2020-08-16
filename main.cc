@@ -171,9 +171,6 @@ Floor readFloor(ifstream &f, std::vector<std::vector<std::pair<int, int>>> &avai
         }
     }
     Floor newFloor = Floor(text_display, enemy_list, potion_list, gold_list, player, newAvailables);
-    // for (auto i : enemy_list)
-    //     i->setFloor(&newFloor);
-    //need to take outside
     return newFloor;
 }
 
@@ -450,7 +447,8 @@ int main(int argc, char *argv[])
                                 if (argc > 1)
                                 {
                                     inputMap.clear();
-                                    inputMap.seekg(0, inputMap.beg);
+
+                                                                        inputMap.seekg(0, inputMap.beg);
                                 }
                                 break;
                             }
