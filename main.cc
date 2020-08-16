@@ -415,12 +415,13 @@ int main(int argc, char *argv[])
                         return 0;
                     else
                         message = "Error: unrecognized command.";
+                        cout << message <<endl;
                 }
                 catch (std::runtime_error &e)
                 {
                     message = e.what();
                 }
-                if (!(cmd == "f"))
+                if (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we"|| cmd == "ne"|| cmd == "nw"|| cmd == "se"|| cmd == "sw"|| cmd == "a"|| cmd == "u" )
                 {
                     curFloor.tick();
                     if (pl->getHP() <= 0)

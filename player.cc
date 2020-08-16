@@ -83,7 +83,7 @@ double Player::getScal() const { return scaling; }
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
-	: Player{10000, 10000, 25, 10000, 0, row, col, 1.0, nullptr} {}
+	: Player{10000, 10000, 10000, 10000, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
 std::string Shade::getRace(){
 	return "Shade";
