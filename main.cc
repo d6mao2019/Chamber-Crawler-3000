@@ -282,6 +282,7 @@ int main(int argc, char *argv[])
 {
     int floor_index = 0;
     std::string cmd;
+    std::string last_cmd;
     Direction direction = Direction::no;
     std::string message;
     // std::vector<Floor> all_floors;
@@ -333,6 +334,13 @@ int main(int argc, char *argv[])
 
             while (std::cin >> cmd)
             {
+                if (cmd == "")
+                {
+                    if (last_cmd != "")
+                        cmd = last_cmd;
+                    else
+                        continue;
+                }
                 try
                 {
                     if (is_direction(cmd)) // move player.
@@ -438,6 +446,7 @@ int main(int argc, char *argv[])
                 std::cout << message << std::endl;
                 if (cmd == "r")
                     break;
+                last_cmd = cmd;
             }
             if (cmd == "r")
                 break;
