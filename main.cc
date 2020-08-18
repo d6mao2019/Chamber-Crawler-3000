@@ -183,7 +183,6 @@ bool quit_game()
     {
         if (cmd == 'y')
         {
-            std::cout << "Quitting game." << std::endl;
             return true;
         }
         else if (cmd == 'n')
@@ -252,6 +251,33 @@ void print(const Floor &floor, const Player &player, int floor_num)
     std::cout << player;
 }
 
+std::string compare_attributes(std::vector<double> old_attributes, std::vector<double> new_attributes)
+{
+    std::string result;
+    if (old_attributes[0] != new_attributes[0])
+    {
+        if (new_attributes[0] - old_attributes[0] > 0)
+            result += "HP +" + std::to_string(abs(new_attributes[0] - old_attributes[0]));
+        else
+            result += "HP -" + std::to_string(abs(new_attributes[0] - old_attributes[0]));
+    }
+    if (old_attributes[1] != new_attributes[1])
+    {
+        if (new_attributes[1] - old_attributes[1] > 0)
+            result += "Atk +" + std::to_string(abs(new_attributes[1] - old_attributes[1]));
+        else
+            result += "Atk -" + std::to_string(abs(new_attributes[1] - old_attributes[1]));
+    }
+    if (old_attributes[2] != new_attributes[2])
+    {
+        if (new_attributes[2] - old_attributes[2] > 0)
+            result += "Def +" + std::to_string(abs(new_attributes[2] - old_attributes[2]));
+        else
+            result += "Def -" + std::to_string(abs(new_attributes[2] - old_attributes[2]));
+    }
+    return result;
+}
+
 int main(int argc, char *argv[])
 {
     int floor_index = 0;
@@ -309,9 +335,10 @@ int main(int argc, char *argv[])
             {
                 try
                 {
-                    std::stringstream ss{cmd};
-                    if (ss >> direction) // move player.
+                    if (is_direction(cmd)) // move player.
                     {
+                        std::stringstream ss{cmd};
+                        ss >> direction;
                         bool next_floor = floor.move_player(direction);
                         if (next_floor)
                         {
@@ -323,23 +350,24 @@ int main(int argc, char *argv[])
                             }
                             break;
                         }
-                        std::cout << "Action: Player moved to the " << direction << "." << std::endl;
+                        message = "Action: Player moved to the " + getName(direction) + ".";
                     }
                     else if (cmd == "u") // consume potion.
                     {
+                        std::vector<double> old_attributes{player->getHP(), player->getAtk(), player->getDef()};
                         cin >> direction;
                         floor.consume_potion(direction);
-                        std::cout << "Action: Player consumed a potion." << std::endl;
+                        std::vector<double> new_attributes{player->getHP(), player->getAtk(), player->getDef()};
+                        message = "Action: Player consumed a potion. " + compare_attributes(old_attributes, new_attributes) + ".";
                     }
                     else if (cmd == "a") // attack enemy.
                     {
                         cin >> direction;
                         floor.attack_enemy(direction);
-                        std::cout << "Action: Player attacked an enemy." << std::endl;
+                        message = "Action: Player attacked an enemy.";
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
-                        std::cout << "reached here." << std::endl;
                         floor.ERMSwitch();
                         if (floor.getERM() == 0)
                             std::cout << "Enemy random move disabled." << std::endl;

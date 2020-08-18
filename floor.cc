@@ -299,12 +299,17 @@ void Floor::tick()
     {
         for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
         {
-            char symbol = text_display[(*i)->getRow()][(*i)->getCol()];
-            text_display[(*i)->getRow()][(*i)->getCol()] = '.';
             std::vector<Direction> availables = available_directions(*i, text_display);
-            Direction direction = availables[rand() % availables.size()];
-            (*i)->move(direction);
-            text_display[(*i)->getRow()][(*i)->getCol()] = symbol;
+            if (availables.size() != 0)
+            {
+                int old_row = (*i)->getRow();
+                int old_col = (*i)->getCol();
+                Direction direction = availables[rand() % availables.size()];
+                (*i)->move(direction);
+                int new_row = (*i)->getRow();
+                int new_col = (*i)->getCol();
+                std::swap(text_display[old_row][old_col], text_display[new_row][new_col]);
+            }
         }
     }
     /* enemies attack player. */
@@ -421,7 +426,7 @@ void Floor::pick_up_gold(Direction direction)
     }
     // since this function will only be called by move_player, we don't need to
     // consider the case where the indicated location is not a Gold.
-    if (success = 0)
+    if (success == 0)
         throw std::invalid_argument{"Error: The treasure at the specified direction is a dragon hoard. You need to kill its guarding dragon first!"};
 }
 

@@ -63,6 +63,39 @@ std::ostream &operator<<(std::ostream &out, const Direction &direction)
     return out;
 }
 
+std::string getName(Direction direction)
+{
+    std::string result;
+    switch (direction)
+    {
+    case Direction::no:
+        result = "north";
+        break;
+    case Direction::so:
+        result = "south";
+        break;
+    case Direction::we:
+        result = "west";
+        break;
+    case Direction::ea:
+        result = "east";
+        break;
+    case Direction::nw:
+        result = "north west";
+        break;
+    case Direction::ne:
+        result = "north east";
+        break;
+    case Direction::sw:
+        result = "south west";
+        break;
+    case Direction::se:
+        result = "south east";
+        break;
+    }
+    return result;
+}
+
 std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction)
 {
     int new_row;
@@ -72,27 +105,35 @@ std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction)
     case Direction::no:
         new_row = old_row - 1;
         new_col = old_col;
+        break;
     case Direction::so:
         new_row = old_row + 1;
         new_col = old_col;
+        break;
     case Direction::we:
         new_row = old_row;
         new_col = old_col - 1;
+        break;
     case Direction::ea:
         new_row = old_row;
         new_col = old_col + 1;
+        break;
     case Direction::nw:
         new_row = old_row - 1;
         new_col = old_col - 1;
+        break;
     case Direction::ne:
         new_row = old_row - 1;
         new_col = old_col + 1;
+        break;
     case Direction::sw:
         new_row = old_row + 1;
         new_col = old_col - 1;
+        break;
     case Direction::se:
         new_row = old_row + 1;
         new_col = old_col + 1;
+        break;
     }
     return std::pair<int, int>{new_row, new_col};
 }

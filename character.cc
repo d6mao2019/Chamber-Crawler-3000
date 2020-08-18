@@ -28,9 +28,7 @@ void Character::setLocation(int new_row, int new_col)
 void Character::setFloor(Floor *new_floor) { floor = new_floor; }
 void Character::move(Direction direction)
 {
-	int old_row = this->row;
-	int old_col = this->col;
-	std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
-	this->row = new_loc.first;
-	this->col = new_loc.second;
+	std::pair<int, int> new_loc = getNewLoc(row, col, direction);
+	std::swap(row, new_loc.first);
+	std::swap(col, new_loc.second);
 }
