@@ -314,7 +314,7 @@ void Floor::tick()
 
 bool Floor::move_player(Direction direction)
 {
-    bool success = 0;
+    bool success;
     int old_row = player->getRow();
     int old_col = player->getCol();
     std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
@@ -322,19 +322,19 @@ bool Floor::move_player(Direction direction)
     switch (target)
     {
     case '.':
-        success = 1;
+        success = true;
         break;
     case '+':
-        success = 1;
+        success = true;
         break;
     case '#':
-        success = 1;
+        success = true;
         break;
     case 'G':
         try
         {
             pick_up_gold(direction);
-            success = 1;
+            success = true;
         }
         catch (...)
         {
@@ -343,18 +343,21 @@ bool Floor::move_player(Direction direction)
         break;
     case '\\':
         player->restore();
-        return 1;
+        return true; // go to the next floor.
+    default:
+        success = false;
+        break;
     }
-    if (success = 0)
-        throw std::invalid_argument{"Error: Can not move to specified direction."};
-    else
+    if (success)
     {
         player->setLocation(new_loc.first, new_loc.second);
         text_display[old_row][old_col] = player->getPrev();
         player->setPrev(target);
         text_display[new_loc.first][new_loc.second] = '@';
     }
-    return 0;
+    else
+        throw std::runtime_error{"Error: Player can not move in the specified direction."};
+    return false; // do not go to the next floor.
 }
 
 void Floor::attack_enemy(Direction direction)

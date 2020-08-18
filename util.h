@@ -1,6 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 #include <iostream>
+#include <string>
 
 enum class Direction
 {
@@ -14,6 +15,7 @@ enum class Direction
     se
 };
 
+bool is_direction(std::string &s);
 std::istream &operator>>(std::istream &in, Direction &direction);
 std::ostream &operator<<(std::ostream &out, const Direction &direction);
 std::pair<int, int> getNewLoc(int old_row, int old_col, Direction direction);

@@ -312,9 +312,10 @@ int main(int argc, char *argv[])
                     std::stringstream ss{cmd};
                     if (ss >> direction) // move player.
                     {
-                        if (floor.move_player(direction))
+                        bool next_floor = floor.move_player(direction);
+                        if (next_floor)
                         {
-                            floor_index += 1;
+                            ++floor_index;
                             if (floor_index < 4)
                             {
                                 std::cout << "Next Floor!" << std::endl;
@@ -328,7 +329,7 @@ int main(int argc, char *argv[])
                     {
                         cin >> direction;
                         floor.consume_potion(direction);
-                        std::cout << "Action: Player consumed potion." << std::endl;
+                        std::cout << "Action: Player consumed a potion." << std::endl;
                     }
                     else if (cmd == "a") // attack enemy.
                     {
@@ -338,6 +339,7 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
+                        std::cout << "reached here." << std::endl;
                         floor.ERMSwitch();
                         if (floor.getERM() == 0)
                             std::cout << "Enemy random move disabled." << std::endl;
@@ -393,7 +395,6 @@ int main(int argc, char *argv[])
                                 if (argc > 1)
                                 {
                                     inputMap.clear();
-
                                     inputMap.seekg(0, inputMap.beg);
                                 }
                                 break;

@@ -1,6 +1,11 @@
 #include "util.h"
 #include <stdexcept>
 
+bool is_direction(std::string &s)
+{
+    return s == "no" || s == "so" || s == "we" || s == "ea" || s == "nw" || s == "ne" || s == "sw" || s == "se";
+}
+
 std::istream &operator>>(std::istream &in, Direction &direction)
 {
     std::string s;
