@@ -370,9 +370,9 @@ int main(int argc, char *argv[])
                     {
                         floor.ERMSwitch();
                         if (floor.getERM() == 0)
-                            std::cout << "Enemy random move disabled." << std::endl;
+                            message = "Enemy random move disabled.";
                         else
-                            std::cout << "Enemy random move enabled." << std::endl;
+                            message = "Enemy random move enabled.";
                     }
                     else if (cmd == "r") // restart game.
                     {
@@ -431,11 +431,11 @@ int main(int argc, char *argv[])
                                 std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << std::endl;
                         }
                     }
-                    std::cout << floor;
-                    std::cout << "Race: " << player->getRace() << " Gold: " << player->getGold() << std::setw(60 - player->getRace().size() - std::to_string(player->getGold()).size()) << "Floor : " << floor_index + 1 << std::endl;
-                    std::cout << *player;
-                    std::cout << message << std::endl;
                 }
+                std::cout << floor;
+                std::cout << "Race: " << player->getRace() << " Gold: " << player->getGold() << std::setw(60 - player->getRace().size() - std::to_string(player->getGold()).size()) << "Floor : " << floor_index + 1 << std::endl;
+                std::cout << *player;
+                std::cout << message << std::endl;
                 if (cmd == "r")
                     break;
             }

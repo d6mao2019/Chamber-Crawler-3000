@@ -52,9 +52,6 @@ public:
 	bool getERM() const;
 	std::shared_ptr<Player> getPlayer() const;
 
-	// enemies notify floor when they are slain.
-	void beNotifiedBy(Enemy &e);
-
 	// turn on/off enemy random moves.
 	void ERMSwitch();
 

@@ -40,13 +40,7 @@ void common_attack(Player *p, EnemyType &e, int miss_combat_chance)
 	double atk = p->getAtk();
 	double def = e.getDef();
 	double damage = 100 / (100 + def) * atk;
-	if (e.getHP() > damage)
-		e.setHP(e.getHP() - damage);
-	else // slain.
-	{
-		e.notify();
-		p->setGold(p->getGold() + e.getGold());
-	}
+	e.setHP(e.getHP() - damage);
 }
 void Player::attack(Human &human) { common_attack<Human>(this, human, 0); }
 void Player::attack(Dwarf &dwarf) { common_attack<Dwarf>(this, dwarf, 0); }
@@ -66,7 +60,7 @@ void Player::restore()
 ///////////////////////////////////////////////////////////////////////////////
 /* Shade Class */ /* 0 attack override(s) */
 Shade::Shade(int row, int col)
-	: Player{125, 125, 25, 25, 0, row, col, 1.0, nullptr} {}
+	: Player{300, 300, 50, 50, 0, row, col, 1.0, nullptr} {}
 void Shade::beAttackedBy(Enemy &e) { e.attack(*this); }
 std::string Shade::getRace() const { return "Shade"; }
 
@@ -127,14 +121,8 @@ void goblin_attack(Player *p, EnemyType &e, int miss_combat_chance)
 	double atk = p->getAtk();
 	double def = e.getDef();
 	double damage = 100 / (100 + def) * atk;
-	if (e.getHP() > damage)
-		e.setHP(e.getHP() - damage);
-	else
-	{
-		e.notify();
-		p->setGold(p->getGold() + e.getGold());
-		p->setGold(p->getGold() + 5);
-	}
+	e.setHP(e.getHP() - damage);
+	p->setGold(p->getGold() + 5);
 }
 void Goblin::attack(Human &human) { goblin_attack<Human>(this, human, 0); }
 void Goblin::attack(Dwarf &dwarf) { goblin_attack<Dwarf>(this, dwarf, 0); }

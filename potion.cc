@@ -1,43 +1,37 @@
 #include "potion.h"
 #include "player.h"
-#include <cmath>
 
-Potion::Potion(int row, int col)
-    : Item{'P', row, col} {}
+Potion::Potion(double effect, int row, int col)
+    : Item{'P', row, col}, effect{effect} {}
 Potion::~Potion() {}
+double Potion::getEffect() const { return effect; }
 
 ///////////////////////////////////////////////////////////////////////////////
 /* AtkBoost Class */
 AtkBoost::AtkBoost(int row, int col)
-    : Potion{row, col} {}
-void AtkBoost::consume(Player &pl) { pl.setAtk(pl.getAtk() + boost * pl.getScal()); }
+    : Potion{5, row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* AtkWound Class */
 AtkWound::AtkWound(int row, int col)
-    : Potion{row, col} {}
-void AtkWound::consume(Player &pl) { pl.setAtk(pl.getAtk() - wound * pl.getScal()); }
+    : Potion{-5, row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* DefBoost Class */
 DefBoost::DefBoost(int row, int col)
-    : Potion{row, col} {}
-void DefBoost::consume(Player &pl) { pl.setDef(pl.getDef() + boost * pl.getScal()); }
+    : Potion{5, row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* DefWound Class */
 DefWound::DefWound(int row, int col)
-    : Potion{row, col} {}
-void DefWound::consume(Player &pl) { pl.setDef(pl.getDef() - wound * pl.getScal()); }
+    : Potion{-5, row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* HPBoost Class */
 HPBoost::HPBoost(int row, int col)
-    : Potion{row, col} {}
-void HPBoost::consume(Player &pl) { pl.setHP(pl.getHP() + restore * pl.getScal()); }
+    : Potion{10, row, col} {}
 
 ///////////////////////////////////////////////////////////////////////////////
 /* HPWound Class */
 HPWound::HPWound(int row, int col)
-    : Potion{row, col} {}
-void HPWound::consume(Player &pl) { pl.setHP(pl.getHP() - poison * pl.getScal()); }
+    : Potion{-10, row, col} {}

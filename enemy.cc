@@ -31,7 +31,6 @@ void Enemy::attack(Vampire &vampire) { common_attack<Vampire>(this, vampire); }
 void Enemy::attack(Troll &troll) { common_attack<Troll>(this, troll); }
 void Enemy::attack(Goblin &goblin) { common_attack<Goblin>(this, goblin); }
 
-void Enemy::notify() { floor->beNotifiedBy(*this); }
 bool Enemy::operator==(Enemy &other)
 {
 	return this->getRow() == other.getRow() && this->getCol() == other.getCol();
@@ -62,8 +61,7 @@ void elf_attack(Enemy *e, PlayerType &p)
 	{
 		double atk = e->getAtk();
 		double def = p.getDef();
-		double damage = 100 / (100 + def) * atk;
-		damage *= 2;
+		double damage = 2 * 100 / (100 + def) * atk;
 		p.setHP(p.getHP() - damage);
 	}
 }

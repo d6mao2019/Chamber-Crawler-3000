@@ -8,16 +8,17 @@ enum class Direction;
 class Character
 // invariants: all integer data fields are all non-negative.
 {
-	const double MaxHP;
 	// current health point.
 	double HP;
+	// maximum health point.
+	const double MaxHP;
 	//  attack.
 	double Atk;
 	//  defense.
 	double Def;
 	// the amount of gold holding.
 	int gold;
-	// position on the floor.
+	// location on the floor.
 	int row, col;
 
 protected:
@@ -29,11 +30,11 @@ public:
 	Character(double MaxHP, double HP, double Atk, double Def,
 			  int gold, int row, int col, Floor *floor);
 
-	virtual double getHP() const;  // needs to be overrided by Potion objects.
-	virtual double getAtk() const; // needs to be overrided by Potion objects.
-	virtual double getDef() const; // needs to be overrided by Potion objects.
+	double getHP() const;
 	double getMaxHP() const;
-	virtual int getGold() const;
+	double getAtk() const;
+	double getDef() const;
+	virtual int getGold() const; // overrided by Dragon class.
 	int getRow() const;
 	int getCol() const;
 
@@ -41,7 +42,7 @@ public:
 	void setAtk(double new_atk);
 	void setDef(double new_def);
 	void setGold(int new_gold);
-	void setLocation(int row, int col);
+	void setLocation(int new_row, int new_col);
 	void setFloor(Floor *floor);
 	virtual void move(Direction direction);
 };

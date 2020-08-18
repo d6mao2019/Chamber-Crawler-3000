@@ -1,5 +1,6 @@
 #ifndef ITEM_H
 #define ITEM_H
+
 class Item
 {
 private:
@@ -13,8 +14,6 @@ public:
     int getRow() const;
     int getCol() const;
     void setLocation(int row, int col);
-    void setRow(int r);
-    void setCol(int c);
 };
 
 #endif // !ITEM_H

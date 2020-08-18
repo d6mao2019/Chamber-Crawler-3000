@@ -266,24 +266,6 @@ std::vector<std::vector<char>> Floor::getTextDisplay() const { return text_displ
 bool Floor::getERM() const { return ERM; }
 std::shared_ptr<Player> Floor::getPlayer() const { return player; }
 
-void Floor::beNotifiedBy(Enemy &e)
-{
-    int original_size = enemy_list.size(); // debugging purpose.
-    /* modify vector. */
-    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
-    {
-        if (**i == e)
-        {
-            enemy_list.erase(i);
-            break;
-        }
-    }
-    if (enemy_list.size() != original_size - 1) // debugging purpose.
-        throw std::logic_error{"Bug: something wrong with the enemy list. added or removed improperly sometime."};
-    /* modify text display. */
-    text_display[e.getRow()][e.getCol()] = '.';
-}
-
 void Floor::ERMSwitch()
 {
     if (ERM)
@@ -371,11 +353,17 @@ void Floor::attack_enemy(Direction direction)
     int old_row = player->getRow();
     int old_col = player->getCol();
     std::pair<int, int> new_loc = getNewLoc(old_row, old_col, direction);
-    for (auto i : enemy_list)
+    for (auto i = enemy_list.begin(); i != enemy_list.end(); ++i)
     {
-        if (i->getRow() == new_loc.first && i->getCol() == new_loc.second)
+        if ((*i)->getRow() == new_loc.first && (*i)->getCol() == new_loc.second)
         {
-            i->beAttackedBy(*player);
+            (*i)->beAttackedBy(*player);
+            if ((*i)->getHP() <= 0)
+            {
+                enemy_list.erase(i);
+                text_display[new_loc.first][new_loc.second] = '.';
+                player->setGold(player->getGold() + (*i)->getGold());
+            }
             success = 1;
             break;
         }
@@ -394,7 +382,7 @@ void Floor::consume_potion(Direction direction)
     {
         if ((*i)->getRow() == new_loc.first && (*i)->getCol() == new_loc.second)
         {
-            (*i)->consume(*player);
+            player->setAtk(player->getAtk() + (*i)->getEffect() * player->getScal());
             potion_list.erase(i);
             text_display[new_loc.first][new_loc.second] = '.';
             success = 1;
@@ -419,13 +407,10 @@ void Floor::pick_up_gold(Direction direction)
         {
             player->setGold(player->getGold() + (*i)->getVal());
             gold_list.erase(i);
-            text_display[new_loc.first][new_loc.second] = '.';
             success = 1;
             break;
         }
     }
-    // since this function will only be called by move_player, we don't need to
-    // consider the case where the indicated location is not a Gold.
     if (success == 0)
         throw std::invalid_argument{"Error: The treasure at the specified direction is a dragon hoard. You need to kill its guarding dragon first!"};
 }

@@ -10,5 +10,3 @@ void Item::setLocation(int new_row, int new_col)
     row = new_row;
     col = new_col;
 }
-void Item::setRow(int r) { row = r; }
-void Item::setCol(int c) { col = c; }

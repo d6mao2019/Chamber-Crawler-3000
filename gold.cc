@@ -1,9 +1,9 @@
 #include "gold.h"
+#include "player.h"
 
 Gold::Gold(int value, int row, int col)
     : Item{'G', row, col}, value{value} {}
 Gold::~Gold() {}
-
 int Gold::getVal() const { return value; }
 bool Gold::canBepickedup() const { return true; }
 

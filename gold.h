@@ -1,18 +1,18 @@
 #ifndef GOLD_H
 #define GOLD_H
-#include <memory>
 #include "item.h"
+#include <memory>
 
 class Gold : public Item
 {
+private:
     const int value;
 
 public:
     Gold(int value, int row, int col);
     virtual ~Gold();
-    virtual bool canBepickedup() const;
     int getVal() const;
-    void setPickUp(bool new_val);
+    virtual bool canBepickedup() const; // override by DragonHoard class.
 };
 
 class SmallHoard : public Gold
