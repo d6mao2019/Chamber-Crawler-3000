@@ -10,7 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-using namespace std;
+// using namespace std;
 //#define cin cin
 #include "output.h"
 
@@ -103,7 +103,6 @@ Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> 
                 {
                     for (int j = 0; j < availables[i].size(); ++j)
                     {
-
                         if (availables[i][j].first == row && availables[i][j].second == col)
                         {
                             newPair = {row, col};
@@ -124,6 +123,7 @@ Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> 
         row += 1;
 
     } while (!(line[0] == '|' && line[1] == '-'));
+
     for (int i = 0; i < text_display.size(); ++i)
     {
         for (int j = 0; j < text_display[i].size(); ++j)
@@ -294,7 +294,7 @@ int main(int argc, char *argv[])
         inputMap.open(argv[1]);
     }
 
-    while (!cin.fail())
+    while (!std::cin.fail())
     {
         bool quit = select_race(cmd, player);
         if (quit)
@@ -316,7 +316,7 @@ int main(int argc, char *argv[])
         Floor floor;
         bool ERM = 1;
 
-        while (floor_index < 5 && !cin.fail())
+        while (floor_index < 5 && !std::cin.fail())
         {
             if (argc > 1)
                 floor = readFloor(inputMap, availables, player);
@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
             if (floor.getERM() != ERM)
                 floor.ERMSwitch();
 
-            while (cin >> cmd)
+            while (std::cin >> cmd)
             {
                 try
                 {
@@ -355,14 +355,14 @@ int main(int argc, char *argv[])
                     else if (cmd == "u") // consume potion.
                     {
                         std::vector<double> old_attributes{player->getHP(), player->getAtk(), player->getDef()};
-                        cin >> direction;
+                        std::cin >> direction;
                         floor.consume_potion(direction);
                         std::vector<double> new_attributes{player->getHP(), player->getAtk(), player->getDef()};
                         message = "Action: Player consumed a potion. " + compare_attributes(old_attributes, new_attributes) + ".";
                     }
                     else if (cmd == "a") // attack enemy.
                     {
-                        cin >> direction;
+                        std::cin >> direction;
                         floor.attack_enemy(direction);
                         message = "Action: Player attacked an enemy.";
                     }
@@ -394,7 +394,7 @@ int main(int argc, char *argv[])
                             std::cout << "Enter command." << std::endl;
                     }
                     else
-                        std::cout << "Error: Unrecognized command." << std::endl;
+                        message = "Error: Unrecognized command.";
                 }
                 catch (std::runtime_error &e)
                 {
@@ -406,7 +406,7 @@ int main(int argc, char *argv[])
                     if (player->getHP() <= 0)
                     {
                         std::cout << "Player got killed. Do you want to restart(r) or quit(q)?" << std::endl;
-                        while (cin >> cmd)
+                        while (std::cin >> cmd)
                         {
                             if (cmd == "q")
                             {
@@ -438,10 +438,10 @@ int main(int argc, char *argv[])
                 }
                 if (cmd == "r")
                     break;
-            } //while (cin >> cmd)
+            }
             if (cmd == "r")
                 break;
-        } // while (floor_index < 5 && !cin.fail())
+        }
 
         // all floors cleared. choose whether to restart or quit.
         if (cmd != "r" && floor_index == 5)
@@ -449,7 +449,7 @@ int main(int argc, char *argv[])
             std::cout << "You made it through the Dungeon!" << std::endl;
             std::cout << "The treasures are all yours! " << std::endl;
             std::cout << "Do you want to try another dungeon(r) or quit(q)?" << std::endl;
-            while (cin >> cmd)
+            while (std::cin >> cmd)
             {
                 if (cmd == "q")
                 {
