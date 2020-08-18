@@ -10,7 +10,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#define cin std::cin
+using namespace std;
+//#define cin cin
 #include "output.h"
 
 Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> &availables, std::shared_ptr<Player> player)
@@ -174,9 +175,36 @@ Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> 
     return newFloor;
 }
 
+void select_race(const std::string &cmd, std::shared_ptr<Player> &pl)
+{
+    std::cout << "Please select your race." << std::endl;
+    if (cmd == "s")
+        pl = std::make_shared<Shade>();
+    else if (cmd == "d")
+        pl = std::make_shared<Drow>();
+    else if (cmd == "v")
+        pl = std::make_shared<Vampire>();
+    else if (cmd == "g")
+        pl = std::make_shared<Goblin>();
+    else if (cmd == "t")
+        pl = std::make_shared<Troll>();
+    else
+        throw std::invalid_argument{"Error: Unrecognized race."};
+    std::cout << "You have selected " << pl->getRace() << "." << std::endl;
+}
+
+void print(const Floor &floor, const Player &player, int floor_num)
+{
+    std::cout << floor;
+    std::cout << "Race: " << player.getRace() << " Gold: " << player.getGold()
+              << std::setw(64 - player.getRace().size() - std::to_string(player.getGold()).size())
+              << "Floor : " << floor_num + 1 << std::endl;
+    std::cout << player;
+}
+
 int main(int argc, char *argv[])
 {
-    int floorNum = 0;
+    int floor_index = 0;
     std::string cmd;
     Direction direction = Direction::no;
     std::string message;
@@ -192,45 +220,20 @@ int main(int argc, char *argv[])
 
     while (!cin.fail())
     {
-        message = "Please select your race.";
-        std::cout << message << std::endl;
         cin >> cmd;
-        if (cmd == "s")
+        try
         {
-            pl = std::make_shared<Shade>();
-            message = "You have selected Shade.";
+            select_race(cmd, pl);
         }
-        else if (cmd == "d")
+        catch (std::invalid_argument &e)
         {
-            pl = std::make_shared<Drow>();
-            message = "You have selected Drow.";
+            if (cmd == "q")
+                return 0;
+            else
+                std::cout << e.what() << std::endl;
         }
-        else if (cmd == "v")
-        {
-            pl = std::make_shared<Vampire>();
-            message = "You have selected Vampire.";
-        }
-        else if (cmd == "g")
-        {
-            pl = std::make_shared<Goblin>();
-            message = "You have selected Goblin.";
-        }
-        else if (cmd == "t")
-        {
-            pl = std::make_shared<Troll>();
-            message = "You have selected Troll.";
-        }
-        else if (cmd == "q")
-        {
-            return 0;
-        }
-        else
-        {
-            message = "Error: Unrecgonized race.";
-        }
-        std::cout << message << std::endl;
-        std::vector<std::vector<char>> mainEmptyMap;
 
+        std::vector<std::vector<char>> mainEmptyMap;
         for (auto i : charMap)
         {
             std::vector<char> vc;
@@ -244,32 +247,23 @@ int main(int argc, char *argv[])
             mainEmptyMap.push_back(vc);
         }
         Floor curFloor;
-        bool tempERM = 1;
-        while (floorNum < 5 && !cin.fail())
+        bool ERM = 1;
+
+        while (floor_index < 5 && !cin.fail())
         {
             if (argc > 1)
-            {
                 curFloor = readFloor(inputMap, availables, pl);
-            }
             else
-            {
                 curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-            }
-            std::cout << curFloor;
-            std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(64 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
-            std::cout << *pl;
-            if (floorNum == 0)
-            {
-                std::cout << "Action: Player character has spawned." << std::endl;
-            }
+            print(curFloor, *pl, floor_index);
+
+            if (floor_index == 0)
+                std::cout << "Player character spawned. Starting on the first floor." << std::endl;
             else
-            {
-                std::cout << "Action: Player is on new floor" << std::endl;
-            }
-            if (curFloor.getERM() != tempERM)
-            {
+                std::cout << "Player got to the next floor." << std::endl;
+            if (curFloor.getERM() != ERM)
                 curFloor.ERMSwitch();
-            }
+
             while (cin >> cmd)
             {
                 try
@@ -279,11 +273,11 @@ int main(int argc, char *argv[])
                     {
                         if (curFloor.move_player(direction))
                         {
-                            floorNum += 1;
-                            if (floorNum < 4)
+                            floor_index += 1;
+                            if (floor_index < 4)
                             {
                                 std::cout << "Next Floor!" << std::endl;
-                                tempERM = curFloor.getERM();
+                                ERM = curFloor.getERM();
                             }
                             break;
                         }
@@ -311,7 +305,7 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "r") // restart game.
                     {
-                        floorNum = 0;
+                        floor_index = 0;
                         if (argc > 1)
                         {
                             inputMap.clear();
@@ -348,7 +342,7 @@ int main(int argc, char *argv[])
                             else if (cmd == "r")
                             {
                                 std::cout << "Game restarts!" << std::endl;
-                                floorNum = 0;
+                                floor_index = 0;
                                 if (argc > 1)
                                 {
                                     inputMap.clear();
@@ -362,7 +356,7 @@ int main(int argc, char *argv[])
                         }
                     }
                     std::cout << curFloor;
-                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(60 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floorNum + 1 << std::endl;
+                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(60 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floor_index + 1 << std::endl;
                     std::cout << *pl;
                     std::cout << message << std::endl;
                 }
@@ -371,10 +365,10 @@ int main(int argc, char *argv[])
             } //while (cin >> cmd)
             if (cmd == "r")
                 break;
-        } // while (floorNum < 5 && !cin.fail())
+        } // while (floor_index < 5 && !cin.fail())
 
         // all floors cleared. choose whether to restart or quit.
-        if (cmd != "r" && floorNum == 5)
+        if (cmd != "r" && floor_index == 5)
         {
             std::cout << "You made it through the Dungeon!" << std::endl;
             std::cout << "The treasures are all yours! " << std::endl;
@@ -386,7 +380,7 @@ int main(int argc, char *argv[])
                 else if (cmd == "r")
                 {
                     std::cout << "Game restarts!" << std::endl;
-                    floorNum = 0;
+                    floor_index = 0;
                     if (argc > 1)
                     {
                         inputMap.clear();
