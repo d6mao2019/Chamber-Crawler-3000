@@ -175,22 +175,72 @@ Floor readFloor(std::ifstream &f, std::vector<std::vector<std::pair<int, int>>> 
     return newFloor;
 }
 
-void select_race(const std::string &cmd, std::shared_ptr<Player> &pl)
+bool quit_game()
+{
+    char cmd;
+    std::cout << "Quit game? (y/n)" << std::endl;
+    while (std::cin >> cmd)
+    {
+        if (cmd == 'y')
+        {
+            std::cout << "Quitting game." << std::endl;
+            return true;
+        }
+        else if (cmd == 'n')
+            return false;
+        else
+            std::cout << "Error: Unrecgonized command. Please enter 'y' if you do want to quit and 'n' to resume." << std::endl;
+    }
+    return true;
+}
+
+bool select_race(std::string &cmd, std::shared_ptr<Player> &player)
 {
     std::cout << "Please select your race." << std::endl;
-    if (cmd == "s")
-        pl = std::make_shared<Shade>();
-    else if (cmd == "d")
-        pl = std::make_shared<Drow>();
-    else if (cmd == "v")
-        pl = std::make_shared<Vampire>();
-    else if (cmd == "g")
-        pl = std::make_shared<Goblin>();
-    else if (cmd == "t")
-        pl = std::make_shared<Troll>();
-    else
-        throw std::invalid_argument{"Error: Unrecognized race."};
-    std::cout << "You have selected " << pl->getRace() << "." << std::endl;
+    while (std::cin >> cmd)
+    {
+        if (cmd == "s")
+        {
+            player = std::make_shared<Shade>();
+            std::cout << "You have selected " << player->getRace() << "." << std::endl;
+            return false;
+        }
+        else if (cmd == "d")
+        {
+            player = std::make_shared<Drow>();
+            std::cout << "You have selected " << player->getRace() << "." << std::endl;
+            return false;
+        }
+        else if (cmd == "v")
+        {
+            player = std::make_shared<Vampire>();
+            std::cout << "You have selected " << player->getRace() << "." << std::endl;
+            return false;
+        }
+        else if (cmd == "g")
+        {
+            player = std::make_shared<Goblin>();
+            std::cout << "You have selected " << player->getRace() << "." << std::endl;
+            return false;
+        }
+        else if (cmd == "t")
+        {
+            player = std::make_shared<Troll>();
+            std::cout << "You have selected " << player->getRace() << "." << std::endl;
+            return false;
+        }
+        else if (cmd == "q")
+        {
+            bool quit = quit_game();
+            if (quit)
+                return true;
+            else
+                std::cout << "Please select your race." << std::endl;
+        }
+        else
+            std::cout << "Error: Unrecognized race. Please input command again." << std::endl;
+    }
+    return true; // program should terminate.
 }
 
 void print(const Floor &floor, const Player &player, int floor_num)
@@ -208,9 +258,9 @@ int main(int argc, char *argv[])
     std::string cmd;
     Direction direction = Direction::no;
     std::string message;
-    std::vector<Floor> floors;
+    // std::vector<Floor> all_floors;
     std::vector<std::vector<std::pair<int, int>>> availables = {prsA, prsB, prsC, prsD, prsE};
-    std::shared_ptr<Player> pl;
+    std::shared_ptr<Player> player;
     std::ifstream inputMap;
     std::ifstream ff{"1.in"};
     if (argc > 1)
@@ -220,18 +270,9 @@ int main(int argc, char *argv[])
 
     while (!cin.fail())
     {
-        cin >> cmd;
-        try
-        {
-            select_race(cmd, pl);
-        }
-        catch (std::invalid_argument &e)
-        {
-            if (cmd == "q")
-                return 0;
-            else
-                std::cout << e.what() << std::endl;
-        }
+        bool quit = select_race(cmd, player);
+        if (quit)
+            return 0;
 
         std::vector<std::vector<char>> mainEmptyMap;
         for (auto i : charMap)
@@ -246,23 +287,23 @@ int main(int argc, char *argv[])
             }
             mainEmptyMap.push_back(vc);
         }
-        Floor curFloor;
+        Floor floor;
         bool ERM = 1;
 
         while (floor_index < 5 && !cin.fail())
         {
             if (argc > 1)
-                curFloor = readFloor(inputMap, availables, pl);
+                floor = readFloor(inputMap, availables, player);
             else
-                curFloor = Floor{mainEmptyMap, pl, availables, 20, 10, 10};
-            print(curFloor, *pl, floor_index);
+                floor = Floor{mainEmptyMap, player, availables, 20, 10, 10};
+            print(floor, *player, floor_index);
 
             if (floor_index == 0)
                 std::cout << "Player character spawned. Starting on the first floor." << std::endl;
             else
                 std::cout << "Player got to the next floor." << std::endl;
-            if (curFloor.getERM() != ERM)
-                curFloor.ERMSwitch();
+            if (floor.getERM() != ERM)
+                floor.ERMSwitch();
 
             while (cin >> cmd)
             {
@@ -271,13 +312,13 @@ int main(int argc, char *argv[])
                     std::stringstream ss{cmd};
                     if (ss >> direction) // move player.
                     {
-                        if (curFloor.move_player(direction))
+                        if (floor.move_player(direction))
                         {
                             floor_index += 1;
                             if (floor_index < 4)
                             {
                                 std::cout << "Next Floor!" << std::endl;
-                                ERM = curFloor.getERM();
+                                ERM = floor.getERM();
                             }
                             break;
                         }
@@ -286,19 +327,19 @@ int main(int argc, char *argv[])
                     else if (cmd == "u") // consume potion.
                     {
                         cin >> direction;
-                        curFloor.consume_potion(direction);
+                        floor.consume_potion(direction);
                         std::cout << "Action: Player consumed potion." << std::endl;
                     }
                     else if (cmd == "a") // attack enemy.
                     {
                         cin >> direction;
-                        curFloor.attack_enemy(direction);
+                        floor.attack_enemy(direction);
                         std::cout << "Action: Player attacked an enemy." << std::endl;
                     }
                     else if (cmd == "f") // stops enemies from moving until this key is pressed again.
                     {
-                        curFloor.ERMSwitch();
-                        if (curFloor.getERM() == 0)
+                        floor.ERMSwitch();
+                        if (floor.getERM() == 0)
                             std::cout << "Enemy random move disabled." << std::endl;
                         else
                             std::cout << "Enemy random move enabled." << std::endl;
@@ -316,8 +357,11 @@ int main(int argc, char *argv[])
                     }
                     else if (cmd == "q") // quit game.
                     {
-                        std::cout << "Quiting game." << std::endl;
-                        return 0;
+                        bool quit = quit_game();
+                        if (quit)
+                            return 0;
+                        else
+                            std::cout << "Enter command." << std::endl;
                     }
                     else
                         std::cout << "Error: Unrecognized command." << std::endl;
@@ -326,18 +370,21 @@ int main(int argc, char *argv[])
                 {
                     message = e.what();
                 }
-                if (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we" || cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw" || cmd == "a" || cmd == "u")
+                if (cmd == "no" || cmd == "so" || cmd == "we" || cmd == "ea" || cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw" || cmd == "a" || cmd == "u")
                 {
-                    curFloor.tick();
-                    if (pl->getHP() <= 0)
+                    floor.tick();
+                    if (player->getHP() <= 0)
                     {
                         std::cout << "Player got killed. Do you want to restart(r) or quit(q)?" << std::endl;
                         while (cin >> cmd)
                         {
                             if (cmd == "q")
                             {
-                                std::cout << "Quiting gmae." << std::endl;
-                                return 0;
+                                bool quit = quit_game();
+                                if (quit)
+                                    return 0;
+                                else
+                                    std::cout << "Enter command." << std::endl;
                             }
                             else if (cmd == "r")
                             {
@@ -355,9 +402,9 @@ int main(int argc, char *argv[])
                                 std::cout << "Invalid command. Do you want to restart(r) or quit(q)?" << std::endl;
                         }
                     }
-                    std::cout << curFloor;
-                    std::cout << "Race: " << pl->getRace() << " Gold: " << pl->getGold() << std::setw(60 - pl->getRace().size() - std::to_string(pl->getGold()).size()) << "Floor : " << floor_index + 1 << std::endl;
-                    std::cout << *pl;
+                    std::cout << floor;
+                    std::cout << "Race: " << player->getRace() << " Gold: " << player->getGold() << std::setw(60 - player->getRace().size() - std::to_string(player->getGold()).size()) << "Floor : " << floor_index + 1 << std::endl;
+                    std::cout << *player;
                     std::cout << message << std::endl;
                 }
                 if (cmd == "r")
@@ -376,7 +423,13 @@ int main(int argc, char *argv[])
             while (cin >> cmd)
             {
                 if (cmd == "q")
-                    return 0;
+                {
+                    bool quit = quit_game();
+                    if (quit)
+                        return 0;
+                    else
+                        std::cout << "Enter command." << std::endl;
+                }
                 else if (cmd == "r")
                 {
                     std::cout << "Game restarts!" << std::endl;
